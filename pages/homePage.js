@@ -1,71 +1,8 @@
-import Image from "next/image";
-// import profilePic from "../public/me.jpeg";
-// import AppImage from "../public/app.png";
 import Link from "next/link";
-import React from "react";
 import Slider from "../components/card";
 
-function Buttons() {
-    const styles = {
-        container: {
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            flexWrap: "wrap",
-            width: 700,
-            // backgroundColor: "#080724",
-            // marginTop: -10,
-            height: 100,
-            alignItems: "center",
-        },
-        button: {
-            // margin: "10px 50px",
-            padding: 15,
-            height: 50,
-            borderRadius: 0,
-            backgroundColor: "transparent", // should be page background color
-            border: "3px solid rgb(26, 26, 26)",
-            textAlign: "center",
-            // textDecoration: "none",
-            // display: "inline-block",
-            color: "#8E8E8E",
-        },
-    };
-    return (
-        <div style={styles.container}>
-            <Link href="/contact">
-                <button style={styles.button}>Contact</button>
-            </Link>
-            <Link href="/portfolio">
-                <button style={styles.button}>Portfolio</button>
-            </Link>
-            <Link href="/resume">
-                <button style={styles.button}>Resume</button>
-            </Link>
-            <Link href="https://www.linkedin.com/">
-                <button style={styles.button}>LinkedIn</button>
-            </Link>
-            <Link href="https://github.com/">
-                <button style={styles.button}>Github</button>
-            </Link>
-        </div>
-    );
-}
-
-export default function HomePage() {
-    // i modified the background color of the main doc
-    // as backgroundColorDark. Located at styles/global.css
-    const day = "night";
-
-    const Colors = {
-        backgroundColorLight: "#FFFFFF",
-        backgroundColorDark: "rgb(34, 33, 33)",
-        headingColor: "#505050",
-        buttonColor: "#505050",
-        fontColor: "#8E8E8E",
-        sectionColor: "#F5F5F5",
-        sectionColorDark: "rgb(26, 26, 26)",
-    };
+export default function HomePage({ colorScheme }) {
+    const day = "day";
     const styles = {
         container: {
             display: "flex",
@@ -75,28 +12,113 @@ export default function HomePage() {
             // textAlign: "center", // vertical position in container
             backgroundColor:
                 day === "night"
-                    ? Colors.sectionColorDark
-                    : Colors.backgroundColorLight,
+                    ? colorScheme.sectionDark
+                    : colorScheme.sectionLight,
             padding: 0,
-            margin: "20px 0",
+            // margin: "20px 0",
             fontFamily:
                 "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
         },
-        intro: {
+        sectionOne: {
+            // intro
             height: 450,
             padding: 20,
             display: "flex",
             alignItems: "center",
         },
+        sectionTwo: {
+            // current projects
+            backgroundColor: colorScheme.backgroundColorLight,
+            height: 800,
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            // color: "#FFFFFF",
+        },
+        sectionThree: {
+            // education and experience
+            minHeight: 400,
+            display: "flex",
+            flexDirection: "column",
+            flexWrap: "nowrap",
+            justifyContent: "flex-start",
+            alignContent: "center",
+            backgroundColor: colorScheme.sectionLight,
+        },
+        sectionFour: {
+            // button link section
+            height: 200,
+            display: "flex",
+            alignItems: "center",
+            margin: "80px 0 0 0",
+            backgroundColor: colorScheme.backgroundColorLight,
+            justifyContent: "center",
+        },
+        text: {
+            // <p/>
+            fontWeight: colorScheme.fontWeight,
+            color:
+                day === "night"
+                    ? colorScheme.fontColorDark
+                    : colorScheme.fontColorLight,
+        },
+        headers: {
+            // h1, h2, h3
+            color: colorScheme.headingColor,
+            fontWeight: colorScheme.fontWeight,
+        },
+        btn: {
+            height: 50,
+            borderRadius: 0,
+            backgroundColor: colorScheme.buttonLight,
+            border: "0px solid #C0D4FF",
+            textAlign: "center",
+            textDecoration: "none",
+            display: "inline-block",
+            color: colorScheme.buttonFontColor,
+            padding: 15,
+            marginRight: 30,
+        },
+        btnLinks: {
+            height: 50,
+            borderRadius: 0,
+            backgroundColor: "transparent",
+            border: "1px solid #505050",
+            textAlign: "center",
+            textDecoration: "none",
+            display: "inline-block",
+            color: colorScheme.fontColorDark,
+            padding: 15,
+            marginRight: 30,
+        },
     };
-
+    const buttonLinks = [
+        {
+            link: "/contact",
+            title: "Contact",
+        },
+        {
+            link: "/portfolio",
+            title: "Portfolio",
+        },
+        {
+            link: "/resume",
+            title: "Resume",
+        },
+        {
+            link: "https://www.linkedin.com/",
+            title: "LinkedIn",
+        },
+        {
+            link: "https://github.com/",
+            title: "Github",
+        },
+    ];
     return (
         <div style={styles.container}>
-            <div style={styles.intro}>
+            <div style={styles.sectionOne}>
                 <div style={{ margin: "0 50px" }}>
-                    <h1 style={{ color: Colors.headingColor, fontWeight: 400 }}>
-                        Jaime Cabrera
-                    </h1>
+                    <h1 style={styles.headers}>Jaime Cabrera</h1>
                     <hr
                         style={{
                             width: 40,
@@ -105,87 +127,43 @@ export default function HomePage() {
                         }}
                     />
                     <br />
-                    <p style={{ color: Colors.fontColor, fontWeight: 400 }}>
+                    <p style={styles.text}>
                         Hello, I am a Javascript developer specialized in
                         frontend and backend development for web and iOS
                         applications.
                     </p>
-                    <p style={{ color: Colors.fontColor, fontWeight: 400 }}>
+                    <p style={styles.text}>
                         I have over one year of experience building scalable web
                         apps using Mongo DB, Express, React-React Native and
                         NodeJS.
                     </p>
                     <br />
                     <br />
-                    <button
-                        style={{
-                            height: 50,
-                            borderRadius: 0,
-                            backgroundColor: Colors.buttonColor,
-                            border: "0px solid #C0D4FF",
-                            textAlign: "center",
-                            textDecoration: "none",
-                            display: "inline-block",
-                            color: "#FFFFFF",
-                            padding: 15,
-                            marginRight: 30,
-                        }}
-                    >
-                        Contact Me
-                    </button>
-                    <button
-                        style={{
-                            height: 50,
-                            borderRadius: 0,
-                            backgroundColor: Colors.buttonColor,
-                            border: "0px solid #C0D4FF",
-                            textAlign: "center",
-                            textDecoration: "none",
-                            display: "inline-block",
-                            color: "#FFFFFF",
-                            padding: 15,
-                        }}
-                    >
-                        View Work
-                    </button>
+                    <button style={styles.btn}>Contact Me</button>
+                    <button style={styles.btn}>View Work</button>
                 </div>
             </div>
-            <div
-                style={{
-                    backgroundColor: Colors.backgroundColorDark,
-                    height: 800,
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    color: "#FFFFFF",
-                }}
-            >
-                <h1 style={{ marginTop: 100, fontWeight: 400 }}>
+            <div style={styles.sectionTwo}>
+                <h1 style={Object.assign({ marginTop: 75 }, styles.headers)}>
                     Current Projects
                 </h1>
                 <hr style={{ width: 100, border: "1px solid #8E8E8E" }} />
 
-                <Slider backgroundColor="#FFFFFF" fontColor="#8E8E8E" />
+                <Slider
+                    backgroundColor={colorScheme.backgroundColorLight}
+                    fontColor={colorScheme.fontColorLight}
+                />
             </div>
             <br />
-            <div
-                style={{
-                    minHeight: 400,
-                    display: "flex",
-                    flexDirection: "column",
-                    flexWrap: "nowrap",
-                    justifyContent: "flex-start",
-                    alignContent: "center",
-                    backgroundColor: Colors.sectionColorDark,
-                    color: "#FFFFFF",
-                }}
-            >
+            <div style={styles.sectionThree}>
                 <h1
-                    style={{
-                        marginTop: 80, // must be changed depending on parent size
-                        fontWeight: 400,
-                        alignSelf: "center",
-                    }}
+                    style={Object.assign(
+                        {
+                            marginTop: 60, // must be changed depending on parent size
+                            alignSelf: "center",
+                        },
+                        styles.headers
+                    )}
                 >
                     Education & Experience
                 </h1>
@@ -196,27 +174,39 @@ export default function HomePage() {
                         alignSelf: "center",
                         justifyContent: "space-between",
                         minWidth: 650,
-                        border: "1px solid red",
+                        // border: "1px solid red",
                         padding: 10,
                         flexWrap: "wrap-reverse",
                     }}
                 >
                     <div style={{ width: 290 }}>
-                        <h3>2017-2019</h3>
+                        <h3 style={styles.headers}>2017-2019</h3>
                         <br />
                         <hr />
-                        <h3>University of Houston-Downtown</h3>
-                        <p style={{ overflowWrap: "break-word" }}>
+                        <h3 style={styles.headers}>
+                            University of Houston-Downtown
+                        </h3>
+                        <p
+                            style={Object.assign(
+                                { overflowWrap: "break-word" },
+                                styles.text
+                            )}
+                        >
                             Bachelors Degree in Finance with an specialization
-                            in Investments.
+                            in Financial Investments.
                         </p>
                     </div>
                     <div style={{ width: 290 }}>
-                        <h3>2020-Present</h3>
+                        <h3 style={styles.headers}>2020-Present</h3>
                         <br />
                         <hr />
-                        <h3>Free-Lance Projects</h3>
-                        <p style={{ overflowWrap: "break-word" }}>
+                        <h3 style={styles.headers}>Free-Lance Projects</h3>
+                        <p
+                            style={Object.assign(
+                                { overflowWrap: "break-word" },
+                                styles.text
+                            )}
+                        >
                             Developed and contributed to numerous projects using
                             modern technologies including: Javascript, Python,
                             MongoDB, mySQL, Express, React, React Native,
@@ -226,16 +216,12 @@ export default function HomePage() {
                 </div>
             </div>
 
-            <div
-                style={{
-                    height: 200,
-                    display: "flex",
-                    alignItems: "center",
-                    margin: "80px 0 80px 0",
-                    backgroundColor: Colors.backgroundColorDark,
-                }}
-            >
-                <Buttons />
+            <div style={styles.sectionFour}>
+                {buttonLinks.map((item) => (
+                    <Link href={item.link} key={Math.random() * 99}>
+                        <button style={styles.btnLinks}>{item.title}</button>
+                    </Link>
+                ))}
             </div>
         </div>
     );

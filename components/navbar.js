@@ -1,6 +1,40 @@
+import { useContext } from "react";
 import Link from "next/link";
+//
+import { Context as ColorContext } from "../context/colorScheme";
 
 export default function Navbar() {
+    const { state } = useContext(ColorContext);
+    const styles = {
+        container: {
+            position: "fixed",
+            top: 0,
+            right: 0,
+            left: 0,
+            //
+            display: "flex",
+            flexDirection: "row-reverse",
+            flexWrap: "nowrap",
+            justifyContent: "flex-start", // horizontal position
+            alignItems: "center", // vertical position
+            height: 64,
+            alignSelf: "stretch",
+            color: state.fontColorDark,
+            // marginTop: 15,
+        },
+        home: {
+            order: 1,
+            flex: 1,
+            alignSelf: "auto",
+        },
+        li: {
+            listStyle: "none",
+        },
+        text: {
+            fontWeight: state.fontWeight,
+        },
+    };
+
     return (
         <div style={styles.container}>
             <ul style={styles.home}>
@@ -34,30 +68,3 @@ export default function Navbar() {
         </div>
     );
 }
-const styles = {
-    container: {
-        display: "flex",
-        flexDirection: "row-reverse",
-        flexWrap: "nowrap",
-        justifyContent: "flex-start", // horizontal position
-        alignItems: "center", // vertical position
-        // alignContent: "stretch",
-        height: 64,
-        // backgroundColor: "#080724",
-        alignSelf: "stretch",
-        color: "white",
-        // border: "1px solid red",
-        marginTop: 15,
-    },
-    home: {
-        order: 1,
-        flex: 1,
-        alignSelf: "auto",
-    },
-    li: {
-        listStyle: "none",
-    },
-    text: {
-        fontWeight: 400,
-    },
-};

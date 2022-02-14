@@ -1,18 +1,21 @@
 export default function Resume() {
+    const totalWidth = 220 + 550;
+
+    const styles = {
+        container: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            margin: "150px auto",
+        },
+    };
     return (
         <>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    margin: "20px 0",
-                }}
-            >
+            <div style={styles.container}>
                 <div
                     style={{
                         height: "65rem",
-                        width: 200,
+                        width: 220,
                         backgroundColor: "#141418",
                     }}
                 >
@@ -24,7 +27,7 @@ export default function Resume() {
                         }}
                     >
                         <h1>Contact</h1>
-                        <hr />
+                        <hr style={{ marginLeft: -20 }} />
                         <ul style={{ listStyle: "none", marginLeft: -40 }}>
                             <li>
                                 <p>jctcabrera@outlook.com</p>
@@ -47,7 +50,7 @@ export default function Resume() {
                         }}
                     >
                         <h1>Skills</h1>
-                        <hr />
+                        <hr style={{ marginLeft: -20 }} />
                         <h3>Programming</h3>
                         <p>Javascript</p>
                         <p>Typescript </p>
@@ -65,7 +68,7 @@ export default function Resume() {
                         }}
                     >
                         <h1>Education</h1>
-                        <hr />
+                        <hr style={{ marginLeft: -20 }} />
                         <h3>B.B.A in Finance</h3>
                         <p>
                             University of Houston-Downtown,
@@ -76,15 +79,15 @@ export default function Resume() {
 
                 <div
                     style={{
-                        height: "65rem",
-                        width: 520,
+                        // height: "65rem",
+                        width: 550,
                         backgroundColor: "#F5F6FA",
                     }}
                 >
                     <div
                         style={{
                             textAlign: "left",
-                            marginLeft: 20,
+                            margin: "0 20px",
                         }}
                     >
                         <h1>Experience</h1>

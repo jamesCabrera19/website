@@ -1,23 +1,11 @@
 import Head from "next/head";
-// import Image from "next/image";
-// import styles from "../styles/Home.module.css";
-import Layout from "../components/layout";
+import { useContext } from "react";
 import HomePage from "./homePage";
-// import Resume from "./resume";
+import { Context as ColorContext } from "../context/colorScheme";
 
 export default function Home() {
-    const globalStyles = {
-        backgroundColorLight: "",
-        backgroundColorDark: "",
-        sectionLight: "",
-        sectionDark: "",
-        buttonLight: "",
-        buttonDark: "",
-        fontWeight: "",
-        fontColorLight: "",
-        fontColorDark: "",
-        maxWidth: "",
-    };
+    const { state } = useContext(ColorContext);
+
     return (
         <div>
             <Head>
@@ -28,7 +16,7 @@ export default function Home() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <HomePage />
+            <HomePage colorScheme={state} />
         </div>
     );
 }
