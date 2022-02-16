@@ -1,29 +1,32 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 // import { motion } from "framer-motion";
-import Image from "next/image";
+// import Image from "next/image";
 import leftArrow from "../imgs/left-arrow.svg";
 import rightArrow from "../imgs/right-arrow.svg";
 
-export default function Slider({ backgroundColor, fontColor }) {
-    const [state, setState] = useState(1);
-    const data = [
-        {
-            id: Math.random() * 9999,
-            title: "Lorem ipsum",
-            subTitle: "Lorem",
-        },
-        {
-            id: Math.random() * 9999,
-            title: "Lorem ipsum",
-            subTitle: "Lorem",
-        },
-        {
-            id: Math.random() * 9999,
-            title: "Lorem ipsum",
-            subTitle: "Lorem",
-        },
-    ];
+const data = [
+    {
+        id: Math.random() * 9999,
+        title: "A distinguished marine character",
+        subTitle: "Google",
+    },
+    {
+        id: Math.random() * 9999,
+        title: "A distinguished marine character",
+        subTitle: "Apple",
+    },
+    {
+        id: Math.random() * 9999,
+        title: "A distinguished marine character",
+        subTitle: "Apps",
+    },
+];
 
+export default function Slider({ backgroundColor, fontColor, headerStyles }) {
+    // state === 1 || 2 || 3
+    const [state, setState] = useState(1);
+
+    // handles the right btn actions
     const handleRight = () => {
         if (state !== data.length) {
             setState(state + 1); // increasing position
@@ -31,16 +34,17 @@ export default function Slider({ backgroundColor, fontColor }) {
             setState(1); // reset slider to default position
         }
     };
+    // handles the left btn actions
     const handleLeft = () => {
         if (state !== 1) {
-            setState(state - 1);
+            setState(state - 1); // decreasing position
         } else if (state === 1) {
             setState(data.length); // reset slider to default position
         }
     };
+
     const moveDot = (index) => setState(index);
 
-    // console.log(require(`../imgs/app1.png`).default.src);
     const styles = {
         active: {
             width: "100%",
@@ -98,7 +102,6 @@ export default function Slider({ backgroundColor, fontColor }) {
             width: 60,
             height: 60,
             borderRadius: "50%",
-            background: "transparent",
             border: "0px solid rgba(34, 34, 34, 0.187)",
             position: "absolute",
             display: "flex",
@@ -108,12 +111,12 @@ export default function Slider({ backgroundColor, fontColor }) {
             top: "50%",
             right: 0,
             transform: "translateY(-60%)",
+            background: "#FFFFFF",
         },
         buttonLeft: {
             width: 60,
             height: 60,
             borderRadius: "50%",
-            background: "transparent",
             border: "0px solid rgba(34, 34, 34, 0.187)",
             position: "absolute",
             display: "flex",
@@ -123,69 +126,61 @@ export default function Slider({ backgroundColor, fontColor }) {
             top: "50%",
             left: 0,
             transform: "translateY(-60%)",
+            background: "#FFFFFF",
         },
     };
-    // console.log(leftArrow);
+
     return (
         <>
             <div style={styles.sliderContainer}>
-                {data.map((obj, index) => {
-                    return (
-                        <div
-                            key={obj.id}
-                            className={
-                                state === index + 1
-                                    ? styles.active
-                                    : styles.inactive
-                            }
-                        >
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    backgroundColor: backgroundColor,
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        margin: "140px 0 0 50px",
-                                        color: fontColor,
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        backgroundColor,
+                    }}
+                >
+                    <div
+                        style={{
+                            // width: "100%",
+                            height: "100%",
+                            margin: "140px 0 0 50px",
+                            justifyContent: "flex-start",
+                            // border: "1px solid red",
+                        }}
+                    >
+                        <h3 style={headerStyles}>Features</h3>
+                        <h2 style={headerStyles}>
+                            A distinguished marine character
+                        </h2>
+                        <p style={{ color: fontColor }}>
+                            {data[state - 1].title}
+                        </p>
+                        <p style={{ color: fontColor }}>
+                            {data[state - 1].subTitle}
+                        </p>
+                    </div>
+                    <img
+                        src={require(`../imgs/app${state}.png`).default.src}
+                        style={styles.slideImg}
+                    />
+                </div>
 
-                                        justifyContent: "flex-start",
-                                        border: "1px solid red",
-                                    }}
-                                >
-                                    <h3>Features</h3>
-                                    <h2>A distinguished marine character</h2>
-                                    <p>{obj.title}</p>
-                                    <p>{obj.title}</p>
-                                </div>
-                                <img
-                                    src={
-                                        require(`../imgs/app${state}.png`)
-                                            .default.src
-                                    }
-                                    style={styles.slideImg}
-                                />
-                            </div>
-                        </div>
-                    );
-                })}
                 <button
                     onClick={() => handleRight()}
                     style={styles.buttonRight}
                 >
                     <img src={rightArrow.src} />
                 </button>
+
                 <button onClick={() => handleLeft()} style={styles.buttonLeft}>
                     <img src={leftArrow.src} />
                 </button>
                 <div style={styles.containerDots}>
                     {data.map((item, index) => (
                         <div
-                            onClick={() => moveDot(index + 1)}
+                            key={Math.random() * 99}
+                            onClick={() => moveDot(index + 1)} // index cant be zero
                             style={
                                 state === index + 1
                                     ? styles.dotActive

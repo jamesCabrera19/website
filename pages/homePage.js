@@ -1,23 +1,17 @@
 import Link from "next/link";
-import Slider from "../components/card";
+import Slider from "../components/slider";
 
 export default function HomePage({ colorScheme }) {
-    const day = "day";
     const styles = {
         container: {
             display: "flex",
             flexDirection: "column",
             flexWrap: "nowrap",
             justifyContent: "space-between", // horizontal position in container
-            // textAlign: "center", // vertical position in container
-            backgroundColor:
-                day === "night"
-                    ? colorScheme.sectionDark
-                    : colorScheme.sectionLight,
             padding: 0,
-            // margin: "20px 0",
             fontFamily:
                 "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
+            backgroundColor: colorScheme.sectionColor,
         },
         sectionOne: {
             // intro
@@ -28,11 +22,11 @@ export default function HomePage({ colorScheme }) {
         },
         sectionTwo: {
             // current projects
-            backgroundColor: colorScheme.backgroundColorLight,
             height: 800,
             display: "flex",
             alignItems: "center",
             flexDirection: "column",
+            backgroundColor: colorScheme.backgroundColor,
             // color: "#FFFFFF",
         },
         sectionThree: {
@@ -43,7 +37,7 @@ export default function HomePage({ colorScheme }) {
             flexWrap: "nowrap",
             justifyContent: "flex-start",
             alignContent: "center",
-            backgroundColor: colorScheme.sectionLight,
+            backgroundColor: colorScheme.sectionColor,
         },
         sectionFour: {
             // button link section
@@ -51,16 +45,13 @@ export default function HomePage({ colorScheme }) {
             display: "flex",
             alignItems: "center",
             margin: "80px 0 0 0",
-            backgroundColor: colorScheme.backgroundColorLight,
             justifyContent: "center",
+            backgroundColor: colorScheme.backgroundColor,
         },
         text: {
             // <p/>
             fontWeight: colorScheme.fontWeight,
-            color:
-                day === "night"
-                    ? colorScheme.fontColorDark
-                    : colorScheme.fontColorLight,
+            color: colorScheme.fontColor,
         },
         headers: {
             // h1, h2, h3
@@ -70,14 +61,14 @@ export default function HomePage({ colorScheme }) {
         btn: {
             height: 50,
             borderRadius: 0,
-            backgroundColor: colorScheme.buttonLight,
             border: "0px solid #C0D4FF",
             textAlign: "center",
             textDecoration: "none",
             display: "inline-block",
-            color: colorScheme.buttonFontColor,
             padding: 15,
             marginRight: 30,
+            backgroundColor: colorScheme.buttonColor,
+            color: colorScheme.buttonFontColor,
         },
         btnLinks: {
             height: 50,
@@ -87,9 +78,9 @@ export default function HomePage({ colorScheme }) {
             textAlign: "center",
             textDecoration: "none",
             display: "inline-block",
-            color: colorScheme.fontColorDark,
             padding: 15,
             marginRight: 30,
+            color: colorScheme.fontColor,
         },
     };
     const buttonLinks = [
@@ -148,10 +139,10 @@ export default function HomePage({ colorScheme }) {
                     Current Projects
                 </h1>
                 <hr style={{ width: 100, border: "1px solid #8E8E8E" }} />
-
                 <Slider
-                    backgroundColor={colorScheme.backgroundColorLight}
-                    fontColor={colorScheme.fontColorLight}
+                    backgroundColor={colorScheme.backgroundColor}
+                    fontColor={colorScheme.fontColor}
+                    headerStyles={styles.headers}
                 />
             </div>
             <br />

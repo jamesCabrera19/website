@@ -1,10 +1,14 @@
 import Head from "next/head";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import HomePage from "./homePage";
 import { Context as ColorContext } from "../context/colorScheme";
 
 export default function Home() {
-    const { state } = useContext(ColorContext);
+    const { state, themeSwitch } = useContext(ColorContext);
+
+    useEffect(() => {
+        themeSwitch(); // run only at night
+    }, []);
 
     return (
         <div>

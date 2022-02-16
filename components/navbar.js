@@ -5,6 +5,7 @@ import { Context as ColorContext } from "../context/colorScheme";
 
 export default function Navbar() {
     const { state } = useContext(ColorContext);
+
     const styles = {
         container: {
             position: "fixed",
@@ -19,8 +20,8 @@ export default function Navbar() {
             alignItems: "center", // vertical position
             height: 64,
             alignSelf: "stretch",
-            color: state.fontColorDark,
-            // marginTop: 15,
+            color: state.headingColor,
+            zIndex: 100,
         },
         home: {
             order: 1,

@@ -13,12 +13,14 @@ export default function Footer() {
             alignItems: "center", // vertical position in container
             alignContent: "stretch",
             height: 164,
-            backgroundColor: state.sectionLight,
-            color: state.fontColorLight,
             alignSelf: "stretch",
             width: "100%",
             // position: "fixed",
             bottom: 0,
+            backgroundColor: state.footerColor
+                ? state.footerColor
+                : state.sectionColor,
+            color: state.fontColor,
         },
     };
     return (
