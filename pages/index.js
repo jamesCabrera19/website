@@ -6,9 +6,9 @@ import { Context as ColorContext } from "../context/colorScheme";
 export default function Home() {
     const { state, themeSwitch } = useContext(ColorContext);
 
-    useEffect(() => {
-        themeSwitch(); // run only at night
-    }, []);
+    // useEffect(() => {
+    //     themeSwitch(); // run only at night
+    // }, []);
 
     return (
         <div>

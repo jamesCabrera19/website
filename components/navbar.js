@@ -2,6 +2,7 @@ import { useContext } from "react";
 import Link from "next/link";
 //
 import { Context as ColorContext } from "../context/colorScheme";
+import _styles from "../styles/buttons.module.css";
 
 export default function Navbar() {
     const { state } = useContext(ColorContext);
@@ -19,17 +20,18 @@ export default function Navbar() {
             justifyContent: "flex-start", // horizontal position
             alignItems: "center", // vertical position
             height: 64,
-            alignSelf: "stretch",
+            // alignSelf: "stretch",
             color: state.headingColor,
             zIndex: 100,
         },
         home: {
             order: 1,
             flex: 1,
-            alignSelf: "auto",
         },
         li: {
             listStyle: "none",
+            width: 60,
+            cursor: "pointer",
         },
         text: {
             fontWeight: state.fontWeight,
@@ -37,7 +39,7 @@ export default function Navbar() {
     };
 
     return (
-        <div style={styles.container}>
+        <div style={styles.container} className={_styles.nav}>
             <ul style={styles.home}>
                 <li style={styles.li}>
                     <Link href="/">
@@ -46,7 +48,14 @@ export default function Navbar() {
                 </li>
             </ul>
             <ul>
-                <li style={{ paddingRight: 50, listStyle: "none" }}>
+                <li
+                    style={{
+                        paddingRight: 50,
+                        listStyle: "none",
+                        width: 60,
+                        cursor: "pointer",
+                    }}
+                >
                     <Link href="/contact">
                         <h5 style={styles.text}>Contact</h5>
                     </Link>

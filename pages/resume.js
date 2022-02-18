@@ -3,13 +3,13 @@ import { Context as ColorContext } from "../context/colorScheme";
 
 export default function Resume() {
     const { state, themeSwitch, navbarSwitch } = useContext(ColorContext);
-    useEffect(() => {
-        navbarSwitch();
-        return () => {
-            themeSwitch(); // screen is unfocused
-            console.log("themeSwitch ran");
-        };
-    }, []);
+    // useEffect(() => {
+    //     navbarSwitch();
+    //     return () => {
+    //         themeSwitch(); // screen is unfocused
+    //         console.log("themeSwitch ran");
+    //     };
+    // }, []);
 
     const totalWidth = 220 + 550;
 

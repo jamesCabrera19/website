@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { Context as ColorContext } from "../context/colorScheme";
 import Link from "next/link";
+import ButtonContainer from "../components/buttons";
 
 export default function Portfolio() {
     const { state, themeSwitch, navbarSwitch, footerOptions } =
@@ -10,9 +11,10 @@ export default function Portfolio() {
         footerOptions(state.backgroundColor);
         return () => {
             footerOptions(null); // screen is unfocused
-            console.log("themeSwitch ran");
+            // console.log("themeSwitch ran");
         };
     }, []);
+
     const cards = [
         {
             title: "Movie App",
@@ -61,32 +63,11 @@ export default function Portfolio() {
             color: state.fontColor,
         },
     };
-    const buttonLinks = [
-        {
-            link: "/contact",
-            title: "Contact",
-        },
-        {
-            link: "/portfolio",
-            title: "Portfolio",
-        },
-        {
-            link: "/resume",
-            title: "Resume",
-        },
-        {
-            link: "https://www.linkedin.com/",
-            title: "LinkedIn",
-        },
-        {
-            link: "https://github.com/",
-            title: "Github",
-        },
-    ];
+
     return (
         <div style={styles.container}>
             <div style={styles.sectionOne}>
-                <h1 style={Object.assign({}, styles.headers)}>Applications</h1>
+                <h1 style={styles.headers}>Applications</h1>
                 <hr style={{ width: 100, border: "1px solid #8E8E8E" }} />
             </div>
             {/*  */}
@@ -94,6 +75,9 @@ export default function Portfolio() {
                 style={{
                     display: "flex",
                     backgroundColor: state.sectionColor,
+                    // border: "1px solid red",
+                    // flexDirection: "row",
+                    justifyContent: "center",
                 }}
             >
                 {cards.map((item) => {
@@ -116,7 +100,7 @@ export default function Portfolio() {
                                     margin: "auto",
                                 }}
                             >
-                                {/* PHOTO PLACE HOLDER */}
+                                <img />
                             </div>
                             <h2
                                 style={{
@@ -178,12 +162,19 @@ export default function Portfolio() {
                 style={{
                     display: "flex",
                     backgroundColor: state.backgroundColor,
-                    height: 300,
+                    height: 250,
                     justifyContent: "center",
                     alignItems: "center",
+                    // border: "1px solid red",
                 }}
             >
-                <div style={{ width: "80%", overflowWrap: "break-word" }}>
+                <div
+                    style={{
+                        width: "80%",
+                        overflowWrap: "break-word",
+                        // border: "1px solid red",
+                    }}
+                >
                     <p
                         style={{
                             fontSize: 20,
@@ -195,9 +186,9 @@ export default function Portfolio() {
                         All the applications listed above were developed solely
                         by me (James Cabrera) in approximately a 1.5 year
                         period. App designed was inspired by similar apps such
-                        as Netflix and Apple Music. Additionally, all the code
-                        for any of my applications is posted on my Github,
-                        https://github.com/PlayaLimbo.
+                        as Netflix, Apple Music and CodePen ("codepen.io").
+                        Additionally, all the code for any of my applications is
+                        posted on my Github, https://github.com/PlayaLimbo.
                     </p>
                 </div>
             </div>
@@ -207,31 +198,12 @@ export default function Portfolio() {
                     height: 200,
                     display: "flex",
                     alignItems: "center",
-                    margin: "80px 0 0 0",
+                    margin: "0px 0 0 0",
                     justifyContent: "center",
                     backgroundColor: state.sectionColor,
                 }}
             >
-                {buttonLinks.map((item) => (
-                    <Link href={item.link} key={Math.random() * 99}>
-                        <button
-                            style={{
-                                height: 50,
-                                borderRadius: 0,
-                                backgroundColor: "transparent",
-                                border: "1px solid #505050",
-                                textAlign: "center",
-                                textDecoration: "none",
-                                display: "inline-block",
-                                padding: 15,
-                                marginRight: 30,
-                                color: state.fontColor,
-                            }}
-                        >
-                            {item.title}
-                        </button>
-                    </Link>
-                ))}
+                <ButtonContainer borderColor={state.buttonColor} />
             </div>
         </div>
     );

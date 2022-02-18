@@ -1,0 +1,21 @@
+.btn {
+    color: #505050;
+    font-weight: 400;
+    background-color: transparent;
+}
+.btn:hover {
+    transform: scale(1.04);
+    background-color: #505050;
+    color: #ffffff;
+    border: none;
+    transition: transform, background-color 500ms;
+}
+
+.nav {
+    background-color: transparent;
+}
+.nav:hover {
+    background-color: #ffffff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: background-color 500ms;
+}

@@ -1,5 +1,6 @@
-import Link from "next/link";
 import Slider from "../components/slider";
+import _styles from "../styles/buttons.module.css";
+import ButtonContainer from "../components/buttons";
 
 export default function HomePage({ colorScheme }) {
     const styles = {
@@ -9,8 +10,7 @@ export default function HomePage({ colorScheme }) {
             flexWrap: "nowrap",
             justifyContent: "space-between", // horizontal position in container
             padding: 0,
-            fontFamily:
-                "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
+            fontFamily: colorScheme.fontFamily,
             backgroundColor: colorScheme.sectionColor,
         },
         sectionOne: {
@@ -61,50 +61,17 @@ export default function HomePage({ colorScheme }) {
         btn: {
             height: 50,
             borderRadius: 0,
-            border: "0px solid #C0D4FF",
+            border: `1px solid ${colorScheme.buttonColor}`,
             textAlign: "center",
             textDecoration: "none",
             display: "inline-block",
             padding: 15,
             marginRight: 30,
-            backgroundColor: colorScheme.buttonColor,
-            color: colorScheme.buttonFontColor,
-        },
-        btnLinks: {
-            height: 50,
-            borderRadius: 0,
-            backgroundColor: "transparent",
-            border: "1px solid #505050",
-            textAlign: "center",
-            textDecoration: "none",
-            display: "inline-block",
-            padding: 15,
-            marginRight: 30,
-            color: colorScheme.fontColor,
+            // backgroundColor: colorScheme.buttonColor, // replace by css hover effect
+            // color: colorScheme.buttonFontColor, // replace by css hover effect
+            cursor: "pointer",
         },
     };
-    const buttonLinks = [
-        {
-            link: "/contact",
-            title: "Contact",
-        },
-        {
-            link: "/portfolio",
-            title: "Portfolio",
-        },
-        {
-            link: "/resume",
-            title: "Resume",
-        },
-        {
-            link: "https://www.linkedin.com/",
-            title: "LinkedIn",
-        },
-        {
-            link: "https://github.com/",
-            title: "Github",
-        },
-    ];
     return (
         <div style={styles.container}>
             <div style={styles.sectionOne}>
@@ -130,8 +97,12 @@ export default function HomePage({ colorScheme }) {
                     </p>
                     <br />
                     <br />
-                    <button style={styles.btn}>Contact Me</button>
-                    <button style={styles.btn}>View Work</button>
+                    <button style={styles.btn} className={_styles.btn}>
+                        Contact Me
+                    </button>
+                    <button style={styles.btn} className={_styles.btn}>
+                        View Work
+                    </button>
                 </div>
             </div>
             <div style={styles.sectionTwo}>
@@ -208,11 +179,7 @@ export default function HomePage({ colorScheme }) {
             </div>
 
             <div style={styles.sectionFour}>
-                {buttonLinks.map((item) => (
-                    <Link href={item.link} key={Math.random() * 99}>
-                        <button style={styles.btnLinks}>{item.title}</button>
-                    </Link>
-                ))}
+                <ButtonContainer borderColor={colorScheme.buttonColor} />
             </div>
         </div>
     );

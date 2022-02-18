@@ -47,5 +47,7 @@ export const { Context, Provider } = colorSchemeContext(
         fontColor: "#8E8E8E",
         buttonFontColor: "#FFFFFF",
         maxWidth: "",
+        fontFamily:
+            "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
     } // init STATE
 );
