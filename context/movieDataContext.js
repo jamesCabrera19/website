@@ -22,7 +22,6 @@ const fetchMovies = (dispatch) => async () => {
 };
 
 const clickedMovie = (dispatch) => (movie) => {
-    console.log("Clicked Movie: ", movie);
     dispatch({ type: "clicked_movie", payload: movie });
 };
 
