@@ -7,6 +7,7 @@ const movieDataReducer = (state, action) => {
             return action.payload; // true state
         case "clicked_movie":
             return [...state, { clickedMovie: action.payload }];
+        //colors[colors.length - 1] last item in array
         default:
             return state;
     }

@@ -7,13 +7,15 @@ import rightArrow from "../imgs/right-arrow.svg";
 const data = [
     {
         id: Math.random() * 9999,
-        title: "A distinguished marine character",
-        subTitle: "Google",
+        title: "Video streaming application build for web and mobile devices.",
+        subTitle:
+            "React useContext api, user authentication, functional-oriented programing and CRUD operations",
     },
     {
         id: Math.random() * 9999,
-        title: "A distinguished marine character",
-        subTitle: "Apple",
+        title: "Music streaming application build using a custom REST API",
+        subTitle:
+            "React Redux api, class-oriented programing and CRUD operations",
     },
     {
         id: Math.random() * 9999,
@@ -126,7 +128,7 @@ export default function Slider({ backgroundColor, fontColor, headerStyles }) {
             top: "50%",
             left: 0,
             transform: "translateY(-60%)",
-            background: "#FFFFFF",
+            background: "transparent",
         },
     };
 
@@ -144,21 +146,19 @@ export default function Slider({ backgroundColor, fontColor, headerStyles }) {
                         style={{
                             // width: "100%",
                             height: "100%",
-                            margin: "140px 0 0 50px",
+                            margin: "100px 0 0 50px",
                             justifyContent: "flex-start",
                             // border: "1px solid red",
                         }}
                     >
                         <h3 style={headerStyles}>Features</h3>
-                        <h2 style={headerStyles}>
-                            A distinguished marine character
-                        </h2>
-                        <p style={{ color: fontColor }}>
-                            {data[state - 1].title}
-                        </p>
+                        <h2 style={headerStyles}>{data[state - 1].title}</h2>
                         <p style={{ color: fontColor }}>
                             {data[state - 1].subTitle}
                         </p>
+                        {/* <p style={{ color: fontColor }}>
+                            {data[state - 1].subTitle}
+                        </p> */}
                     </div>
                     <img
                         src={require(`../imgs/app${state}.png`).default.src}

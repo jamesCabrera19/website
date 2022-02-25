@@ -92,10 +92,9 @@ export default function Portfolio() {
             >
                 {cards.map((item) => {
                     return (
-                        <Link href={item.link}>
+                        <Link href={item.link} key={Math.random() * 99}>
                             <div
                                 className={_styles.card}
-                                key={Math.random() * 99}
                                 style={{
                                     height: 520,
                                     width: 280,
@@ -206,9 +205,9 @@ export default function Portfolio() {
                         All the applications listed above were developed solely
                         by me (James Cabrera) in approximately a 1.5 year
                         period. App designed was inspired by similar apps such
-                        as Netflix, Apple Music and CodePen ("codepen.io").
-                        Additionally, all the code for any of my applications is
-                        posted on my Github, https://github.com/PlayaLimbo.
+                        as Netflix, Apple Music and CodePen ("codepen.io"). You
+                        can see the code for any of my applications by visiting
+                        my github - https://github.com/PlayaLimbo.
                     </p>
                 </div>
             </div>
