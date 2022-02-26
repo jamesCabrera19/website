@@ -41,7 +41,7 @@ export default function Navbar() {
     return (
         <div style={styles.container} className={_styles.nav}>
             <ul style={styles.home}>
-                <li style={styles.li}>
+                <li className={_styles.navLinks} style={styles.li}>
                     <Link href="/">
                         <h3 style={styles.text}>Home</h3>
                     </Link>
@@ -49,6 +49,7 @@ export default function Navbar() {
             </ul>
             <ul>
                 <li
+                    className={_styles.navLinks}
                     style={{
                         paddingRight: 50,
                         listStyle: "none",
@@ -62,16 +63,16 @@ export default function Navbar() {
                 </li>
             </ul>
             <ul>
-                <li style={styles.li}>
-                    <Link href="/portfolio">
-                        <h5 style={styles.text}>Portfolio</h5>
+                <li className={_styles.navLinks} style={styles.li}>
+                    <Link href="/resume">
+                        <h5 style={styles.text}>Resume</h5>
                     </Link>
                 </li>
             </ul>
             <ul>
-                <li style={styles.li}>
-                    <Link href="/resume">
-                        <h5 style={styles.text}>Resume</h5>
+                <li className={_styles.navLinks} style={styles.li}>
+                    <Link href="/portfolio">
+                        <h5 style={styles.text}>Portfolio</h5>
                     </Link>
                 </li>
             </ul>

@@ -2,12 +2,25 @@
     color: rgba(255, 255, 255, 0.6);
 }
 .icon:hover {
-    background-color: rgba(17, 17, 27, 0.9);
+    background-color: rgba(17, 17, 27, 1);
     color: rgba(255, 255, 255, 1);
     transition: background-color 500ms;
     cursor: pointer;
 }
 .active {
-    background-color: rgba(17, 17, 27, 0.9);
+    background-color: rgba(17, 17, 27, 1);
     color: rgba(255, 255, 255, 1);
+}
+.container {
+    width: 100px;
+    height: 121.7rem;
+}
+.container:hover {
+    width: 320px;
+    height: 121.7rem;
+    position: fixed;
+    left: 0;
+    z-index: 5;
+    transition: width 300ms ease-in-out;
+    font-size: 16px !important;
 }

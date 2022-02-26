@@ -17,8 +17,11 @@
 .nav:hover {
     background-color: #ffffff;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    font-size: scale(1.04);
     transition: background-color 500ms;
+}
+.navLinks:hover {
+    font-size: 20px;
+    transition: font-size 300ms;
 }
 .card:hover {
     /* background-color: #8e8e8e1c; */

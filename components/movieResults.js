@@ -1,18 +1,23 @@
-import Link from "next/link";
+// import Link from "next/link";
+// import React from "react";
 
-export default function MovieResults({ state, callback }) {
+const MovieResults = (props) => {
     const styles = {
         container: {
+            // border: "1px solid red",
             display: "flex",
-            flex: 1,
-            flexWrap: "wrap",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            padding: "64px 0",
+            flexDirection: "row",
+            // flexWrap: "nowrap",
+            // justifyContent: "center",
+            // alignItems: "flex-start",
+            // padding: "0 0",
+            margin: "70px 0 0 0",
+            overflow: "scroll",
             backgroundColor: "rgb(42, 44, 51)", // dark // used if image fails to load
+            // zIndex: 2,
         },
         card: {
-            margin: "10px auto 10px auto",
+            margin: "0 10px 0 10px",
             minWidth: "250px",
             maxWidth: "250px",
             height: 373,
@@ -27,19 +32,29 @@ export default function MovieResults({ state, callback }) {
             cursor: "pointer",
         },
     };
+
+    //Link key={Math.random() * 999} href={`/apps/movieapp/${movie.id}`}
+    // console.log("MovieResults Ref: ", ref);
     return (
-        <div style={styles.container}>
-            {state.map((movie) => {
-                return (
-                    <Link
-                        key={Math.random() * 999}
-                        href={`/apps/movieapp/${movie.id}`}
-                    >
+        <>
+            <h3
+                style={{
+                    position: "absolute",
+                    zIndex: 1,
+                    left: 115,
+                }}
+            >
+                {props.title}
+            </h3>
+            <div style={styles.container}>
+                {props.state.map((movie) => {
+                    return (
                         <div
                             key={Math.random() * 999}
                             style={styles.card}
                             onClick={() => {
-                                callback(movie); // clickedMovie()
+                                props.callback(movie); // clickedMovie()
+                                props.setModal((prev) => !prev);
                             }}
                         >
                             <img
@@ -47,9 +62,10 @@ export default function MovieResults({ state, callback }) {
                                 src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                             />
                         </div>
-                    </Link>
-                );
-            })}
-        </div>
+                    );
+                })}
+            </div>
+        </>
     );
-}
+};
+export default MovieResults;

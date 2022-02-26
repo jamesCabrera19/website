@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import movieSearch from "../api/search";
-import axios from "axios";
+import movieApi from "../api/movieApi";
 //
 export default (getSimilar) => {
     // * getSimilar:Boolean
@@ -11,22 +10,21 @@ export default (getSimilar) => {
         // text is reserver for text input aka a search bar input => fetchMovie(null, 12345)
         try {
             let res;
-            if (getSimilar) {
-                res = await axios.get(
-                    `https://api.themoviedb.org/3/movie/${movieID}/similar?api_key=1fa86633efa961a3d2faa3b36d6975c4&language=en-US&page=1`
+            if (getSimilar && movieID) {
+                res = await movieApi.get(
+                    `/movie/${movieID}/similar?&language=en-US&page=1`
                 );
-                console.log("fetching similar movies");
                 setMovies(res.data.results);
             } else {
-                res = await movieSearch.get(text);
-                setMovies(res.data.results);
+                res = await movieApi.get(`/search/movie?&query=${text}`);
+                setMovies(res.data.results.slice(0, 9));
             }
         } catch (error) {
             setErrorMessage("Something went wrong with useFetch");
         }
     };
     useEffect(() => {
-        fetchMovie("Avengers");
+        fetchMovie("Avengers"); // init value was only needed for iOS app
     }, []);
 
     return [fetchMovie, movies, errorMessage, setErrorMessage];

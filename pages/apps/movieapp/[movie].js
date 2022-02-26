@@ -7,23 +7,26 @@ import { BiDownload } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import Results from "../../../components/results";
 
-export default function Movie({ setModal }) {
-    const router = useRouter();
+export default function Movie({ modal, setModal }) {
+    // const router = useRouter(); // not needed unless we use dynamic routing
     // const { movie } = router.query; // Not in used => used for dynamic routing
     const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch(true);
     const { state } = useContext(MovieContext);
     const { clickedMovie } = state.slice(-1)[0];
 
     useEffect(() => {
-        fetchMovie(null, clickedMovie.id);
-        document.body.style.overflow = "hidden"; // removes background scroll
+        if (modal) {
+            fetchMovie(null, clickedMovie.id);
+            document.body.style.overflow = "hidden"; // removes background scroll
+        }
     }, [clickedMovie]);
 
     const exitHandler = (e) => {
         const element = e.target;
         if (element.classList.contains("shadow")) {
-            router.push("/apps/movieapp"); // going back to prev screen
             document.body.style.overflow = "auto"; // adds background scroll
+            setModal((prev) => !prev);
+            // router.push("/apps/movieapp"); // going back to prev screen => not needed unless we use dynamic routing
         }
     };
     const setColor = (vote) => {
@@ -46,7 +49,7 @@ export default function Movie({ setModal }) {
             position: "fixed",
             top: 0,
             left: 0,
-            zIndex: 1,
+            zIndex: 9,
         },
         container: {
             display: "flex",
@@ -98,61 +101,66 @@ export default function Movie({ setModal }) {
     };
     const icons = [AiOutlinePlus, BiDownload, MdIosShare]; // temp
     return (
-        <div
-            style={_styles.shadow}
-            onClick={(e) => exitHandler(e)}
-            className="shadow"
-        >
-            <div style={_styles.container}>
-                <img
-                    style={_styles.image}
-                    src={`https://image.tmdb.org/t/p/original/${clickedMovie.backdrop_path}`}
-                />
-                <h2 style={_styles.text}>{clickedMovie.title}</h2>
-                <p style={_styles.text}>
-                    Released {clickedMovie.release_date}, Rating{" "}
-                    <span style={_styles.voteAverageBox}>
-                        {Math.round(clickedMovie.vote_average * 100) / 100}
-                    </span>
-                </p>
-                <div style={_styles.buttons}>
-                    <p>Play</p>
-                </div>
-                <div style={_styles.buttons}>
-                    <p>Download</p>
-                </div>
+        clickedMovie && (
+            <div
+                style={_styles.shadow}
+                onClick={(e) => exitHandler(e)}
+                className="shadow"
+            >
+                <div style={_styles.container}>
+                    <img
+                        style={_styles.image}
+                        src={`https://image.tmdb.org/t/p/original/${clickedMovie.backdrop_path}`}
+                    />
+                    <h2 style={_styles.text}>{clickedMovie.title}</h2>
+                    <p style={_styles.text}>
+                        Released {clickedMovie.release_date}, Rating{" "}
+                        <span style={_styles.voteAverageBox}>
+                            {Math.round(clickedMovie.vote_average * 100) / 100}
+                        </span>
+                    </p>
+                    <div style={_styles.buttons}>
+                        <p>Play</p>
+                    </div>
+                    <div style={_styles.buttons}>
+                        <p>Download</p>
+                    </div>
 
-                <div style={_styles.text}>
-                    <p>{clickedMovie.overview}</p>
+                    <div style={_styles.text}>
+                        <p>{clickedMovie.overview}</p>
+                    </div>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-around",
+                        }}
+                    >
+                        {icons.map((Icon) => {
+                            return (
+                                <div
+                                    key={Math.random() * 99}
+                                    style={{
+                                        width: 60,
+                                        height: 40,
+                                        borderRadius: 4,
+                                        border: "1px solid rgb(230, 89, 137)",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <Icon
+                                        size={30}
+                                        color={"rgb(230, 89, 137)"}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <h3 style={_styles.text}>More Like This</h3>
+                    <Results state={movies} />
                 </div>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-around",
-                    }}
-                >
-                    {icons.map((Icon) => {
-                        return (
-                            <div
-                                key={Math.random() * 99}
-                                style={{
-                                    width: 60,
-                                    height: 40,
-                                    borderRadius: 4,
-                                    border: "1px solid rgb(230, 89, 137)",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <Icon size={30} color={"rgb(230, 89, 137)"} />
-                            </div>
-                        );
-                    })}
-                </div>
-                <h3 style={_styles.text}>More Like This</h3>
-                <Results state={movies} />
             </div>
-        </div>
+        )
     );
 }

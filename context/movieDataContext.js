@@ -1,5 +1,5 @@
 import createDataContext from "./main";
-import popular from "../api/popular";
+import movieApi from "../api/movieApi";
 //
 const movieDataReducer = (state, action) => {
     switch (action.type) {
@@ -15,7 +15,9 @@ const movieDataReducer = (state, action) => {
 const fetchMovies = (dispatch) => async () => {
     try {
         console.log("fetchMovies RAN");
-        const res = await popular.get();
+        const res = await movieApi.get(
+            "/discover/movie?sort_by=popularity.desc"
+        );
         dispatch({ type: "init_state", payload: res.data.results });
     } catch (error) {
         console.log("fetchMovies ERROR");

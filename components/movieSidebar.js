@@ -4,30 +4,24 @@ import MovieSearch from "./movieSearch";
 import { AiOutlineHome } from "react-icons/ai";
 import { FiSettings, FiVideo } from "react-icons/fi";
 import _styles from "../styles/movieApp.module.css";
+import useFetch from "../hooks/useFetch";
 
-export default function SideBar() {
-    const [state, setState] = useState(false);
+export default function SideBar({ setSearch }) {
+    const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch();
+    // todo
+    // 1. home buttom should show d
 
-    // const onChange = () => {
-    //     if (window.scrollY >= 64) {
-    //         setState(true);
-    //     } else {
-    //         setState(false);
-    //     }
-    // };
-    // window.addEventListener("scroll", onChange);
-    // console.log(state);
+    useEffect(() => {
+        setSearch(movies);
+    }, [movies]);
+
     const styles = {
         container: {
-            width: 320,
-            // border: "1px solid red",
-            // zIndex: state ? 1 : -1,
-            zIndex: 1,
-            position: "absolute",
-            left: 0,
-            bottom: 0,
+            // style mostly controlled by css
             borderRadius: 10,
-            background: "rgba(17, 17, 27,0.5)",
+            background: "rgba(17, 17, 27, 0.6)",
+            fontSize: 10,
+            // maxHeight: 1500,
         },
         iconWrapper: {
             display: "flex",
@@ -37,14 +31,14 @@ export default function SideBar() {
             alignItems: "center",
             // border: "1px solid yellow",
             marginTop: "90px",
-            // color: "rgba(255, 255, 255, 0.6)",
             fontWeight: "300",
         },
         title: {
             color: "#FFFFFF",
             display: "flex",
-            justifyContent: "space-evenly",
+            justifyContent: "center",
             alignItems: "center",
+            flex: 1,
         },
         searchBar: {
             display: "flex",
@@ -57,33 +51,30 @@ export default function SideBar() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            color: "grey",
-            fontSize: 14,
+            fontSize: 10,
             fontWeight: "300",
             margin: "30px 20px 0px 20px",
+            color: "grey",
         },
     };
     return (
-        <div style={styles.container}>
-            <div style={styles.title}>
-                <h2>James Cabrera</h2>
-            </div>
+        <div style={styles.container} className={_styles.container}>
             <div style={styles.searchBar}>
-                <MovieSearch />
+                <MovieSearch onTermSubmit={fetchMovie} />
             </div>
 
             <div style={styles.iconWrapper} className={_styles.icon}>
                 <AiOutlineHome size={30} />
-                <p>Movies</p>
+                <p id={_styles.text}>Movies</p>
             </div>
             <div style={styles.iconWrapper} className={_styles.icon}>
                 <FiVideo size={30} />
-                <p>My Movies</p>
+                <p id={_styles.text}>My Movies</p>
             </div>
 
             <div style={styles.iconWrapper} className={_styles.icon}>
                 <FiSettings size={30} />
-                <p>Settings</p>
+                <p className={_styles.text}>Settings</p>
             </div>
             <div style={styles.disclosure}>
                 <p>Disclosure</p>
