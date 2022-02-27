@@ -6,7 +6,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 const MovieSearch = (props) => {
     const styles = {
         container: {
-            backgroundColor: "#3f424d",
+            backgroundColor: "rgb(63, 66, 77)",
             height: 30,
             // width: 300,
             borderRadius: 5,
@@ -18,6 +18,7 @@ const MovieSearch = (props) => {
         input: {
             fontSize: 18,
             width: 340,
+            // backgroundColor: "rgba(255, 255, 255, 0.7)",
         },
         icon: {
             fontSize: 30,

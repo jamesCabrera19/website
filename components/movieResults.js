@@ -1,5 +1,4 @@
-// import Link from "next/link";
-// import React from "react";
+import Link from "next/link";
 
 const MovieResults = (props) => {
     const styles = {
@@ -7,14 +6,9 @@ const MovieResults = (props) => {
             // border: "1px solid red",
             display: "flex",
             flexDirection: "row",
-            // flexWrap: "nowrap",
-            // justifyContent: "center",
-            // alignItems: "flex-start",
-            // padding: "0 0",
             margin: "70px 0 0 0",
             overflow: "scroll",
             backgroundColor: "rgb(42, 44, 51)", // dark // used if image fails to load
-            // zIndex: 2,
         },
         card: {
             margin: "0 10px 0 10px",
@@ -24,31 +18,31 @@ const MovieResults = (props) => {
             overflow: "hidden",
             position: "relative",
             textAlign: "center",
-            // border: "1px solid red",
             borderRadius: 10,
+            cursor: "pointer",
+            // border: "1px solid red",
         },
         image: {
             width: "100%",
-            cursor: "pointer",
+        },
+        title: {
+            position: "absolute",
+            zIndex: 1,
+            left: 115,
+            color: props.theme.fontColor,
+            fontWeight: props.theme.fontWeight,
         },
     };
 
-    //Link key={Math.random() * 999} href={`/apps/movieapp/${movie.id}`}
-    // console.log("MovieResults Ref: ", ref);
     return (
         <>
-            <h3
-                style={{
-                    position: "absolute",
-                    zIndex: 1,
-                    left: 115,
-                }}
-            >
-                {props.title}
-            </h3>
+            <h3 style={styles.title}>{props.title}</h3>
             <div style={styles.container}>
                 {props.state.map((movie) => {
                     return (
+                        // disable Link for modal manual open
+                        // Link key={Math.random() * 999} href={`/apps/movieapp/${movie.id}`}
+
                         <div
                             key={Math.random() * 999}
                             style={styles.card}

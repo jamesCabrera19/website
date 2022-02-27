@@ -24,7 +24,7 @@ export default (getSimilar) => {
         }
     };
     useEffect(() => {
-        fetchMovie("Avengers"); // init value was only needed for iOS app
+        fetchMovie("Batman"); // init value
     }, []);
 
     return [fetchMovie, movies, errorMessage, setErrorMessage];

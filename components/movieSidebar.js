@@ -1,15 +1,18 @@
-import { useEffect, useContext, useState } from "react";
-
-import MovieSearch from "./movieSearch";
+// system
+import { useEffect } from "react";
+// icons
 import { AiOutlineHome } from "react-icons/ai";
 import { FiSettings, FiVideo } from "react-icons/fi";
+import { GiGears } from "react-icons/gi";
+// components
+import MovieSearch from "./movieSearch";
+// CSS styles
 import _styles from "../styles/movieApp.module.css";
+// hooks
 import useFetch from "../hooks/useFetch";
 
-export default function SideBar({ setSearch }) {
+export default function SideBar({ setSearch, theme, fetchGenres }) {
     const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch();
-    // todo
-    // 1. home buttom should show d
 
     useEffect(() => {
         setSearch(movies);
@@ -19,9 +22,9 @@ export default function SideBar({ setSearch }) {
         container: {
             // style mostly controlled by css
             borderRadius: 10,
-            background: "rgba(17, 17, 27, 0.6)",
             fontSize: 10,
-            // maxHeight: 1500,
+            background: theme.navBarColor,
+            // border: "1px solid red",
         },
         iconWrapper: {
             display: "flex",
@@ -29,16 +32,16 @@ export default function SideBar({ setSearch }) {
             flexWrap: "nowrap",
             justifyContent: "space-evenly",
             alignItems: "center",
-            // border: "1px solid yellow",
             marginTop: "90px",
-            fontWeight: "300",
+            fontWeight: theme.fontWeight,
+            // border: "1px solid yellow",
         },
         title: {
-            color: "#FFFFFF",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             flex: 1,
+            color: theme.fontColor,
         },
         searchBar: {
             display: "flex",
@@ -51,10 +54,15 @@ export default function SideBar({ setSearch }) {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            fontSize: 10,
-            fontWeight: "300",
             margin: "30px 20px 0px 20px",
+            fontSize: 10,
             color: "grey",
+            fontWeight: theme.fontWeight,
+        },
+        text: {
+            color: theme.navBarFontColor,
+            fontWeight: theme.fontWeight, // font weight
+            fontFamily: theme.fontFamily,
         },
     };
     return (
@@ -64,17 +72,33 @@ export default function SideBar({ setSearch }) {
             </div>
 
             <div style={styles.iconWrapper} className={_styles.icon}>
-                <AiOutlineHome size={30} />
-                <p id={_styles.text}>Movies</p>
+                <AiOutlineHome size={30} color="rgb(230, 89, 137)" />
+                <p id={_styles.text} style={styles.text}>
+                    Movies
+                </p>
             </div>
             <div style={styles.iconWrapper} className={_styles.icon}>
-                <FiVideo size={30} />
-                <p id={_styles.text}>My Movies</p>
+                <FiVideo size={30} color="rgb(230, 89, 137)" />
+                <p id={_styles.text} style={styles.text}>
+                    My Movies
+                </p>
             </div>
 
+            <div
+                style={styles.iconWrapper}
+                className={_styles.icon}
+                onClick={() => fetchGenres()}
+            >
+                <FiSettings size={30} color="rgb(230, 89, 137)" />
+                <p className={_styles.text} style={styles.text}>
+                    Settings
+                </p>
+            </div>
             <div style={styles.iconWrapper} className={_styles.icon}>
-                <FiSettings size={30} />
-                <p className={_styles.text}>Settings</p>
+                <GiGears size={30} color="rgb(230, 89, 137)" />
+                <p className={_styles.text} style={styles.text}>
+                    Technical
+                </p>
             </div>
             <div style={styles.disclosure}>
                 <p>Disclosure</p>
