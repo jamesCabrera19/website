@@ -1,4 +1,7 @@
 import Link from "next/link";
+import leftArrow from "../imgs/left-arrow.svg";
+import rightArrow from "../imgs/right-arrow.svg";
+import React, { useEffect, useContext, useState } from "react";
 
 const MovieResults = (props) => {
     const styles = {
@@ -33,10 +36,34 @@ const MovieResults = (props) => {
             fontWeight: props.theme.fontWeight,
         },
     };
-
+    const [position, setPosition] = useState(0);
     return (
         <>
             <h3 style={styles.title}>{props.title}</h3>
+            <div
+                style={{
+                    position: "absolute",
+                    margin: "230px 0",
+                    borderRadius: 50,
+                    right: 0,
+                    width: 60,
+                    height: 60,
+                    zIndex: 1,
+                    background: "#FFFFFF",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    //border: "1px solid red",
+                }}
+                onClick={() => {
+                    console.log("position: ", position);
+                    setPosition((prev) => prev + 10);
+                    window.scrollTo(200, 0);
+                }}
+            >
+                <img src={rightArrow.src} />
+            </div>
             <div style={styles.container}>
                 {props.state.map((movie) => {
                     return (

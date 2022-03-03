@@ -1,5 +1,5 @@
 // system imports
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, Suspense } from "react";
 import Link from "next/link";
 // context
 import { Context as ColorContext } from "../../context/colorScheme";
@@ -10,19 +10,9 @@ import Movie from "./movieapp/[movie]"; // better solution found
 import MovieResults from "../../components/movieResults";
 import LatestMovie from "../../components/movieLatest";
 import SideBar from "../../components/movieSidebar";
+import MovieGenres from "../../components/movieGenres";
 //import Spacer from "../../components/movieSpacer";
 // hooks
-// import useFetch from "../../hooks/useFetch";
-
-// * fixed => <Movie/> bug => goes out of focus in full screen.
-// * fixed  => create a result component to show similar movies
-
-// * fixed => app should contain a minWidth size
-// * fixed  => add <Share/>, <Play/>, buttons
-// todo => create video component
-// // => add bottom navbar to movie app?
-// done => removed dynamic routing.  reason if link id is pasted there is no state thus crashing the app
-// * fixed movieApi file.
 
 const App = (props) => {
     const { state, fetchMovies, clickedMovie, fetchGenres } =
@@ -36,8 +26,10 @@ const App = (props) => {
 
     useEffect(() => {
         footerOptions(props.theme.background); // background color changes
+
         if (state.main.length === 0) {
             fetchMovies(); // avoiding calling the api multiple times
+            fetchGenres();
         }
         return () => {
             // screen is unfocused => Clean State
@@ -65,15 +57,10 @@ const App = (props) => {
             // border: "1px solid red",
         },
     };
-    console.log("genres: ", state.genres);
 
     return (
         <div style={styles.container}>
-            <SideBar
-                setSearch={setSearchMovies}
-                theme={props.theme}
-                fetchGenres={fetchGenres}
-            />
+            <SideBar setSearch={setSearchMovies} theme={props.theme} />
             {modal ? (
                 <Movie modal={modal} setModal={setModal} theme={props.theme} />
             ) : null}
@@ -93,21 +80,32 @@ const App = (props) => {
                     title="Popular Movies"
                     theme={props.theme}
                 />
+                <>
+                    <MovieResults
+                        state={searchMovies}
+                        callback={clickedMovie}
+                        setModal={setModal}
+                        title="Searched Movies"
+                        theme={props.theme}
+                    />
+                </>
 
-                <MovieResults
-                    state={searchMovies}
-                    callback={clickedMovie}
-                    setModal={setModal}
-                    title="Searched Movies"
-                    theme={props.theme}
-                />
-                <MovieResults
-                    state={state.main}
-                    callback={clickedMovie}
-                    setModal={setModal}
-                    title="Find by Genres"
-                    theme={props.theme}
-                />
+                <>
+                    <MovieGenres
+                        state={state.genres}
+                        theme={props.theme}
+                        title="Find by Genres"
+                    />
+                    {state.moviesByGenre ? (
+                        <MovieResults
+                            state={state.moviesByGenre}
+                            callback={clickedMovie}
+                            setModal={setModal}
+                            title=""
+                            theme={props.theme}
+                        />
+                    ) : null}
+                </>
             </div>
         </div>
     );

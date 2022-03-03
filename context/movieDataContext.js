@@ -8,10 +8,13 @@ const movieDataReducer = (state, action) => {
             // passing init state but main is rebuilt
             return { ...state, main: action.payload }; // true state
         case "clicked_movie":
-            return { ...state, clickedMovie: action.payload };
+            return { ...state, clickedMovie: action.payload }; // move to  different reducer
         //colors[colors.length - 1] last item in array
         case "genres":
             return { ...state, genres: action.payload };
+        case "moviesbygenre":
+            return { ...state, moviesByGenre: action.payload };
+
         default:
             return state;
     }
@@ -28,6 +31,7 @@ const fetchMovies = (dispatch) => async () => {
     }
 };
 const fetchGenres = (dispatch) => async () => {
+    // this function fetches only fetches movie genres' IDs and nothing else
     try {
         const { data } = await movieApi.get(
             "/genre/movie/list?&language=en-US"
@@ -35,6 +39,17 @@ const fetchGenres = (dispatch) => async () => {
         dispatch({ type: "genres", payload: data.genres });
     } catch (error) {
         console.log("fetchGenres ERROR");
+    }
+};
+const fetchMoviesByGenre = (dispatch) => async (movieID) => {
+    // this function fetches only fetches movie genres' IDs and nothing else
+    try {
+        const res = await movieApi.get(
+            `/discover/movie?&with_genres=${movieID}`
+        );
+        dispatch({ type: "moviesbygenre", payload: res.data.results });
+    } catch (error) {
+        console.log("fetchMoviesByGenre ERROR");
     }
 };
 
@@ -48,6 +63,7 @@ export const { Context, Provider } = createDataContext(
         fetchMovies,
         clickedMovie,
         fetchGenres,
+        fetchMoviesByGenre,
     }, // action Functions
     { main: [], clickedMovie: {}, genres: [] } // init STATE
 );

@@ -37,6 +37,7 @@ const MovieSearch = (props) => {
         e.target.reset();
         // console.log(ref);
         window.scrollTo({
+            // navigates user to search movies
             top: 650,
             left: 0,
             behavior: "smooth",
