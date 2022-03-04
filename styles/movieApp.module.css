@@ -1,26 +1,52 @@
 .icon {
-    color: rgba(255, 255, 255, 0.6);
+    /* sideBar icons */
+    color: rgba(255, 255, 255, 0.8);
 }
 .icon:hover {
+    /* sideBar icons */
     background-color: rgba(17, 17, 27, 1);
-    color: rgba(255, 255, 255, 1);
     transition: background-color 500ms;
     cursor: pointer;
 }
 .active {
+    /* sideBar icons active */
     background-color: rgba(17, 17, 27, 1);
     color: rgba(255, 255, 255, 1);
 }
+
 .container {
+    /* side bar */
     width: 100px;
-    height: 121.7rem;
+    grid-area: container;
 }
 .container:hover {
+    /* side bar */
     width: 320px;
-    height: 121.7rem;
     position: fixed;
     left: 0;
     z-index: 5;
     transition: width 300ms ease-in-out;
     font-size: 16px !important;
+}
+
+.parentContainer {
+    /* this is the parent container for the Movie App */
+    display: grid;
+    grid-template-columns: 0.3fr 1.7fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: "container Movies";
+}
+
+.Movies {
+    grid-area: Movies;
+}
+
+.scroller {
+    background-color: rgba(255, 255, 255, 0.119);
+}
+.scroller:hover {
+    background-color: rgba(255, 255, 255, 0.919);
+    transition: background-color 500ms;
 }

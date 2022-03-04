@@ -13,7 +13,8 @@ import SideBar from "../../components/movieSidebar";
 import MovieGenres from "../../components/movieGenres";
 //import Spacer from "../../components/movieSpacer";
 import MovieSettings from "../../components/movieSettings";
-// hooks
+//
+import _styles from "../../styles/movieApp.module.css";
 
 const App = (props) => {
     const { state, fetchMovies, clickedMovie, fetchGenres } =
@@ -48,21 +49,19 @@ const App = (props) => {
 
     const styles = {
         container: {
-            display: "flex",
             padding: "64px 0",
             overflow: "hidden", // stops <MovieResults/> from overflowing from the right side
-            height: "auto",
             backgroundColor: props.theme.background, // used if image fails to load
             //border: "1px solid green",
         },
         sub: {
             overflow: "scroll", // allows scrolling only on <MovieResults/>
-            // border: "1px solid red",
+            //border: "1px solid red",
         },
     };
 
     return (
-        <div style={styles.container}>
+        <div style={styles.container} className={_styles.parentContainer}>
             <SideBar
                 theme={props.theme}
                 setSettings={setSettings}
@@ -72,7 +71,7 @@ const App = (props) => {
                 <Movie modal={modal} setModal={setModal} theme={props.theme} />
             ) : null}
 
-            <div style={styles.sub}>
+            <div style={styles.sub} className={_styles.Movies}>
                 <LatestMovie
                     src={trendingMovie(state.main)}
                     width="original"

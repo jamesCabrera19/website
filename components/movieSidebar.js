@@ -66,10 +66,9 @@ export default function SideBar({ setSearch, theme, setSettings }) {
             borderRadius: 10,
             fontSize: 10,
             background: theme.navBarColor,
-            // border: "1px solid red",
-            height: state.moviesByGenre != undefined ? 1953 : 1511,
+            position: "fixed",
+            //border: "1px solid red",
         },
-
         title: {
             display: "flex",
             justifyContent: "center",
@@ -88,7 +87,7 @@ export default function SideBar({ setSearch, theme, setSettings }) {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            margin: "30px 20px 0px 20px",
+            margin: "0px 20px 0px 20px",
             fontSize: 10,
             color: "grey",
             fontWeight: theme.fontWeight,

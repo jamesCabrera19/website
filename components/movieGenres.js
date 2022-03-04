@@ -1,15 +1,20 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useRef, useContext } from "react";
 
 import Image from "next/image";
 
 import { Context as MovieContext } from "../context/movieDataContext";
+import ScrollerBtn from "./movieScroller";
+import leftArrow from "../imgs/left-arrow.svg";
+import rightArrow from "../imgs/right-arrow.svg";
 
 export default function MovieGenres(props) {
     const { state, fetchMoviesByGenre } = useContext(MovieContext);
+    const scroller = useRef();
+    const slide = (amount) => (scroller.current.scrollLeft += amount);
 
     const styles = {
         container: {
-            //border: "1px solid red",
+            // border: "1px solid red",
             display: "flex",
             flexDirection: "row",
             margin: "70px 0",
@@ -43,7 +48,19 @@ export default function MovieGenres(props) {
     return (
         <>
             <h3 style={styles.title}>{props.title}</h3>
-            <div style={styles.container}>
+            <ScrollerBtn
+                type={leftArrow}
+                title="left"
+                callback={() => slide(-100)}
+                position="115px 0"
+            />
+            <ScrollerBtn
+                type={rightArrow}
+                title="right"
+                callback={() => slide(100)}
+                position="115px 0"
+            />
+            <div style={styles.container} ref={scroller}>
                 {props.state.map((item, i) => {
                     let _image = item.name.toLowerCase();
                     if (_image === "science fiction") {

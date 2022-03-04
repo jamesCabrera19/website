@@ -18,25 +18,25 @@ export default function Portfolio() {
 
     const cards = [
         {
-            title: "Movie App",
+            title: "Movies",
             frameworks: [
-                "React, React Native",
-                "Express",
-                "NodeJS",
-                "Mongo DB",
+                // features
+                "User Auth",
+                "useContext API",
+                "React Relay",
             ],
             img: require("../imgs/app1.png"),
             link: "/apps/movieapp",
         },
         {
-            title: "Music App",
-            frameworks: ["React, React Native", "Express", "NodeJS"],
+            title: "Music",
+            frameworks: ["Multi-platform app", "useContext API", "Cloud sync"],
             img: require("../imgs/app2.png"),
             link: "/apps/musicapp",
         },
         {
-            title: "Weather App",
-            frameworks: ["React"],
+            title: "Weather",
+            frameworks: ["Redux API"],
             img: require("../imgs/app3.png"),
             link: "/apps/weatherapp",
         },
@@ -148,7 +148,7 @@ export default function Portfolio() {
                                         color: state.fontColor,
                                     }}
                                 >
-                                    Frameworks
+                                    Features
                                 </h3>
                                 <p
                                     style={Object.assign(styles.text, {
