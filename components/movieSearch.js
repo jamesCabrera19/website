@@ -8,7 +8,6 @@ const MovieSearch = (props) => {
         container: {
             backgroundColor: "rgb(63, 66, 77)",
             height: 30,
-            // width: 300,
             borderRadius: 5,
             margin: "10px 5px",
             display: "flex",

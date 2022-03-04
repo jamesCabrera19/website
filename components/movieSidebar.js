@@ -1,5 +1,5 @@
 // system
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 // icons
 import { AiOutlineHome } from "react-icons/ai";
 import { FiSettings, FiVideo } from "react-icons/fi";
@@ -44,13 +44,21 @@ function IconNavigator({ title, Icon, callback, theme }) {
         </div>
     );
 }
-export default function SideBar({ setSearch, theme, fetchGenres }) {
+export default function SideBar({ setSearch, theme, setSettings }) {
     const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch();
     const { state } = useContext(MovieContext);
 
     useEffect(() => {
         setSearch(movies);
     }, [movies]);
+
+    const navigator = (Y) => {
+        window.scrollTo({
+            top: Y,
+            left: 0,
+            behavior: "smooth",
+        });
+    };
 
     const styles = {
         container: {
@@ -86,14 +94,6 @@ export default function SideBar({ setSearch, theme, fetchGenres }) {
             fontWeight: theme.fontWeight,
         },
     };
-
-    const navigator = (Y) => {
-        window.scrollTo({
-            top: Y,
-            left: 0,
-            behavior: "smooth",
-        });
-    };
     return (
         <div style={styles.container} className={_styles.container}>
             <div style={styles.searchBar}>
@@ -119,7 +119,7 @@ export default function SideBar({ setSearch, theme, fetchGenres }) {
                 theme={theme}
                 title="Settings"
                 Icon={FiSettings}
-                callback={() => navigator(0)}
+                callback={() => setSettings((prev) => !prev)}
                 // navigate user to technical page
             />
             <IconNavigator

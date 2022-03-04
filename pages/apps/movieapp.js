@@ -1,5 +1,5 @@
 // system imports
-import React, { useEffect, useContext, useState, Suspense } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Link from "next/link";
 // context
 import { Context as ColorContext } from "../../context/colorScheme";
@@ -12,17 +12,20 @@ import LatestMovie from "../../components/movieLatest";
 import SideBar from "../../components/movieSidebar";
 import MovieGenres from "../../components/movieGenres";
 //import Spacer from "../../components/movieSpacer";
+import MovieSettings from "../../components/movieSettings";
 // hooks
 
 const App = (props) => {
     const { state, fetchMovies, clickedMovie, fetchGenres } =
         useContext(MovieContext);
     const { footerOptions } = useContext(ColorContext);
-    // copy of state hook useFetch()
+    const [settings, setSettings] = useState(false);
+    const [modal, setModal] = useState(false);
+
+    // searchMovies is copy of state hook useFetch()
     // This is needed because NextJS is only renders ONCE when the app mounts.
     // this is also  avoids stale data.
     const [searchMovies, setSearchMovies] = useState([]);
-    const [modal, setModal] = useState(false);
 
     useEffect(() => {
         footerOptions(props.theme.background); // background color changes
@@ -60,7 +63,11 @@ const App = (props) => {
 
     return (
         <div style={styles.container}>
-            <SideBar setSearch={setSearchMovies} theme={props.theme} />
+            <SideBar
+                theme={props.theme}
+                setSettings={setSettings}
+                setSearch={setSearchMovies}
+            />
             {modal ? (
                 <Movie modal={modal} setModal={setModal} theme={props.theme} />
             ) : null}
@@ -80,33 +87,32 @@ const App = (props) => {
                     title="Popular Movies"
                     theme={props.theme}
                 />
-                <>
+                <MovieResults
+                    state={searchMovies}
+                    callback={clickedMovie}
+                    setModal={setModal}
+                    title="Searched Movies"
+                    theme={props.theme}
+                />
+
+                <MovieGenres
+                    state={state.genres}
+                    theme={props.theme}
+                    title="Find by Genres"
+                />
+                {state.moviesByGenre ? (
                     <MovieResults
-                        state={searchMovies}
+                        state={state.moviesByGenre}
                         callback={clickedMovie}
                         setModal={setModal}
-                        title="Searched Movies"
+                        title=""
                         theme={props.theme}
                     />
-                </>
-
-                <>
-                    <MovieGenres
-                        state={state.genres}
-                        theme={props.theme}
-                        title="Find by Genres"
-                    />
-                    {state.moviesByGenre ? (
-                        <MovieResults
-                            state={state.moviesByGenre}
-                            callback={clickedMovie}
-                            setModal={setModal}
-                            title=""
-                            theme={props.theme}
-                        />
-                    ) : null}
-                </>
+                ) : null}
             </div>
+            {settings ? (
+                <MovieSettings setModal={setSettings} theme={props.theme} />
+            ) : null}
         </div>
     );
 };

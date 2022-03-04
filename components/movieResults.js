@@ -7,6 +7,7 @@ const MovieResults = (props) => {
     const styles = {
         container: {
             // border: "1px solid red",
+            borderRadius: 10,
             display: "flex",
             flexDirection: "row",
             margin: "70px 0 0 0",
@@ -54,7 +55,7 @@ const MovieResults = (props) => {
                     justifyContent: "center",
                     alignItems: "center",
                     cursor: "pointer",
-                    //border: "1px solid red",
+                    // border: "1px solid red",
                 }}
                 onClick={() => {
                     console.log("position: ", position);

@@ -11,11 +11,12 @@ import { Context as MovieContext } from "../../../context/movieDataContext";
 import useFetch from "../../../hooks/useFetch";
 // components
 import Results from "../../../components/results";
+import MovieShadow from "../../../components/movieShadowHOC";
+import { Buttons, IconButton } from "../../../components/movieButtons";
 
-//
 export default function Movie({ modal, setModal, theme }) {
     // * const router = useRouter(); // not needed unless we use dynamic routing
-    // const { movie } = router.query; // Not in used => used for dynamic routing
+    // * const { movie } = router.query; // Not in used => used for dynamic routing
     const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch(true);
     const {
         state: { clickedMovie },
@@ -28,16 +29,6 @@ export default function Movie({ modal, setModal, theme }) {
         }
     }, [clickedMovie]);
 
-    const exitHandler = (e) => {
-        const element = e.target;
-        if (element.classList.contains("shadow")) {
-            document.body.style.overflow = "auto"; // adds background scroll
-            // * enable for manual modal open
-            setModal((prev) => !prev);
-            // * disable for manual modal open
-            // router.push("/apps/movieapp"); // going back to prev screen => not needed unless we use dynamic routing
-        }
-    };
     const setColor = (vote) => {
         let color;
         if (vote > 8) {
@@ -85,19 +76,6 @@ export default function Movie({ modal, setModal, theme }) {
             fontWeight: 600,
             color: setColor(clickedMovie.vote_average),
         },
-        buttons: {
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "row",
-            height: 30,
-            margin: "0 10px 10px 10px",
-            borderRadius: 4,
-            cursor: "pointer",
-            color: theme.fontColor,
-            fontFamily: theme.fontFamily,
-            backgroundColor: theme.buttonLarge,
-        },
         text: {
             marginBottom: 10,
             padding: 10,
@@ -105,27 +83,13 @@ export default function Movie({ modal, setModal, theme }) {
             fontWeight: theme.fontWeight, // font weight
             fontFamily: theme.fontFamily,
         },
-        icons: {
-            width: 60,
-            height: 40,
-            borderRadius: 4,
-            border: "1px solid rgb(230, 89, 137)", // same as theme.background
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-        },
         iconWrapper: {
             display: "flex",
             justifyContent: "space-around",
         },
     };
-    const icons = [AiOutlinePlus, BiDownload, MdIosShare]; // temp
     return (
-        <div
-            style={_styles.shadow}
-            onClick={(e) => exitHandler(e)}
-            className="shadow"
-        >
+        <MovieShadow modal={setModal}>
             <div style={_styles.container}>
                 <img
                     style={_styles.image}
@@ -138,28 +102,38 @@ export default function Movie({ modal, setModal, theme }) {
                         {Math.round(clickedMovie.vote_average * 100) / 100}
                     </span>
                 </p>
-                <div style={_styles.buttons}>
-                    <p>Play</p>
-                </div>
-                <div style={_styles.buttons}>
-                    <p>Download</p>
-                </div>
+                <Buttons title="Play" theme={theme} />
+                <Buttons title="Download" theme={theme} />
 
                 <div style={_styles.text}>
                     <p>{clickedMovie.overview}</p>
                 </div>
                 <div style={_styles.iconWrapper}>
-                    {icons.map((Icon) => {
-                        return (
-                            <div key={Math.random() * 99} style={_styles.icons}>
-                                <Icon size={30} color="rgb(230, 89, 137)" />
-                            </div>
-                        );
-                    })}
+                    <IconButton
+                        title="Add to list"
+                        IconName={AiOutlinePlus}
+                        callback={() => {
+                            console.log("Share");
+                        }}
+                    />
+                    <IconButton
+                        title="Download"
+                        IconName={BiDownload}
+                        callback={() => {
+                            console.log("Download");
+                        }}
+                    />
+                    <IconButton
+                        title="Share"
+                        IconName={MdIosShare}
+                        callback={() => {
+                            console.log("Share");
+                        }}
+                    />
                 </div>
                 <h3 style={_styles.text}>More Like This</h3>
                 <Results state={movies} />
             </div>
-        </div>
+        </MovieShadow>
     );
 }
