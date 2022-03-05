@@ -7,7 +7,7 @@ import { Context as MovieContext } from "../../context/movieDataContext";
 import { Context as MovieActionContext } from "../../context/movieDataContext";
 
 import { Provider as MovieDataProvider } from "../../context/movieDataContext";
-import { Provider as MovieActionProvider } from "../../context/movieDataContext";
+import { Provider as MovieActionProvider } from "../../context/movieActionsContext";
 
 import Movie from "./movieapp/[movie]"; // better solution found
 // components
@@ -23,8 +23,6 @@ const App = (props) => {
     const { state, fetchMovies, clickedMovie, fetchGenres } =
         useContext(MovieContext);
     const { footerOptions } = useContext(ColorContext);
-
-    const { addToList } = useContext(MovieActionContext);
 
     const [modal, setModal] = useState({
         movieModal: false,

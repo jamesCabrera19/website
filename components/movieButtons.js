@@ -21,27 +21,6 @@ function Buttons({ title, theme }) {
     );
 }
 
-function IconButton({ IconName, callback }) {
-    // these are icon buttons => ex. play and download, share
-
-    return (
-        <div
-            style={{
-                width: 60,
-                height: 40,
-                borderRadius: 4,
-                border: "1px solid rgb(230, 89, 137)", // same as theme.background
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                cursor: "pointer",
-            }}
-            onClick={() => callback()}
-        >
-            <IconName size={30} color="rgb(230, 89, 137)" />
-        </div>
-    );
-}
 function SquareButton({ title, IconName, options, callback }) {
     const styles = {
         options: {
@@ -85,4 +64,4 @@ function SquareButton({ title, IconName, options, callback }) {
     }
 }
 
-export { Buttons, IconButton, SquareButton };
+export { Buttons, SquareButton };

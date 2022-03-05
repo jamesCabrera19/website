@@ -78,16 +78,21 @@ const MovieResults = (props) => {
                                 }));
                             }}
                         >
-                            <Image
-                                loader={ImageLoader}
-                                src={movie.poster_path}
-                                layout="fill"
-                                alt="Movie Poster"
-                            />
-                            {/* <img
-                                style={styles.image}
-                                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                            /> */}
+                            {movie.poster_path ? (
+                                // NextJS image fails/breaks if movie.poster_path === null
+                                <Image
+                                    loader={ImageLoader}
+                                    src={movie.poster_path}
+                                    layout="fill"
+                                    alt="Movie Poster"
+                                />
+                            ) : (
+                                // fallback
+                                <img
+                                    style={styles.image}
+                                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                                />
+                            )}
                         </div>
                     );
                 })}

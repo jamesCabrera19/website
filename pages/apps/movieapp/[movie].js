@@ -1,18 +1,18 @@
 // system imports
-import { useEffect, useContext } from "react";
-import { useRouter } from "next/router";
-// icons
-import { MdIosShare } from "react-icons/md";
-import { BiDownload } from "react-icons/bi";
-import { AiOutlinePlus } from "react-icons/ai";
+import { useEffect, useContext, useRef } from "react";
+// import { useRouter } from "next/router";
+
 // context
 import { Context as MovieContext } from "../../../context/movieDataContext";
+import { Context as MovieActionContext } from "../../../context/movieActionsContext";
 // hooks
 import useFetch from "../../../hooks/useFetch";
 // components
 import Results from "../../../components/results";
 import MovieShadow from "../../../components/movieShadowHOC";
-import { Buttons, IconButton } from "../../../components/movieButtons";
+import BigButton from "../../../components/movieButtons/bigButton";
+import IconButton from "../../../components/movieButtons/IconButton";
+import RegularBtn from "../../../components/movieButtons/regularButton";
 
 export default function Movie({ modal, setModal, theme }) {
     // * const router = useRouter(); // not needed unless we use dynamic routing
@@ -21,6 +21,7 @@ export default function Movie({ modal, setModal, theme }) {
     const {
         state: { clickedMovie },
     } = useContext(MovieContext);
+    const imageRef = useRef();
 
     useEffect(() => {
         if (modal) {
@@ -88,47 +89,51 @@ export default function Movie({ modal, setModal, theme }) {
             justifyContent: "space-around",
         },
     };
+
+    const saveImage = async (e, movieTitle) => {
+        const imageSrc = e.current.currentSrc;
+        const res = await fetch(imageSrc, { method: "GET", headers: {} });
+        const buffer = await res.arrayBuffer(); // creating the buffer
+
+        const url = window.URL.createObjectURL(new Blob([buffer]));
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.setAttribute("download", `${movieTitle}.jpg`); // using default extension it can any other extension
+        document.body.appendChild(link);
+        link.click();
+    };
     return (
         <MovieShadow modal={setModal}>
             <div style={_styles.container}>
                 <img
+                    ref={imageRef}
                     style={_styles.image}
-                    src={`https://image.tmdb.org/t/p/original/${clickedMovie.backdrop_path}`}
+                    src={`https://image.tmdb.org/t/p/original${clickedMovie.backdrop_path}`}
                 />
                 <h2 style={_styles.text}>{clickedMovie.title}</h2>
+
                 <p style={_styles.text}>
                     Released {clickedMovie.release_date}, Rating{" "}
                     <span style={_styles.voteAverageBox}>
                         {Math.round(clickedMovie.vote_average * 100) / 100}
                     </span>
                 </p>
-                <Buttons title="Play" theme={theme} />
-                <Buttons title="Download" theme={theme} />
 
+                <BigButton title="Play" theme={theme} />
                 <div style={_styles.text}>
                     <p>{clickedMovie.overview}</p>
                 </div>
+
                 <div style={_styles.iconWrapper}>
-                    <IconButton
-                        title="Add to list"
-                        IconName={AiOutlinePlus}
-                        callback={() => {
-                            console.log("Share");
-                        }}
+                    <IconButton action="add" movie={clickedMovie} />
+                    <RegularBtn
+                        type="download"
+                        callback={() => saveImage(imageRef, clickedMovie.title)}
                     />
-                    <IconButton
-                        title="Download"
-                        IconName={BiDownload}
-                        callback={() => {
-                            console.log("Download");
-                        }}
-                    />
-                    <IconButton
-                        title="Share"
-                        IconName={MdIosShare}
-                        callback={() => {
-                            console.log("Share");
-                        }}
+                    <RegularBtn
+                        type="share"
+                        callback={() => console.log("download")}
                     />
                 </div>
                 <h3 style={_styles.text}>More Like This</h3>
