@@ -8,7 +8,7 @@ import leftArrow from "../imgs/left-arrow.svg";
 import rightArrow from "../imgs/right-arrow.svg";
 
 export default function MovieGenres(props) {
-    const { state, fetchMoviesByGenre } = useContext(MovieContext);
+    const { fetchMoviesByGenre } = useContext(MovieContext);
     const scroller = useRef();
     const slide = (amount) => (scroller.current.scrollLeft += amount);
 
@@ -75,6 +75,7 @@ export default function MovieGenres(props) {
                             style={styles.card}
                             onClick={() => {
                                 fetchMoviesByGenre(item.id);
+                                // fetched Movies will come into focus
                                 window.scrollTo({
                                     top: 1900,
                                     left: 0,

@@ -1,8 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
+
 import leftArrow from "../imgs/left-arrow.svg";
 import rightArrow from "../imgs/right-arrow.svg";
 import React, { useState, useRef } from "react";
 import ScrollerBtn from "./movieScroller";
+
+const ImageLoader = ({ src }) => `https://image.tmdb.org/t/p/w500${src}`;
 
 const MovieResults = (props) => {
     const [position, setPosition] = useState(0);
@@ -29,6 +33,7 @@ const MovieResults = (props) => {
             textAlign: "center",
             borderRadius: 10,
             cursor: "pointer",
+            position: "relative",
             // border: "1px solid red",
         },
         image: {
@@ -67,13 +72,22 @@ const MovieResults = (props) => {
                             style={styles.card}
                             onClick={() => {
                                 props.callback(movie); // clickedMovie()
-                                props.setModal((prev) => !prev);
+                                props.setModal((prev) => ({
+                                    ...prev,
+                                    movieModal: !prev.movieModal,
+                                }));
                             }}
                         >
-                            <img
+                            <Image
+                                loader={ImageLoader}
+                                src={movie.poster_path}
+                                layout="fill"
+                                alt="Movie Poster"
+                            />
+                            {/* <img
                                 style={styles.image}
                                 src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                            />
+                            /> */}
                         </div>
                     );
                 })}

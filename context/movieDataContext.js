@@ -1,4 +1,4 @@
-import createDataContext from "./main";
+import createDataContext from "./index";
 import movieApi from "../api/movieApi";
 import movieGenresApi from "../api/movieGenresApi";
 //

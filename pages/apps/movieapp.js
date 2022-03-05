@@ -1,38 +1,45 @@
 // system imports
 import React, { useEffect, useContext, useState } from "react";
-import Link from "next/link";
+// import Link from "next/link"; // used for dynamic links
 // context
 import { Context as ColorContext } from "../../context/colorScheme";
 import { Context as MovieContext } from "../../context/movieDataContext";
+import { Context as MovieActionContext } from "../../context/movieDataContext";
+
 import { Provider as MovieDataProvider } from "../../context/movieDataContext";
+import { Provider as MovieActionProvider } from "../../context/movieDataContext";
+
 import Movie from "./movieapp/[movie]"; // better solution found
 // components
 import MovieResults from "../../components/movieResults";
 import LatestMovie from "../../components/movieLatest";
 import SideBar from "../../components/movieSidebar";
 import MovieGenres from "../../components/movieGenres";
-//import Spacer from "../../components/movieSpacer";
 import MovieSettings from "../../components/movieSettings";
-//
+// CSS
 import _styles from "../../styles/movieApp.module.css";
 
 const App = (props) => {
     const { state, fetchMovies, clickedMovie, fetchGenres } =
         useContext(MovieContext);
     const { footerOptions } = useContext(ColorContext);
-    const [settings, setSettings] = useState(false);
-    const [modal, setModal] = useState(false);
+
+    const { addToList } = useContext(MovieActionContext);
+
+    const [modal, setModal] = useState({
+        movieModal: false,
+        settingsModal: false,
+    });
 
     // searchMovies is copy of state hook useFetch()
-    // This is needed because NextJS is only renders ONCE when the app mounts.
+    // This is needed because NextJS is only rendered ONCE when the app mounts.
     // this is also  avoids stale data.
     const [searchMovies, setSearchMovies] = useState([]);
 
     useEffect(() => {
         footerOptions(props.theme.background); // background color changes
-
         if (state.main.length === 0) {
-            fetchMovies(); // avoiding calling the api multiple times
+            fetchMovies(); // avoids calling the api multiple times
             fetchGenres();
         }
         return () => {
@@ -64,11 +71,15 @@ const App = (props) => {
         <div style={styles.container} className={_styles.parentContainer}>
             <SideBar
                 theme={props.theme}
-                setSettings={setSettings}
+                setModal={setModal}
                 setSearch={setSearchMovies}
             />
-            {modal ? (
-                <Movie modal={modal} setModal={setModal} theme={props.theme} />
+            {modal.movieModal ? (
+                <Movie
+                    modal={modal.movieModal}
+                    setModal={setModal}
+                    theme={props.theme}
+                />
             ) : null}
 
             <div style={styles.sub} className={_styles.Movies}>
@@ -109,8 +120,8 @@ const App = (props) => {
                     />
                 ) : null}
             </div>
-            {settings ? (
-                <MovieSettings setModal={setSettings} theme={props.theme} />
+            {modal.settingsModal ? (
+                <MovieSettings setModal={setModal} theme={props.theme} />
             ) : null}
         </div>
     );
@@ -130,7 +141,9 @@ export default function MovieApp() {
 
     return (
         <MovieDataProvider>
-            <App theme={theme} />
+            <MovieActionProvider>
+                <App theme={theme} />
+            </MovieActionProvider>
         </MovieDataProvider>
     );
 }

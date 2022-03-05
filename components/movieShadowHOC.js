@@ -4,7 +4,7 @@ export default function MovieShadow({ children, modal }) {
         if (element.classList.contains("shadow")) {
             document.body.style.overflow = "auto"; // adds background scroll
             // * enable for manual modal open
-            modal((prev) => !prev);
+            modal((prev) => ({ movieModal: false, settingsModal: false }));
             // * disable for manual modal open
             // router.push("/apps/movieapp"); // going back to prev screen => not needed unless we use dynamic routing
         }

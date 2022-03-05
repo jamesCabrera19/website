@@ -44,7 +44,7 @@ function IconNavigator({ title, Icon, callback, theme }) {
         </div>
     );
 }
-export default function SideBar({ setSearch, theme, setSettings }) {
+export default function SideBar({ setSearch, theme, setModal }) {
     const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch();
     const { state } = useContext(MovieContext);
 
@@ -118,7 +118,13 @@ export default function SideBar({ setSearch, theme, setSettings }) {
                 theme={theme}
                 title="Settings"
                 Icon={FiSettings}
-                callback={() => setSettings((prev) => !prev)}
+                callback={() =>
+                    setModal((prev) => ({
+                        ...prev,
+                        settingsModal: !prev.settingsModal,
+                    }))
+                }
+
                 // navigate user to technical page
             />
             <IconNavigator

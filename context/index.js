@@ -8,7 +8,8 @@ export default (reducer, actions, initialState) => {
     const Provider = ({ children }) => {
         const [state, dispatch] = useReducer(reducer, initialState);
 
-        // actions === { addBlogPost: (dispatch) => { return () => {} } }
+        // actions === { fetchMovies: (dispatch) => { return () => {} } }
+        // we loop over all action function and then these are called with dispatch
         const actionsCreators = {};
         for (let key in actions) {
             actionsCreators[key] = actions[key](dispatch);

@@ -1,34 +1,44 @@
 import Image from "next/image";
 
+function ImageLoader({ src }) {
+    return `https://image.tmdb.org/t/p/original${src}`;
+}
+
 export default function LatestMovie({ src, width, callback, setModal }) {
     const styles = {
         container: {
             display: "flex",
             justifyContent: "center",
             overflow: "hidden",
-            // margin: "100px",
-            // padding: "100px",
-            // border: "1px solid yellow",
-            // zIndex: 1,
-        },
-        image: {
-            width: 720,
+            position: "relative",
+            // border: "1px solid red",
+            maxWidth: 640,
+            minHeight: 400,
             borderRadius: 10,
+            margin: "auto",
             cursor: "pointer",
         },
     };
 
     return src ? (
-        <div style={styles.container}>
-            <img
-                // loader={`https://image.tmdb.org/t/p/w${width}/${src.backdrop_path}`}
-                src={`https://image.tmdb.org/t/p/${width}/${src.backdrop_path}`}
-                alt="Picture of the author"
-                style={styles.image}
-                onClick={() => {
-                    callback(src); // clickedMovie()
-                    setModal((prev) => !prev);
-                }}
+        <div
+            style={styles.container}
+            onClick={() => {
+                callback(src); // clickedMovie()
+                setModal((prev) => ({
+                    ...prev,
+                    movieModal: true,
+                }));
+            }}
+        >
+            <Image
+                loader={ImageLoader}
+                src={src.backdrop_path}
+                // src={`https://image.tmdb.org/t/p/${width}/${src.backdrop_path}`}
+                // width={500} // not needed when using layout="fill"
+                // height={500}
+                layout="fill"
+                alt="Movie Poster"
             />
         </div>
     ) : null;

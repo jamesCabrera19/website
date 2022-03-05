@@ -1,4 +1,4 @@
-import colorSchemeContext from "./main";
+import colorSchemeContext from "./index";
 
 const colorReducer = (state, action) => {
     switch (action.type) {
