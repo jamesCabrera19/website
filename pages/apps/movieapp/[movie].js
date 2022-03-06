@@ -8,12 +8,27 @@ import { Context as MovieActionContext } from "../../../context/movieActionsCont
 // hooks
 import useFetch from "../../../hooks/useFetch";
 // components
-import Results from "../../../components/results";
+import MovieResults from "../../../components/movieMoreLikethis";
 import MovieShadow from "../../../components/movieShadowHOC";
 import BigButton from "../../../components/movieButtons/bigButton";
 import IconButton from "../../../components/movieButtons/IconButton";
 import RegularBtn from "../../../components/movieButtons/regularButton";
 
+//
+const saveImage = async (e, movieTitle) => {
+    const imageSrc = e.current.currentSrc;
+    const res = await fetch(imageSrc, { method: "GET", headers: {} });
+    const buffer = await res.arrayBuffer(); // creating the buffer
+
+    const url = window.URL.createObjectURL(new Blob([buffer]));
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.setAttribute("download", `${movieTitle}.jpg`); // using default extension it can any other extension
+    document.body.appendChild(link);
+    link.click();
+};
+//
 export default function Movie({ modal, setModal, theme }) {
     // * const router = useRouter(); // not needed unless we use dynamic routing
     // * const { movie } = router.query; // Not in used => used for dynamic routing
@@ -90,19 +105,6 @@ export default function Movie({ modal, setModal, theme }) {
         },
     };
 
-    const saveImage = async (e, movieTitle) => {
-        const imageSrc = e.current.currentSrc;
-        const res = await fetch(imageSrc, { method: "GET", headers: {} });
-        const buffer = await res.arrayBuffer(); // creating the buffer
-
-        const url = window.URL.createObjectURL(new Blob([buffer]));
-        const link = document.createElement("a");
-
-        link.href = url;
-        link.setAttribute("download", `${movieTitle}.jpg`); // using default extension it can any other extension
-        document.body.appendChild(link);
-        link.click();
-    };
     return (
         <MovieShadow modal={setModal}>
             <div style={_styles.container}>
@@ -137,7 +139,7 @@ export default function Movie({ modal, setModal, theme }) {
                     />
                 </div>
                 <h3 style={_styles.text}>More Like This</h3>
-                <Results state={movies} />
+                <MovieResults state={movies} />
             </div>
         </MovieShadow>
     );

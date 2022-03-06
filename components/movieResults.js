@@ -9,7 +9,7 @@ import ScrollerBtn from "./movieScroller";
 const ImageLoader = ({ src }) => `https://image.tmdb.org/t/p/w500${src}`;
 
 const MovieResults = (props) => {
-    const [position, setPosition] = useState(0);
+    // const [position, setPosition] = useState(0);
     const scroller = useRef();
     const slide = (amount) => (scroller.current.scrollLeft += amount);
 
@@ -47,57 +47,71 @@ const MovieResults = (props) => {
             fontWeight: props.theme.fontWeight,
         },
     };
+    //
+    console.log("rendering");
+    const memoizedCallback = React.useCallback(() => {
+        return props.state.map((movie) => {
+            return (
+                // disable Link for modal manual open
+                // Link key={Math.random() * 999} href={`/apps/movieapp/${movie.id}`}
+                <div
+                    key={Math.random() * 999}
+                    style={styles.card}
+                    onClick={() => {
+                        props.callback(movie); // clickedMovie()
+                        props.setModal((prev) => ({
+                            ...prev,
+                            movieModal: !prev.movieModal,
+                        }));
+                    }}
+                >
+                    {movie.poster_path ? (
+                        // NextJS <Image/> fails/breaks if movie.poster_path is non existing
+                        <Image
+                            loader={ImageLoader}
+                            src={movie.poster_path}
+                            layout="fill"
+                            alt="Movie Poster"
+                        />
+                    ) : (
+                        // fallback
+                        <img
+                            style={styles.image}
+                            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                        />
+                    )}
+                </div>
+            );
+        });
+    }, [props.state]);
 
     return (
         <>
             <h3 style={styles.title}>{props.title}</h3>
-            <ScrollerBtn
-                type={rightArrow}
-                title="right"
-                callback={() => slide(100)}
-            />
-            <ScrollerBtn
-                type={leftArrow}
-                title="left"
-                callback={() => slide(-100)}
-            />
-            <div style={styles.container} ref={scroller}>
-                {props.state.map((movie) => {
-                    return (
-                        // disable Link for modal manual open
-                        // Link key={Math.random() * 999} href={`/apps/movieapp/${movie.id}`}
+            {props.state.length >= 3 ? (
+                <>
+                    <ScrollerBtn
+                        type={rightArrow}
+                        title="right"
+                        callback={() => slide(100)}
+                    />
+                    <ScrollerBtn
+                        type={leftArrow}
+                        title="left"
+                        callback={() => slide(-100)}
+                    />
+                </>
+            ) : null}
 
-                        <div
-                            key={Math.random() * 999}
-                            style={styles.card}
-                            onClick={() => {
-                                props.callback(movie); // clickedMovie()
-                                props.setModal((prev) => ({
-                                    ...prev,
-                                    movieModal: !prev.movieModal,
-                                }));
-                            }}
-                        >
-                            {movie.poster_path ? (
-                                // NextJS image fails/breaks if movie.poster_path === null
-                                <Image
-                                    loader={ImageLoader}
-                                    src={movie.poster_path}
-                                    layout="fill"
-                                    alt="Movie Poster"
-                                />
-                            ) : (
-                                // fallback
-                                <img
-                                    style={styles.image}
-                                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                                />
-                            )}
-                        </div>
-                    );
-                })}
+            <div style={styles.container} ref={scroller}>
+                {memoizedCallback()}
             </div>
         </>
     );
 };
-export default MovieResults;
+
+// using a memoizedCallback because this components is very big
+// it may contain up to 20 items.
+// using the memoizedCallback the App renders this component a total of 3 times.
+// then
+export default React.memo(MovieResults);

@@ -4,7 +4,7 @@ function ImageLoader({ src }) {
     return `https://image.tmdb.org/t/p/original${src}`;
 }
 
-export default function LatestMovie({ src, width, callback, setModal }) {
+export default function LatestMovie({ src, callback, setModal }) {
     const styles = {
         container: {
             display: "flex",

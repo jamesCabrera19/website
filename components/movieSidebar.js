@@ -10,7 +10,7 @@ import MovieSearch from "./movieSearch";
 import _styles from "../styles/movieApp.module.css";
 // hooks
 import useFetch from "../hooks/useFetch";
-import { Context as MovieContext } from "../context/movieDataContext";
+import { Context as MovieActionContext } from "../context/movieActionsContext";
 
 function IconNavigator({ title, Icon, callback, theme }) {
     const styles = {
@@ -44,9 +44,10 @@ function IconNavigator({ title, Icon, callback, theme }) {
         </div>
     );
 }
+//
+//
 export default function SideBar({ setSearch, theme, setModal }) {
     const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch();
-    const { state } = useContext(MovieContext);
 
     useEffect(() => {
         setSearch(movies);
@@ -93,23 +94,28 @@ export default function SideBar({ setSearch, theme, setModal }) {
             fontWeight: theme.fontWeight,
         },
     };
+
     return (
         <div style={styles.container} className={_styles.container}>
             <div style={styles.searchBar}>
-                <MovieSearch onTermSubmit={fetchMovie} />
+                <MovieSearch
+                    onTermSubmit={fetchMovie}
+                    setModal={setModal}
+                    callback={() => navigator(1200)} // approximate location
+                />
             </div>
 
             <IconNavigator
                 theme={theme}
                 title="Movies"
                 Icon={AiOutlineHome}
-                callback={() => navigator(1000)}
+                callback={() => navigator(1500)} // approximate location
             />
             <IconNavigator
                 theme={theme}
                 title="My Movies"
                 Icon={FiVideo}
-                callback={() => navigator(900)}
+                callback={() => navigator(720)} // approximate location
                 // Get "added" movies from context
                 // display movies in page
                 // navigate user to  navigator(0, 900)}}

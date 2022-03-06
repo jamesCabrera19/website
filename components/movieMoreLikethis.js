@@ -1,7 +1,7 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Context as MovieContext } from "../context/movieDataContext";
 
-export default function Results({ state }) {
+const MovieResults = ({ state }) => {
     const { clickedMovie } = useContext(MovieContext);
     return (
         <div
@@ -33,4 +33,5 @@ export default function Results({ state }) {
             })}
         </div>
     );
-}
+};
+export default MovieResults;

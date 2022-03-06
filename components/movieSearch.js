@@ -32,18 +32,12 @@ const MovieSearch = (props) => {
         e.preventDefault();
         // next.js => e.target.name.value => Getting value from input
         props.onTermSubmit(e.target.name.value);
-        // next.js =>  e.target.reset() => Resetting input value
+        // next.js =>  e.target.reset() => Resetting input values
         e.target.reset();
-        // console.log(ref);
-        window.scrollTo({
-            // navigates user to search movies
-            top: 650,
-            left: 0,
-            behavior: "smooth",
-        });
-        // ref.current.scrollIntoView();
+        // navigates user to search movies
+        props.callback();
     };
-    // console.log("MovieSearch Ref: ", ref);
+
     return (
         <>
             <form onSubmit={onEnd} style={styles.container}>

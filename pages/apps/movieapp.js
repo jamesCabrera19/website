@@ -1,10 +1,10 @@
 // system imports
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useCallback } from "react";
 // import Link from "next/link"; // used for dynamic links
 // context
 import { Context as ColorContext } from "../../context/colorScheme";
 import { Context as MovieContext } from "../../context/movieDataContext";
-import { Context as MovieActionContext } from "../../context/movieDataContext";
+import { Context as MovieActionContext } from "../../context/movieActionsContext";
 
 import { Provider as MovieDataProvider } from "../../context/movieDataContext";
 import { Provider as MovieActionProvider } from "../../context/movieActionsContext";
@@ -18,25 +18,36 @@ import MovieGenres from "../../components/movieGenres";
 import MovieSettings from "../../components/movieSettings";
 // CSS
 import _styles from "../../styles/movieApp.module.css";
-
+//
+const trendingMovie = (state) => {
+    const getRandomInt = (maxInt) => Math.floor(Math.random() * maxInt);
+    return state[getRandomInt(9)];
+};
+//
 const App = (props) => {
-    const { state, fetchMovies, clickedMovie, fetchGenres } =
-        useContext(MovieContext);
-    const { footerOptions } = useContext(ColorContext);
-
+    const { footerOptions } = useContext(ColorContext); // page theme
+    const {
+        state: { main, genres, moviesByGenre },
+        fetchMovies,
+        clickedMovie,
+        fetchGenres,
+    } = useContext(MovieContext); // app's api
+    //
+    const { state } = useContext(MovieActionContext);
+    //
     const [modal, setModal] = useState({
         movieModal: false,
         settingsModal: false,
-    });
-
+    }); // modal effect
+    //
+    const [searchMovies, setSearchMovies] = useState([]);
     // searchMovies is copy of state hook useFetch()
     // This is needed because NextJS is only rendered ONCE when the app mounts.
     // this is also  avoids stale data.
-    const [searchMovies, setSearchMovies] = useState([]);
 
     useEffect(() => {
         footerOptions(props.theme.background); // background color changes
-        if (state.main.length === 0) {
+        if (main.length === 0) {
             fetchMovies(); // avoids calling the api multiple times
             fetchGenres();
         }
@@ -46,11 +57,6 @@ const App = (props) => {
             // cleanState() // resets movie data state,
         };
     }, []);
-
-    const trendingMovie = (state) => {
-        const getRandomInt = (maxInt) => Math.floor(Math.random() * maxInt);
-        return state[getRandomInt(9)];
-    };
 
     const styles = {
         container: {
@@ -64,6 +70,16 @@ const App = (props) => {
             //border: "1px solid red",
         },
     };
+
+    // const memoizedCallback = useCallback(() => {
+    //     const trendingMovie = (state) => {
+    //         const getRandomInt = (maxInt) => Math.floor(Math.random() * maxInt);
+    //         return state[getRandomInt(9)];
+    //     };
+    //     return trendingMovie(main);
+    // }, [main]);
+
+    // console.log(main);
 
     return (
         <div style={styles.container} className={_styles.parentContainer}>
@@ -82,35 +98,46 @@ const App = (props) => {
 
             <div style={styles.sub} className={_styles.Movies}>
                 <LatestMovie
-                    src={trendingMovie(state.main)}
+                    src={trendingMovie(main)}
                     width="original"
                     callback={clickedMovie}
                     setModal={setModal}
                 />
 
                 <MovieResults
-                    state={state.main}
+                    state={main}
                     callback={clickedMovie}
                     setModal={setModal}
                     title="Popular Movies"
                     theme={props.theme}
                 />
-                <MovieResults
-                    state={searchMovies}
-                    callback={clickedMovie}
-                    setModal={setModal}
-                    title="Searched Movies"
-                    theme={props.theme}
-                />
+                {state.length >= 1 ? (
+                    <MovieResults
+                        state={state}
+                        callback={clickedMovie}
+                        setModal={setModal}
+                        title="My Movies"
+                        theme={props.theme}
+                    />
+                ) : null}
+                {searchMovies.length ? (
+                    <MovieResults
+                        state={searchMovies}
+                        callback={clickedMovie}
+                        setModal={setModal}
+                        title="Movie Search"
+                        theme={props.theme}
+                    />
+                ) : null}
 
                 <MovieGenres
-                    state={state.genres}
+                    state={genres}
                     theme={props.theme}
                     title="Find by Genres"
                 />
-                {state.moviesByGenre ? (
+                {moviesByGenre ? (
                     <MovieResults
-                        state={state.moviesByGenre}
+                        state={moviesByGenre}
                         callback={clickedMovie}
                         setModal={setModal}
                         title=""
