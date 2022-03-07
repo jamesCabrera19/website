@@ -1,17 +1,16 @@
-import Link from "next/link";
+import React, { useRef } from "react";
+// import Link from "next/link";
 import Image from "next/image";
 
-import leftArrow from "../imgs/left-arrow.svg";
-import rightArrow from "../imgs/right-arrow.svg";
-import React, { useState, useRef } from "react";
 import ScrollerBtn from "./movieScroller";
 
 const ImageLoader = ({ src }) => `https://image.tmdb.org/t/p/w500${src}`;
+//
 
-const MovieResults = (props) => {
+const MovieResults = ({ state, callback, setModal, title, theme }) => {
     // const [position, setPosition] = useState(0);
     const scroller = useRef();
-    const slide = (amount) => (scroller.current.scrollLeft += amount);
+    const slider = (amount) => (scroller.current.scrollLeft += amount);
 
     const styles = {
         container: {
@@ -25,11 +24,10 @@ const MovieResults = (props) => {
         },
         card: {
             margin: "0 10px 0 10px",
-            minWidth: "250px",
-            maxWidth: "250px",
-            height: 373,
+            minWidth: setModal ? 250 : 150,
+            height: setModal ? 373 : 200,
+
             overflow: "hidden",
-            position: "relative",
             textAlign: "center",
             borderRadius: 10,
             cursor: "pointer",
@@ -43,14 +41,13 @@ const MovieResults = (props) => {
             position: "absolute",
             zIndex: 1,
             left: 115,
-            color: props.theme.fontColor,
-            fontWeight: props.theme.fontWeight,
+            color: theme.fontColor,
+            fontWeight: theme.fontWeight,
         },
     };
     //
-    console.log("rendering");
     const memoizedCallback = React.useCallback(() => {
-        return props.state.map((movie) => {
+        return state.map((movie) => {
             return (
                 // disable Link for modal manual open
                 // Link key={Math.random() * 999} href={`/apps/movieapp/${movie.id}`}
@@ -58,11 +55,13 @@ const MovieResults = (props) => {
                     key={Math.random() * 999}
                     style={styles.card}
                     onClick={() => {
-                        props.callback(movie); // clickedMovie()
-                        props.setModal((prev) => ({
-                            ...prev,
-                            movieModal: !prev.movieModal,
-                        }));
+                        callback(movie); // clickedMovie()
+                        if (setModal) {
+                            setModal((prev) => ({
+                                ...prev,
+                                movieModal: !prev.movieModal,
+                            }));
+                        }
                     }}
                 >
                     {movie.poster_path ? (
@@ -83,23 +82,15 @@ const MovieResults = (props) => {
                 </div>
             );
         });
-    }, [props.state]);
+    }, [state]);
 
     return (
         <>
-            <h3 style={styles.title}>{props.title}</h3>
-            {props.state.length >= 3 ? (
+            <h3 style={styles.title}>{title}</h3>
+            {state.length >= 3 ? (
                 <>
-                    <ScrollerBtn
-                        type={rightArrow}
-                        title="right"
-                        callback={() => slide(100)}
-                    />
-                    <ScrollerBtn
-                        type={leftArrow}
-                        title="left"
-                        callback={() => slide(-100)}
-                    />
+                    <ScrollerBtn title="right" callback={() => slider(300)} />
+                    <ScrollerBtn title="left" callback={() => slider(-300)} />
                 </>
             ) : null}
 
@@ -114,4 +105,4 @@ const MovieResults = (props) => {
 // it may contain up to 20 items.
 // using the memoizedCallback the App renders this component a total of 3 times.
 // then
-export default React.memo(MovieResults);
+export default MovieResults;

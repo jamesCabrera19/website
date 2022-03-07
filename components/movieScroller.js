@@ -1,6 +1,8 @@
 import _styles from "../styles/movieApp.module.css";
+import leftArrow from "../imgs/left-arrow.svg";
+import rightArrow from "../imgs/right-arrow.svg";
 
-export default function ScrollerBtn({ type, callback, title, position }) {
+export default function ScrollerBtn({ callback, title, position }) {
     const styles = {
         scroller: {
             position: "absolute",
@@ -24,7 +26,11 @@ export default function ScrollerBtn({ type, callback, title, position }) {
             onClick={() => callback()}
             className={_styles.scroller}
         >
-            <img src={type.src} />
+            {title === "right" ? (
+                <img src={rightArrow.src} />
+            ) : (
+                <img src={leftArrow.src} />
+            )}
         </div>
     );
 }

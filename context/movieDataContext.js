@@ -65,5 +65,7 @@ export const { Context, Provider } = createDataContext(
         fetchGenres,
         fetchMoviesByGenre,
     }, // action Functions
-    { main: [], clickedMovie: {}, genres: [] } // init STATE
+    { main: [], genres: [], clickedMovie: {} } // init STATE
+
+    // { main: [], clickedMovie: {}, genres: [] } // init STATE
 );

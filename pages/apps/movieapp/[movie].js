@@ -1,10 +1,8 @@
 // system imports
 import { useEffect, useContext, useRef } from "react";
 // import { useRouter } from "next/router";
-
 // context
-import { Context as MovieContext } from "../../../context/movieDataContext";
-import { Context as MovieActionContext } from "../../../context/movieActionsContext";
+import { Context as MovieDataContext } from "../../../context/movieDataContext";
 // hooks
 import useFetch from "../../../hooks/useFetch";
 // components
@@ -13,51 +11,59 @@ import MovieShadow from "../../../components/movieShadowHOC";
 import BigButton from "../../../components/movieButtons/bigButton";
 import IconButton from "../../../components/movieButtons/IconButton";
 import RegularBtn from "../../../components/movieButtons/regularButton";
-
 //
-const saveImage = async (e, movieTitle) => {
-    const imageSrc = e.current.currentSrc;
+
+const saveImage = async (event, movieTitle) => {
+    // saves image to device
+    const imageSrc = event.current.currentSrc;
     const res = await fetch(imageSrc, { method: "GET", headers: {} });
     const buffer = await res.arrayBuffer(); // creating the buffer
-
     const url = window.URL.createObjectURL(new Blob([buffer]));
     const link = document.createElement("a");
-
     link.href = url;
     link.setAttribute("download", `${movieTitle}.jpg`); // using default extension it can any other extension
     document.body.appendChild(link);
     link.click();
 };
 //
+//
+const setColor = (vote) => {
+    let color;
+    if (vote > 8) {
+        color = "#00FF00";
+    } else if (vote >= 8 || vote >= 7) {
+        color = "orange";
+    } else {
+        color = "red";
+    }
+    return color;
+};
+//
+//
+const voteAverage = (value) => (Math.round(value) * 100) / 100;
+//
+//
 export default function Movie({ modal, setModal, theme }) {
     // * const router = useRouter(); // not needed unless we use dynamic routing
     // * const { movie } = router.query; // Not in used => used for dynamic routing
     const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch(true);
-    const {
-        state: { clickedMovie },
-    } = useContext(MovieContext);
+
+    // due to naming conventions mainly my own fault
+    // there are two variables called clickedMovie.
+    // one if a Function value setter
+    // and the the second is the actual value
+    // clickedMovie(movie), state.clickedMovie === actual movie value
+    const { state, clickedMovie } = useContext(MovieDataContext);
     const imageRef = useRef();
 
     useEffect(() => {
         if (modal) {
-            fetchMovie(null, clickedMovie.id);
+            fetchMovie(null, state.clickedMovie.id);
             document.body.style.overflow = "hidden"; // removes background scroll
         }
-    }, [clickedMovie]);
+    }, [state.clickedMovie]);
 
-    const setColor = (vote) => {
-        let color;
-        if (vote > 8) {
-            color = "#00FF00";
-        } else if (vote >= 8 || vote >= 7) {
-            color = "orange";
-        } else {
-            color = "red";
-        }
-        return color;
-    };
-
-    const _styles = {
+    const styles = {
         shadow: {
             width: "100%",
             height: "100%",
@@ -90,7 +96,7 @@ export default function Movie({ modal, setModal, theme }) {
             borderRadius: 4,
             padding: "2px 5px",
             fontWeight: 600,
-            color: setColor(clickedMovie.vote_average),
+            color: setColor(state.clickedMovie.vote_average),
         },
         text: {
             marginBottom: 10,
@@ -107,39 +113,52 @@ export default function Movie({ modal, setModal, theme }) {
 
     return (
         <MovieShadow modal={setModal}>
-            <div style={_styles.container}>
+            <div style={styles.container}>
                 <img
                     ref={imageRef}
-                    style={_styles.image}
-                    src={`https://image.tmdb.org/t/p/original${clickedMovie.backdrop_path}`}
+                    style={styles.image}
+                    src={`https://image.tmdb.org/t/p/original${state.clickedMovie.backdrop_path}`}
                 />
-                <h2 style={_styles.text}>{clickedMovie.title}</h2>
+                <h2 style={styles.text}>{state.clickedMovie.title}</h2>
 
-                <p style={_styles.text}>
-                    Released {clickedMovie.release_date}, Rating{" "}
-                    <span style={_styles.voteAverageBox}>
-                        {Math.round(clickedMovie.vote_average * 100) / 100}
+                <p style={styles.text}>
+                    Released {state.clickedMovie.release_date}, Rating{" "}
+                    <span style={styles.voteAverageBox}>
+                        {voteAverage(state.clickedMovie.vote_average)}
                     </span>
                 </p>
 
                 <BigButton title="Play" theme={theme} />
-                <div style={_styles.text}>
-                    <p>{clickedMovie.overview}</p>
+                <div style={styles.text}>
+                    <p>{state.clickedMovie.overview}</p>
                 </div>
 
-                <div style={_styles.iconWrapper}>
-                    <IconButton action="add" movie={clickedMovie} />
+                <div style={styles.iconWrapper}>
+                    <IconButton action="add" movie={state.clickedMovie} />
                     <RegularBtn
                         type="download"
-                        callback={() => saveImage(imageRef, clickedMovie.title)}
+                        callback={() =>
+                            saveImage(imageRef, state.clickedMovie.title)
+                        }
                     />
                     <RegularBtn
                         type="share"
                         callback={() => console.log("download")}
                     />
                 </div>
-                <h3 style={_styles.text}>More Like This</h3>
-                <MovieResults state={movies} />
+                <h3 style={styles.text}>More Like This</h3>
+                <MovieResults
+                    state={movies}
+                    callback={clickedMovie}
+                    title="More Like This"
+                    theme={theme}
+                />
+                {/* <MovieResults
+                 
+                    setModal={setModal}
+                    title="Popular Movies"
+                    theme={props.theme}
+                /> */}
             </div>
         </MovieShadow>
     );
