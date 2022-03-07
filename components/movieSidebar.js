@@ -12,14 +12,6 @@ import _styles from "../styles/movieApp.module.css";
 import useFetch from "../hooks/useFetch";
 
 //
-const screenNavigator = (Y) =>
-    window.scrollTo({
-        top: Y,
-        left: 0,
-        behavior: "smooth",
-    });
-//
-//
 function IconNavigator({ title, Icon, callback, theme }) {
     const styles = {
         iconWrapper: {
@@ -32,7 +24,6 @@ function IconNavigator({ title, Icon, callback, theme }) {
             fontWeight: theme.fontWeight,
             // border: "1px solid yellow",
         },
-
         text: {
             color: theme.navBarFontColor,
             fontWeight: theme.fontWeight, // font weight
@@ -46,12 +37,18 @@ function IconNavigator({ title, Icon, callback, theme }) {
             onClick={() => callback()}
         >
             <Icon size={30} color="rgb(230, 89, 137)" />
-            <p id={_styles.text} style={styles.text}>
-                {title}
-            </p>
+            <p style={styles.text}>{title}</p>
         </div>
     );
 }
+//
+const screenNavigator = (Y) =>
+    window.scrollTo({
+        top: Y,
+        left: 0,
+        behavior: "smooth",
+    });
+//
 //
 export default function SideBar({ setSearch, theme, setModal }) {
     const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch();

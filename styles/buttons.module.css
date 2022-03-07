@@ -30,3 +30,12 @@
     transition: transform 700ms;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
+
+@media screen and (max-width: 500px) {
+    /* this allows the porfolio page to show columns when screen is 480 */
+    .cardContainer {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
