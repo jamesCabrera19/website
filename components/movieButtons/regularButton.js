@@ -1,6 +1,6 @@
 import { BiDownload } from "react-icons/bi";
 import { MdIosShare } from "react-icons/md";
-
+import _styles from "../../styles/movieApp.module.css";
 export default function RegularBtn({ callback, type }) {
     return (
         <div
@@ -15,6 +15,7 @@ export default function RegularBtn({ callback, type }) {
                 cursor: "pointer",
             }}
             onClick={() => callback()}
+            className={_styles.iconButton}
         >
             {type === "download" ? (
                 <BiDownload size={30} color="rgb(230, 89, 137)" />

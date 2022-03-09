@@ -1,6 +1,5 @@
 import createDataContext from "./index";
 import movieApi from "../api/movieApi";
-import movieGenresApi from "../api/movieGenresApi";
 //
 const movieDataReducer = (state, action) => {
     switch (action.type) {
@@ -25,7 +24,10 @@ const fetchMovies = (dispatch) => async () => {
         const res = await movieApi.get(
             "/discover/movie?sort_by=popularity.desc"
         );
-        dispatch({ type: "init_state", payload: res.data.results });
+        dispatch({
+            type: "init_state",
+            payload: res.data.results.slice(0, 10),
+        });
     } catch (error) {
         console.log("fetchMovies ERROR");
     }
@@ -47,7 +49,10 @@ const fetchMoviesByGenre = (dispatch) => async (movieID) => {
         const res = await movieApi.get(
             `/discover/movie?&with_genres=${movieID}`
         );
-        dispatch({ type: "moviesbygenre", payload: res.data.results });
+        dispatch({
+            type: "moviesbygenre",
+            payload: res.data.results.slice(0, 10),
+        });
     } catch (error) {
         console.log("fetchMoviesByGenre ERROR");
     }

@@ -1,6 +1,7 @@
 import { useEffect, useContext, useState } from "react";
 import { Context as MovieActionContext } from "../../context/movieActionsContext";
 import { AiOutlinePlus, AiOutlineDelete, AiOutlineCheck } from "react-icons/ai";
+import _styles from "../../styles/movieApp.module.css";
 
 export default function IconButton({ action, movie }) {
     // these are icon buttons => ex. play and download, share
@@ -55,6 +56,7 @@ export default function IconButton({ action, movie }) {
         <>
             {btn.add ? (
                 <div
+                    className={_styles.iconButton}
                     style={styles.container}
                     onClick={() => {
                         setBtn((prev) => ({
@@ -72,6 +74,7 @@ export default function IconButton({ action, movie }) {
                 </div>
             ) : (
                 <div
+                    className={_styles.iconButton}
                     style={styles.container}
                     onClick={() => {
                         setBtn((prev) => ({
