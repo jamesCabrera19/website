@@ -26,7 +26,6 @@ const trendingMovie = (state) => {
 };
 //
 const App = ({ theme }) => {
-    // todo Refactor <MovieResults/> buttons dont fit in modal
     // * MovieActionContext is the app main API.
     // moviesByGenre are hidden by default,
     // however they can be fetched and displayed
@@ -152,11 +151,12 @@ const App = ({ theme }) => {
 export default function MovieApp() {
     // footerOptions is part of the website
     // and not related to MovieApp in any way
-    // it's just here to change the color of the footer
+    // the purpose of the footer is to change the footer
+    // background color on Focus and unfocus
     const { footerOptions } = useContext(ColorContext);
 
     useEffect(() => {
-        footerOptions(theme.background); // background color changes
+        footerOptions(theme.background); // background color change
         return () => {
             // screen is unfocused => Clean State
             footerOptions(null); // reverting footer background color to main
@@ -165,18 +165,39 @@ export default function MovieApp() {
 
     const theme = {
         background: "rgb(42, 44, 51)", // dark
-        navBarColor: "rgba(17, 17, 27, 0.6)",
-        navBarFontColor: "rgb(230, 87, 137)",
-        buttonLarge: "rgb(230, 87, 137)",
-        fontColor: "rgb(255, 255, 255)", // font color
-        fontWeight: "300", // font weight
-        fontFamily:
-            "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
+
+        dark: {
+            background: "rgb(42, 44, 51)", // dark
+            navBarColor: "rgba(17, 17, 27, 0.6)", // darker
+            navBarFontColor: "rgb(230, 87, 137)",
+            buttonLarge: "rgb(230, 87, 137)",
+            fontColor: "rgb(255, 255, 255)", // font color
+            inputColor: "rgb(63, 66, 77)",
+            fontWeight: "300", // font weight
+            fontFamily:
+                "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
+        },
+        light: {
+            background: "#FBF8F1", // light
+            navBarColor: "#F7ECDE",
+            navBarFontColor: "#54BAB9",
+            buttonLarge: "#54BAB9",
+            fontColor: "rgb(42, 44, 51)", // font color
+            fontWeight: "300", // font weight
+            inputColor: "rgb(230, 89, 137)",
+            fontFamily:
+                "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
+        },
     };
+    // keep in mind that choosing to light theme
+    // we also need to consider
+    // footerOptions()
+    // as its dark on this app
+
     return (
         <MovieDataProvider>
             <MovieActionProvider>
-                <App theme={theme} />
+                <App theme={theme.dark} />
             </MovieActionProvider>
         </MovieDataProvider>
     );

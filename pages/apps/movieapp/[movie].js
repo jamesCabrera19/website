@@ -6,7 +6,7 @@ import { Context as MovieDataContext } from "../../../context/movieDataContext";
 // hooks
 import useFetch from "../../../hooks/useFetch";
 // components
-import MovieResults from "../../../components/movieMoreLikethis";
+import MovieResults from "../../../components/movieResults";
 import MovieShadow from "../../../components/movieShadowHOC";
 import BigButton from "../../../components/movieButtons/bigButton";
 import IconButton from "../../../components/movieButtons/IconButton";
@@ -61,19 +61,10 @@ export default function Movie({ modal, setModal, theme }) {
             fetchMovie(null, state.clickedMovie.id);
             document.body.style.overflow = "hidden"; // removes background scroll
         }
+        return () => clickedMovie(null);
     }, [state.clickedMovie]);
 
     const styles = {
-        shadow: {
-            width: "100%",
-            height: "100%",
-            overflowY: "scroll",
-            backgroundColor: "rgba(0,0,0,0.5)",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            zIndex: 9,
-        },
         container: {
             display: "flex",
             flexDirection: "column",
@@ -104,6 +95,7 @@ export default function Movie({ modal, setModal, theme }) {
             color: theme.fontColor,
             fontWeight: theme.fontWeight, // font weight
             fontFamily: theme.fontFamily,
+            // border: "1px solid red",
         },
         iconWrapper: {
             display: "flex",
@@ -150,15 +142,9 @@ export default function Movie({ modal, setModal, theme }) {
                 <MovieResults
                     state={movies}
                     callback={clickedMovie}
-                    title="More Like This"
+                    title=""
                     theme={theme}
                 />
-                {/* <MovieResults
-                 
-                    setModal={setModal}
-                    title="Popular Movies"
-                    theme={props.theme}
-                /> */}
             </div>
         </MovieShadow>
     );

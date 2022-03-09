@@ -1,35 +1,48 @@
 import _styles from "../styles/movieApp.module.css";
-import leftArrow from "../imgs/left-arrow.svg";
-import rightArrow from "../imgs/right-arrow.svg";
+import { AiOutlineLeftCircle, AiOutlineRightCircle } from "react-icons/ai";
 
-export default function ScrollerBtn({ callback, title, position }) {
+export default function MovieScroller({ children, callback }) {
     const styles = {
-        scroller: {
+        container: {
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "flex-end",
+        },
+        btnLeft: {
+            display: "flex",
+            justifyContent: "flex-end",
             alignItems: "center",
-            cursor: "pointer",
-            width: 60,
-            height: 60,
+            margin: "70px -40px 0 0",
             zIndex: 1,
-            position: "absolute",
-            margin: position ? position : "230px 0",
-            borderRadius: 50,
-            float: title === "left" ? "left" : null,
-            right: title === "left" ? null : 0,
+            cursor: "pointer",
+            // border: "1px solid blue",
+        },
+        btnRight: {
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            margin: "70px 0px 0 -40px",
+            zIndex: 1,
+            cursor: "pointer",
+            // border: "1px solid blue",
         },
     };
     return (
-        <div
-            style={styles.scroller}
-            onClick={() => callback()}
-            className={_styles.scroller}
-        >
-            {title === "right" ? (
-                <img src={rightArrow.src} />
-            ) : (
-                <img src={leftArrow.src} />
-            )}
+        <div style={styles.scroller}>
+            <div style={styles.btnLeft}>
+                <AiOutlineLeftCircle
+                    color="#FFFFFF"
+                    size={50}
+                    onClick={() => callback()}
+                />
+            </div>
+            {children}
+            <div style={styles.btnRight}>
+                <AiOutlineRightCircle
+                    color="#FFFFFF"
+                    size={50}
+                    onClick={() => callback()}
+                />
+            </div>
         </div>
     );
 }

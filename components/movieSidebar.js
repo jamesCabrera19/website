@@ -1,5 +1,5 @@
 // system
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect } from "react";
 // icons
 import { AiOutlineHome } from "react-icons/ai";
 import { FiSettings, FiVideo } from "react-icons/fi";
@@ -11,6 +11,13 @@ import _styles from "../styles/movieApp.module.css";
 // hooks
 import useFetch from "../hooks/useFetch";
 
+//
+const screenNavigator = (Y) =>
+    window.scrollTo({
+        top: Y,
+        left: 0,
+        behavior: "smooth",
+    });
 //
 function IconNavigator({ title, Icon, callback, theme }) {
     const styles = {
@@ -30,6 +37,7 @@ function IconNavigator({ title, Icon, callback, theme }) {
             fontFamily: theme.fontFamily,
         },
     };
+
     return (
         <div
             style={styles.iconWrapper}
@@ -42,12 +50,7 @@ function IconNavigator({ title, Icon, callback, theme }) {
     );
 }
 //
-const screenNavigator = (Y) =>
-    window.scrollTo({
-        top: Y,
-        left: 0,
-        behavior: "smooth",
-    });
+
 //
 //
 export default function SideBar({ setSearch, theme, setModal }) {
@@ -73,12 +76,6 @@ export default function SideBar({ setSearch, theme, setModal }) {
             flex: 1,
             color: theme.fontColor,
         },
-        searchBar: {
-            display: "flex",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            marginTop: 40,
-        },
         disclosure: {
             display: "flex",
             flexDirection: "column",
@@ -93,13 +90,12 @@ export default function SideBar({ setSearch, theme, setModal }) {
 
     return (
         <div style={styles.container} className={_styles.container}>
-            <div style={styles.searchBar}>
-                <MovieSearch
-                    onTermSubmit={fetchMovie}
-                    setModal={setModal}
-                    callback={() => screenNavigator(1200)} // approximate location
-                />
-            </div>
+            <MovieSearch
+                theme={theme}
+                onTermSubmit={fetchMovie}
+                setModal={setModal}
+                callback={() => screenNavigator(1200)} // approximate location
+            />
 
             <IconNavigator
                 theme={theme}
@@ -112,11 +108,13 @@ export default function SideBar({ setSearch, theme, setModal }) {
                 title="My Movies"
                 Icon={FiVideo}
                 callback={() => {
+                    // maybe set a toggle btn to either keep
+                    //<myMovies/> open or keep it close
+                    screenNavigator(1220);
                     setModal((prev) => ({
                         ...prev,
                         myMovies: !prev.myMovies,
                     }));
-                    screenNavigator(720);
                 }} // approximate location
                 // display movies in page
                 // navigate user to  navigator(0, 900)}}

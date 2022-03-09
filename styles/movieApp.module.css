@@ -40,11 +40,11 @@
 
 .scroller {
     /* scroller button */
-    background-color: rgba(255, 255, 255, 0.119);
+    color: rgba(255, 255, 255, 0.119);
 }
 .scroller:hover {
-    background-color: rgba(255, 255, 255, 0.919);
-    transition: background-color 500ms ease-in-out;
+    color: rgba(255, 255, 255, 0.919);
+    transition: color 300ms ease-in-out;
 }
 .iconButton:hover {
     /* button components */
