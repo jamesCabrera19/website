@@ -1,12 +1,38 @@
 import { useContext, useEffect } from "react";
 import { Context as ColorContext } from "../context/colorScheme";
 import Link from "next/link";
+import Image from "next/image";
 import ButtonContainer from "../components/buttons";
 import _styles from "../styles/buttons.module.css";
 
+const cards = [
+    {
+        title: "Movies",
+        frameworks: [
+            // features
+            "User Auth",
+            "useContext API",
+            "React Relay",
+        ],
+        img: require("../imgs/netflix.jpg"),
+        link: "/apps/movieapp",
+    },
+    {
+        title: "Music",
+        frameworks: ["Custom Express API", "useContext API", "Cloud Sync"],
+        img: require("../imgs/ticktock.jpg"),
+        link: "/apps/musicapp",
+    },
+    {
+        title: "Weather",
+        frameworks: ["Redux API"],
+        img: require("../imgs/solar.jpg"),
+        link: "/apps/weatherapp",
+    },
+];
+
 export default function Portfolio() {
-    const { state, themeSwitch, navbarSwitch, footerOptions } =
-        useContext(ColorContext);
+    const { state, footerOptions } = useContext(ColorContext);
 
     useEffect(() => {
         footerOptions(state.backgroundColor);
@@ -15,32 +41,6 @@ export default function Portfolio() {
             // console.log("themeSwitch ran");
         };
     }, []);
-
-    const cards = [
-        {
-            title: "Movies",
-            frameworks: [
-                // features
-                "User Auth",
-                "useContext API",
-                "React Relay",
-            ],
-            img: require("../imgs/app1.png"),
-            link: "/apps/movieapp",
-        },
-        {
-            title: "Music",
-            frameworks: ["Multi-platform app", "useContext API", "Cloud sync"],
-            img: require("../imgs/app2.png"),
-            link: "/apps/musicapp",
-        },
-        {
-            title: "Weather",
-            frameworks: ["Redux API"],
-            img: require("../imgs/app3.png"),
-            link: "/apps/weatherapp",
-        },
-    ];
 
     const styles = {
         container: {
@@ -61,95 +61,112 @@ export default function Portfolio() {
             padding: "80px 0 30px 0",
             backgroundColor: state.sectionColor,
             width: "100%",
+            // border: "1px solid yellow",
         },
-        headers: {
+        cardContainer: {
+            display: "flex",
+            backgroundColor: state.sectionColor,
+            // border: "1px solid red",
+            justifyContent: "center",
+            overflow: "hidden",
+        },
+        card: {
+            height: 520,
+            width: 280,
+            border: "1px solid #8e8e8e1c",
+            margin: "20px 20px 120px 20px",
+        },
+        imgWrapper: {
+            width: 280,
+            height: 280,
+            borderBottom: "1px solid #8E8E8E",
+            margin: "auto",
+            position: "relative",
+        },
+        header: {
             // h1, h2, h3
             color: state.headingColor,
             fontWeight: state.fontWeight,
+        },
+        title: {
+            textAlign: "center",
+            fontWeight: 200,
+            color: state.fontColor,
+            textTransform: "uppercase",
+        },
+        features: {
+            fontStyle: "italic",
+            textAlign: "center",
+            fontWeight: state.fontWeight,
+            color: state.fontColor,
         },
         text: {
             // <p/>
             fontWeight: 200, //state.fontWeight,
             color: state.fontColor,
         },
+        blankLine: {
+            width: 80,
+            height: 1,
+            borderBottom: "1px solid #8E8E8E",
+            margin: "auto",
+        },
+        btnContainer: {
+            // button link section
+            height: 200,
+            display: "flex",
+            flexWrap: "wrap", // wrap is needed when screen becomes too small
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: state.sectionColor,
+        },
+        disclaimer: {
+            container: {
+                display: "flex",
+                backgroundColor: state.backgroundColor,
+                height: 250,
+                justifyContent: "center",
+                alignItems: "center",
+                // border: "1px solid red",
+            },
+            textWrap: {
+                width: "80%",
+                overflowWrap: "break-word",
+                // border: "1px solid red",
+            },
+            text: {
+                fontSize: 20,
+                fontWeight: 200,
+                color: state.fontColor,
+                lineHeight: 1.4,
+            },
+        },
     };
 
     return (
         <div style={styles.container}>
             <div style={styles.sectionOne}>
-                <h1 style={styles.headers}>Applications</h1>
+                <h1 style={styles.header}>Applications</h1>
                 <hr style={{ width: 100, border: "1px solid #8E8E8E" }} />
             </div>
             {/*  */}
-            <div
-                style={{
-                    display: "flex",
-                    backgroundColor: state.sectionColor,
-                    // border: "1px solid red",
-                    // flexDirection: "row",
-                    justifyContent: "center",
-                }}
-            >
+            <div className={_styles.cardContainer} style={styles.cardContainer}>
                 {cards.map((item) => {
                     return (
                         <Link href={item.link} key={Math.random() * 99}>
-                            <div
-                                className={_styles.card}
-                                style={{
-                                    height: 520,
-                                    width: 280,
-                                    border: "1px solid #8e8e8e1c",
-                                    margin: "20px 20px 120px 20px",
-                                    overflow: "hidden",
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        width: 280,
-                                        height: 280,
-                                        borderBottom: "1px solid #8E8E8E",
-                                        margin: "auto",
-                                    }}
-                                >
-                                    <img
+                            <div className={_styles.card} style={styles.card}>
+                                <div style={styles.imgWrapper}>
+                                    <Image
                                         src={item.img.default.src}
-                                        style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            objectFit: "cover",
-                                        }}
+                                        layout="fill"
+                                        alt="Movie App"
                                     />
                                 </div>
-                                <h2
-                                    style={{
-                                        textAlign: "center",
-                                        fontWeight: 200,
-                                        color: state.fontColor,
-                                        textTransform: "uppercase",
-                                    }}
-                                >
-                                    {item.title}
-                                </h2>
-                                <div
-                                    style={{
-                                        width: 80,
-                                        height: 1,
-                                        borderBottom: "1px solid #8E8E8E",
-                                        margin: "auto",
-                                    }}
-                                >
+                                <h2 style={styles.title}>{item.title}</h2>
+                                <div style={styles.blankLine}>
                                     {/* This is a ---- line */}
                                 </div>
-                                <h3
-                                    style={{
-                                        fontStyle: "italic",
-                                        textAlign: "center",
-                                        fontWeight: state.fontWeight,
-                                        color: state.fontColor,
-                                    }}
-                                >
-                                    Features
-                                </h3>
+                                <h3 style={styles.features}>Features</h3>
                                 <p
                                     style={Object.assign(styles.text, {
                                         textAlign: "center",
@@ -177,31 +194,9 @@ export default function Portfolio() {
                 })}
             </div>
 
-            <div
-                style={{
-                    display: "flex",
-                    backgroundColor: state.backgroundColor,
-                    height: 250,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    // border: "1px solid red",
-                }}
-            >
-                <div
-                    style={{
-                        width: "80%",
-                        overflowWrap: "break-word",
-                        // border: "1px solid red",
-                    }}
-                >
-                    <p
-                        style={{
-                            fontSize: 20,
-                            fontWeight: 200,
-                            color: state.fontColor,
-                            lineHeight: 1.4,
-                        }}
-                    >
+            <div style={styles.disclaimer.container}>
+                <div style={styles.disclaimer.textWrap}>
+                    <p style={styles.disclaimer.text}>
                         All the applications listed above were developed solely
                         by me (James Cabrera) in approximately a 1.5 year
                         period. App designed was inspired by similar apps such
@@ -211,17 +206,7 @@ export default function Portfolio() {
                     </p>
                 </div>
             </div>
-            <div
-                style={{
-                    // button link section
-                    height: 200,
-                    display: "flex",
-                    alignItems: "center",
-                    margin: "0px 0 0 0",
-                    justifyContent: "center",
-                    backgroundColor: state.sectionColor,
-                }}
-            >
+            <div style={styles.btnContainer}>
                 <ButtonContainer borderColor={state.buttonColor} />
             </div>
         </div>

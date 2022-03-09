@@ -14,7 +14,7 @@ export default (getSimilar) => {
                 res = await movieApi.get(
                     `/movie/${movieID}/similar?&language=en-US&page=1`
                 );
-                setMovies(res.data.results);
+                setMovies(res.data.results.slice(0, 9));
             } else {
                 res = await movieApi.get(`/search/movie?&query=${text}`);
                 setMovies(res.data.results.slice(0, 9));

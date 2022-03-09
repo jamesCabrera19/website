@@ -8,11 +8,6 @@
     transition: background-color 500ms;
     cursor: pointer;
 }
-.active {
-    /* sideBar icons active */
-    background-color: rgba(17, 17, 27, 1);
-    color: rgba(255, 255, 255, 1);
-}
 
 .container {
     /* side bar */
@@ -21,12 +16,12 @@
 }
 .container:hover {
     /* side bar */
-    width: 320px;
+    width: 300px;
     position: fixed;
     left: 0;
     z-index: 5;
-    transition: width 300ms ease-in-out;
     font-size: 16px !important;
+    transition: width 300ms, font-size 300ms ease-in-out;
 }
 
 .parentContainer {
@@ -44,11 +39,12 @@
 }
 
 .scroller {
+    /* scroller button */
     background-color: rgba(255, 255, 255, 0.119);
 }
 .scroller:hover {
     background-color: rgba(255, 255, 255, 0.919);
-    transition: background-color 500ms;
+    transition: background-color 500ms ease-in-out;
 }
 .iconButton:hover {
     /* button components */

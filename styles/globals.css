@@ -15,3 +15,24 @@ a {
 * {
     box-sizing: border-box;
 }
+
+::-webkit-scrollbar {
+    width: 0;
+    /* Horizontal scrollbar => height */
+    height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #1b1c24;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
