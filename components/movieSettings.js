@@ -3,8 +3,11 @@ import MovieSpacer from "./movieSpacer";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { HiSelector } from "react-icons/hi";
 import { SquareButton } from "./movieButtons";
+import "react-toggle/style.css"; // for ES6 modules
 
-export default function MovieSettings({ theme, setModal }) {
+import Toggle from "react-toggle";
+
+export default function MovieSettings({ theme, setModal, switchTheme }) {
     const styles = {
         container: {
             display: "flex",
@@ -73,14 +76,25 @@ export default function MovieSettings({ theme, setModal }) {
                     options="isBottom"
                 />
                 <MovieSpacer />
+
                 <SquareButton
-                    title="Switch theme"
-                    IconName={HiSelector}
-                    callback={() => console.log("Selector Form")}
+                    title="Switch Theme"
+                    IconName={() => (
+                        <label>
+                            <Toggle
+                                defaultChecked={
+                                    theme.type === "light" ? true : false
+                                }
+                                icons={false}
+                                onChange={() => switchTheme()}
+                            />
+                        </label>
+                    )}
                     options="isTop"
+                    callback={() => {}}
                 />
                 <SquareButton
-                    title="Current Theme"
+                    title={theme.type === "light" ? "light" : "dark"}
                     // IconName={HiSelector}
                     // callback={() => console.log("Selector Form")}
                     options="isBottom"

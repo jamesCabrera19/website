@@ -13,11 +13,13 @@ const MovieSearch = (props) => {
             display: "flex",
             flexDirection: "row",
             overflow: "hidden", // needed for web
+            border: "0px solid red",
         },
         input: {
             fontSize: 18,
             width: 340,
             // backgroundColor: "rgba(255, 255, 255, 0.7)",
+            border: 0,
         },
         icon: {
             fontSize: 30,

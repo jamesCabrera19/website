@@ -46,7 +46,8 @@ const voteAverage = (value) => (Math.round(value) * 100) / 100;
 export default function Movie({ modal, setModal, theme }) {
     // * const router = useRouter(); // not needed unless we use dynamic routing
     // * const { movie } = router.query; // Not in used => used for dynamic routing
-    const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch(true);
+    // const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch(true);
+    const [fetchMovie, movies, errorMessage] = useFetch();
 
     // due to naming conventions mainly my own fault
     // there are two variables called clickedMovie.
@@ -58,10 +59,9 @@ export default function Movie({ modal, setModal, theme }) {
 
     useEffect(() => {
         if (modal) {
-            fetchMovie(null, state.clickedMovie.id);
+            fetchMovie(state.clickedMovie.id);
             document.body.style.overflow = "hidden"; // removes background scroll
         }
-        return () => clickedMovie(null);
     }, [state.clickedMovie]);
 
     const styles = {
@@ -140,10 +140,10 @@ export default function Movie({ modal, setModal, theme }) {
                 </div>
                 <h3 style={styles.text}>More Like This</h3>
                 <MovieResults
-                    state={movies}
                     callback={clickedMovie}
-                    title=""
+                    state={movies}
                     theme={theme}
+                    title=""
                 />
             </div>
         </MovieShadow>

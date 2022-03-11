@@ -18,6 +18,7 @@ import MovieGenres from "../../components/movieGenres";
 import MovieSettings from "../../components/movieSettings";
 // CSS
 import _styles from "../../styles/movieApp.module.css";
+import { darkTheme, lightTheme } from "../../components/movieThemes";
 //
 
 const trendingMovie = (state) => {
@@ -25,7 +26,7 @@ const trendingMovie = (state) => {
     return state[getRandomInt(9)];
 };
 //
-const App = ({ theme }) => {
+const App = ({ theme, setTheme }) => {
     // * MovieActionContext is the app main API.
     // moviesByGenre are hidden by default,
     // however they can be fetched and displayed
@@ -36,7 +37,9 @@ const App = ({ theme }) => {
         clickedMovie,
         fetchGenres,
     } = useContext(MovieContext);
-    const { state } = useContext(MovieActionContext); // User saved movies
+
+    // * User saved movies plus other actions
+    const { state } = useContext(MovieActionContext);
 
     // * modal settings
     // opens different windows and
@@ -142,7 +145,11 @@ const App = ({ theme }) => {
                 ) : null}
             </div>
             {modal.settingsModal ? (
-                <MovieSettings setModal={setModal} theme={theme} />
+                <MovieSettings
+                    setModal={setModal}
+                    theme={theme}
+                    switchTheme={setTheme}
+                />
             ) : null}
         </div>
     );
@@ -155,40 +162,23 @@ export default function MovieApp() {
     // background color on Focus and unfocus
     const { footerOptions } = useContext(ColorContext);
 
+    const [theme, setTheme] = useState("light");
+
+    const toggleTheme = () => {
+        theme === "light" ? setTheme("dark") : setTheme("light");
+    };
+
     useEffect(() => {
-        footerOptions(theme.background); // background color change
+        footerOptions(
+            theme === "light" ? lightTheme.background : darkTheme.background
+        ); //  background color change
+        // default background color "rgb(42, 44, 51)" === dark
         return () => {
             // screen is unfocused => Clean State
             footerOptions(null); // reverting footer background color to main
         };
-    }, []);
+    }, [theme]);
 
-    const theme = {
-        background: "rgb(42, 44, 51)", // dark
-
-        dark: {
-            background: "rgb(42, 44, 51)", // dark
-            navBarColor: "rgba(17, 17, 27, 0.6)", // darker
-            navBarFontColor: "rgb(230, 87, 137)",
-            buttonLarge: "rgb(230, 87, 137)",
-            fontColor: "rgb(255, 255, 255)", // font color
-            inputColor: "rgb(63, 66, 77)",
-            fontWeight: "300", // font weight
-            fontFamily:
-                "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
-        },
-        light: {
-            background: "#FBF8F1", // light
-            navBarColor: "#F7ECDE",
-            navBarFontColor: "#54BAB9",
-            buttonLarge: "#54BAB9",
-            fontColor: "rgb(42, 44, 51)", // font color
-            fontWeight: "300", // font weight
-            inputColor: "rgb(230, 89, 137)",
-            fontFamily:
-                "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
-        },
-    };
     // keep in mind that choosing to light theme
     // we also need to consider
     // footerOptions()
@@ -197,7 +187,11 @@ export default function MovieApp() {
     return (
         <MovieDataProvider>
             <MovieActionProvider>
-                <App theme={theme.dark} />
+                {/* <App theme={theme.dark} /> */}
+                <App
+                    theme={theme === "light" ? lightTheme : darkTheme}
+                    setTheme={toggleTheme}
+                />
             </MovieActionProvider>
         </MovieDataProvider>
     );

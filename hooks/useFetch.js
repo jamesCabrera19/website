@@ -1,31 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import movieApi from "../api/movieApi";
-//
-export default (getSimilar) => {
+
+export default () => {
     // * getSimilar:Boolean
     const [movies, setMovies] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const fetchMovie = async (text, movieID) => {
-        // text is reserver for text input aka a search bar input => fetchMovie(null, 12345)
+    const fetchMovie = async (movieID) => {
         try {
-            let res;
-            if (getSimilar && movieID) {
-                res = await movieApi.get(
-                    `/movie/${movieID}/similar?&language=en-US&page=1`
-                );
-                setMovies(res.data.results.slice(0, 9));
-            } else {
-                res = await movieApi.get(`/search/movie?&query=${text}`);
-                setMovies(res.data.results.slice(0, 9));
-            }
+            const res = await movieApi.get(
+                `/movie/${movieID}/similar?&language=en-US&page=1`
+            );
+            setMovies(res.data.results.slice(0, 9));
         } catch (error) {
-            setErrorMessage("Something went wrong with useFetch");
+            setErrorMessage(error);
         }
     };
-    useEffect(() => {
-        fetchMovie("Batman"); // init value
-    }, []);
 
-    return [fetchMovie, movies, errorMessage, setErrorMessage];
+    // useEffect(() => {
+    //     fetchMovie(926899); // init value
+    // }, []); // not needed because nothing is fetch when app is mounted
+
+    return [fetchMovie, movies, errorMessage];
 };

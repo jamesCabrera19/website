@@ -9,7 +9,7 @@ import MovieSearch from "./movieSearch";
 // CSS styles
 import _styles from "../styles/movieApp.module.css";
 // hooks
-import useFetch from "../hooks/useFetch";
+import useSearch from "../hooks/useSearch";
 
 //
 const screenNavigator = (Y) =>
@@ -44,7 +44,7 @@ function IconNavigator({ title, Icon, callback, theme }) {
             className={_styles.icon}
             onClick={() => callback()}
         >
-            <Icon size={30} color="rgb(230, 89, 137)" />
+            <Icon size={30} color={theme.iconColor} />
             <p style={styles.text}>{title}</p>
         </div>
     );
@@ -54,7 +54,7 @@ function IconNavigator({ title, Icon, callback, theme }) {
 //
 //
 export default function SideBar({ setSearch, theme, setModal }) {
-    const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch();
+    const [fetchMovies, movies, errorMessage] = useSearch();
 
     useEffect(() => {
         setSearch(movies);
@@ -92,7 +92,7 @@ export default function SideBar({ setSearch, theme, setModal }) {
         <div style={styles.container} className={_styles.container}>
             <MovieSearch
                 theme={theme}
-                onTermSubmit={fetchMovie}
+                onTermSubmit={fetchMovies}
                 setModal={setModal}
                 callback={() => screenNavigator(1200)} // approximate location
             />
@@ -123,14 +123,12 @@ export default function SideBar({ setSearch, theme, setModal }) {
                 theme={theme}
                 title="Settings"
                 Icon={FiSettings}
-                callback={() =>
+                callback={() => {
                     setModal((prev) => ({
                         ...prev,
                         settingsModal: !prev.settingsModal,
-                    }))
-                }
-
-                // navigate user to technical page
+                    }));
+                }}
             />
             <IconNavigator
                 theme={theme}

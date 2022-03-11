@@ -4,7 +4,8 @@ import Image from "next/image";
 ////
 import _styles from "../styles/movieApp.module.css";
 //
-import { AiOutlineLeftCircle, AiOutlineRightCircle } from "react-icons/ai";
+//
+import MovieScroller from "./movieScrollerHOC";
 //
 const ImageLoader = ({ src }) => `https://image.tmdb.org/t/p/w500${src}`;
 //
@@ -13,11 +14,13 @@ const MovieResults = ({ state, callback, setModal, title, theme }) => {
     // const [position, setPosition] = useState(0);
     const scroller = useRef();
     const slider = (amount) => (scroller.current.scrollLeft += amount);
+    // let stateLength = state.length || 1; // needed to display scrolling buttons
 
     const styles = {
         container: {
             display: "flex",
             justifyContent: "flex-start",
+            // border: "1px solid red",
         },
         cardContainer: {
             display: "flex",
@@ -48,40 +51,18 @@ const MovieResults = ({ state, callback, setModal, title, theme }) => {
             color: theme.fontColor,
             fontWeight: theme.fontWeight,
         },
-        btnLeft: {
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
+        left: {
             margin: setModal ? "70px -40px 0 0" : "0px -40px 0 0",
-            zIndex: 1,
-            cursor: "pointer",
-            // border: "1px solid blue",
         },
-        btnRight: {
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
+        right: {
             margin: setModal ? "70px 0px 0 -40px" : "0 0 0 -40px",
-            zIndex: 1,
-            cursor: "pointer",
-            // border: "1px solid blue",
         },
     };
 
     return (
         <>
             <h3 style={styles.title}>{title}</h3>
-            <div style={styles.container}>
-                {state.length > 3 ? (
-                    <div style={styles.btnLeft}>
-                        <AiOutlineLeftCircle
-                            className={_styles.scroller}
-                            size={50}
-                            onClick={() => slider(-300)}
-                        />
-                    </div>
-                ) : null}
-
+            <MovieScroller styles_={styles} callback={slider}>
                 <div style={styles.cardContainer} ref={scroller}>
                     {state.map((movie) => (
                         // disable Link for modal manual open
@@ -117,16 +98,7 @@ const MovieResults = ({ state, callback, setModal, title, theme }) => {
                         </div>
                     ))}
                 </div>
-                {state.length > 3 ? (
-                    <div style={styles.btnRight}>
-                        <AiOutlineRightCircle
-                            className={_styles.scroller}
-                            size={50}
-                            onClick={() => slider(300)}
-                        />
-                    </div>
-                ) : null}
-            </div>
+            </MovieScroller>
         </>
     );
 };
