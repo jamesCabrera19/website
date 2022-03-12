@@ -1,16 +1,20 @@
 // system imports
-import { useEffect, useContext, useRef } from "react";
+import { useEffect, useContext, useRef, useState } from "react";
+import Image from "next/image";
 // import { useRouter } from "next/router";
 // context
 import { Context as MovieDataContext } from "../../../context/movieDataContext";
 // hooks
 import useFetch from "../../../hooks/useFetch";
+import useVideo from "../../../hooks/useVideo";
 // components
 import MovieResults from "../../../components/movieResults";
 import MovieShadow from "../../../components/movieShadowHOC";
 import BigButton from "../../../components/movieButtons/bigButton";
 import IconButton from "../../../components/movieButtons/IconButton";
 import RegularBtn from "../../../components/movieButtons/regularButton";
+import ReactPlayer from "react-player/lazy";
+
 //
 
 const saveImage = async (event, movieTitle) => {
@@ -42,26 +46,43 @@ const setColor = (vote) => {
 //
 const voteAverage = (value) => (Math.round(value) * 100) / 100;
 //
+// // for Next Image
+// const ImageLoader = ({ src }) => `https://image.tmdb.org/t/p/original${src}`;
+// const handleImgLoad = async (e, movieTitle) => {
+//     //e.target contains all the DOM properties similar to ref.current
+//     const imageSrc = e.target.currentSrc;
+//     const res = await fetch(imageSrc, { method: "GET", headers: {} });
+//     const buffer = await res.arrayBuffer(); // creating the buffer
+//     const url = window.URL.createObjectURL(new Blob([buffer]));
+//     const link = document.createElement("a");
+//     link.href = url;
+//     link.setAttribute("download", `${movieTitle}.jpg`); // using default extension it can any other extension
+//     document.body.appendChild(link);
+//     link.click();
+//};
+
 //
 export default function Movie({ modal, setModal, theme }) {
     // * const router = useRouter(); // not needed unless we use dynamic routing
     // * const { movie } = router.query; // Not in used => used for dynamic routing
-    // const [fetchMovie, movies, errorMessage, setErrorMessage] = useFetch(true);
-    const [fetchMovie, movies, errorMessage] = useFetch();
-
     // due to naming conventions mainly my own fault
     // there are two variables called clickedMovie.
     // one if a Function value setter
     // and the the second is the actual value
     // clickedMovie(movie), state.clickedMovie === actual movie value
     const { state, clickedMovie } = useContext(MovieDataContext);
-    const imageRef = useRef();
+    const [fetchMovie, movies, errorMessage] = useFetch();
+    const [fetchVideo, video, videoErrorMessage] = useVideo();
+    const imageRef = useRef(); // ref used for downloading movie
+    const [playVideo, setPlayVideo] = useState({ key: null, play: false });
 
     useEffect(() => {
         if (modal) {
-            fetchMovie(state.clickedMovie.id);
+            fetchVideo(state.clickedMovie.id); // fetches video for movie
+            fetchMovie(state.clickedMovie.id); // fetches similar movies
             document.body.style.overflow = "hidden"; // removes background scroll
         }
+        setPlayVideo({ key: video.key, play: false });
     }, [state.clickedMovie]);
 
     const styles = {
@@ -76,7 +97,13 @@ export default function Movie({ modal, setModal, theme }) {
             borderRadius: 10,
             overflow: "hidden",
             backgroundColor: theme.background, // dark
+            position: "relative",
             //border: "1px solid red",
+        },
+        imageContainer: {
+            display: "flex",
+            height: 500,
+            // border: "1px solid red",
         },
         voteAverageBox: {
             width: 20,
@@ -106,11 +133,45 @@ export default function Movie({ modal, setModal, theme }) {
     return (
         <MovieShadow modal={setModal}>
             <div style={styles.container}>
-                <img
-                    ref={imageRef}
-                    style={styles.image}
-                    src={`https://image.tmdb.org/t/p/original${state.clickedMovie.backdrop_path}`}
-                />
+                <div style={styles.imageContainer}>
+                    {playVideo.play ? (
+                        <ReactPlayer
+                            url={`https://www.youtube.com/watch?v=${playVideo.key}`}
+                            controls={true}
+                            width="100%"
+                            height="100%"
+                            config={{
+                                youtube: {
+                                    playerVars: { embedOptions: 1 },
+                                },
+                            }}
+                            onEnded={() => {
+                                setPlayVideo((prev) => ({
+                                    ...prev,
+                                    play: !prev.play,
+                                }));
+                                // removeCredits({
+                                //     amount: 1,
+                                //     email,
+                                //     token,
+                                // });
+                            }}
+                        />
+                    ) : (
+                        <img
+                            alt="Movie Poster"
+                            ref={imageRef}
+                            style={{ width: "100%" }}
+                            src={`https://image.tmdb.org/t/p/original${state.clickedMovie.backdrop_path}`}
+                            // loader={ImageLoader}
+                            // src={state.clickedMovie.backdrop_path}
+                            // layout="fill"
+                            // objectFit="cover"
+                            // onLoad={(e) => (ref = { imageRef })}
+                        />
+                    )}
+                </div>
+
                 <h2 style={styles.text}>{state.clickedMovie.title}</h2>
 
                 <p style={styles.text}>
@@ -120,7 +181,17 @@ export default function Movie({ modal, setModal, theme }) {
                     </span>
                 </p>
 
-                <BigButton title="Play" theme={theme} />
+                <BigButton
+                    title="Play"
+                    theme={theme}
+                    callback={() => {
+                        setPlayVideo((prev) => ({
+                            key: video?.key,
+                            play: !prev.play,
+                        }));
+                    }}
+                />
+
                 <div style={styles.text}>
                     <p>{state.clickedMovie.overview}</p>
                 </div>

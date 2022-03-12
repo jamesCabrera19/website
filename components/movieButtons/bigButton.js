@@ -1,4 +1,4 @@
-export default function BigButton({ title, theme }) {
+export default function BigButton({ title, theme, callback }) {
     // these are big buttons => ex. play and download
     return (
         <div
@@ -15,6 +15,7 @@ export default function BigButton({ title, theme }) {
                 fontFamily: theme.fontFamily,
                 backgroundColor: theme.buttonLarge,
             }}
+            onClick={() => callback()}
         >
             <p>{title}</p>
         </div>
