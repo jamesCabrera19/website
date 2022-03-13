@@ -19,38 +19,6 @@ const screenNavigator = (Y) =>
         behavior: "smooth",
     });
 //
-function IconNavigator({ title, Icon, callback, theme }) {
-    const styles = {
-        iconWrapper: {
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "nowrap",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            marginTop: "90px",
-            fontWeight: theme.fontWeight,
-            // border: "1px solid yellow",
-        },
-        text: {
-            color: theme.navBarFontColor,
-            fontWeight: theme.fontWeight, // font weight
-            fontFamily: theme.fontFamily,
-        },
-    };
-
-    return (
-        <div
-            style={styles.iconWrapper}
-            className={_styles.icon}
-            onClick={() => callback()}
-        >
-            <Icon size={30} color={theme.iconColor} />
-            <p style={styles.text}>{title}</p>
-        </div>
-    );
-}
-//
-
 //
 //
 export default function SideBar({ setSearch, theme, setModal }) {
@@ -69,13 +37,6 @@ export default function SideBar({ setSearch, theme, setModal }) {
             position: "fixed",
             //border: "1px solid red",
         },
-        title: {
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flex: 1,
-            color: theme.fontColor,
-        },
         disclosure: {
             display: "flex",
             flexDirection: "column",
@@ -85,6 +46,21 @@ export default function SideBar({ setSearch, theme, setModal }) {
             fontSize: 10,
             color: "grey",
             fontWeight: theme.fontWeight,
+        },
+        iconWrapper: {
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "nowrap",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            marginTop: "90px",
+            fontWeight: theme.fontWeight,
+            // border: "1px solid red",
+        },
+        text: {
+            color: theme.navBarFontColor,
+            fontWeight: theme.fontWeight, // font weight
+            fontFamily: theme.fontFamily,
         },
     };
 
@@ -97,47 +73,54 @@ export default function SideBar({ setSearch, theme, setModal }) {
                 callback={() => screenNavigator(1200)} // approximate location
             />
 
-            <IconNavigator
-                theme={theme}
-                title="Movies"
-                Icon={AiOutlineHome}
-                callback={() => screenNavigator(1500)} // approximate location
-            />
-            <IconNavigator
-                theme={theme}
-                title="My Movies"
-                Icon={FiVideo}
-                callback={() => {
+            <div
+                style={styles.iconWrapper}
+                className={_styles.icon}
+                onClick={() => screenNavigator(1500)} // approximate location
+            >
+                <AiOutlineHome size={30} color={theme.iconColor} />
+                <p style={styles.text}>Movies</p>
+            </div>
+            <div
+                style={styles.iconWrapper}
+                className={_styles.icon}
+                onClick={() => {
                     // maybe set a toggle btn to either keep
                     //<myMovies/> open or keep it close
+                    // display movies in page
+                    // navigate user to  navigator(0, 900)}}
                     screenNavigator(1220);
                     setModal((prev) => ({
                         ...prev,
                         myMovies: !prev.myMovies,
                     }));
                 }} // approximate location
-                // display movies in page
-                // navigate user to  navigator(0, 900)}}
-            />
-            <IconNavigator
-                theme={theme}
-                title="Settings"
-                Icon={FiSettings}
-                callback={() => {
+            >
+                <FiVideo size={30} color={theme.iconColor} />
+                <p style={styles.text}>My Movies</p>
+            </div>
+            <div
+                style={styles.iconWrapper}
+                className={_styles.icon}
+                onClick={() =>
                     setModal((prev) => ({
                         ...prev,
                         settingsModal: !prev.settingsModal,
-                    }));
-                }}
-            />
-            <IconNavigator
-                theme={theme}
-                title="Technical"
-                Icon={GiGears}
-                callback={() => screenNavigator(0)}
-
+                    }))
+                } // approximate location
+            >
+                <FiSettings size={30} color={theme.iconColor} />
+                <p style={styles.text}>Settings</p>
+            </div>
+            <div
+                style={styles.iconWrapper}
+                className={_styles.icon}
+                onClick={() => screenNavigator(0)} // approximate location
                 // navigate user to technical page
-            />
+            >
+                <GiGears size={30} color={theme.iconColor} />
+                <p style={styles.text}>Technical</p>
+            </div>
 
             <div style={styles.disclosure}>
                 <p>Disclosure</p>

@@ -13,7 +13,7 @@ import MovieShadow from "../../../components/movieShadowHOC";
 import BigButton from "../../../components/movieButtons/bigButton";
 import IconButton from "../../../components/movieButtons/IconButton";
 import RegularBtn from "../../../components/movieButtons/regularButton";
-import ReactPlayer from "react-player/lazy";
+import Video from "../../../components/movieVideo";
 
 //
 
@@ -46,20 +46,6 @@ const setColor = (vote) => {
 //
 const voteAverage = (value) => (Math.round(value) * 100) / 100;
 //
-// // for Next Image
-// const ImageLoader = ({ src }) => `https://image.tmdb.org/t/p/original${src}`;
-// const handleImgLoad = async (e, movieTitle) => {
-//     //e.target contains all the DOM properties similar to ref.current
-//     const imageSrc = e.target.currentSrc;
-//     const res = await fetch(imageSrc, { method: "GET", headers: {} });
-//     const buffer = await res.arrayBuffer(); // creating the buffer
-//     const url = window.URL.createObjectURL(new Blob([buffer]));
-//     const link = document.createElement("a");
-//     link.href = url;
-//     link.setAttribute("download", `${movieTitle}.jpg`); // using default extension it can any other extension
-//     document.body.appendChild(link);
-//     link.click();
-//};
 
 //
 export default function Movie({ modal, setModal, theme }) {
@@ -74,6 +60,7 @@ export default function Movie({ modal, setModal, theme }) {
     const [fetchMovie, movies, errorMessage] = useFetch();
     const [fetchVideo, video, videoErrorMessage] = useVideo();
     const imageRef = useRef(); // ref used for downloading movie
+    const videoRef = useRef(null);
     const [playVideo, setPlayVideo] = useState({ key: null, play: false });
 
     useEffect(() => {
@@ -129,33 +116,14 @@ export default function Movie({ modal, setModal, theme }) {
             justifyContent: "space-around",
         },
     };
-
     return (
         <MovieShadow modal={setModal}>
             <div style={styles.container}>
                 <div style={styles.imageContainer}>
                     {playVideo.play ? (
-                        <ReactPlayer
-                            url={`https://www.youtube.com/watch?v=${playVideo.key}`}
-                            controls={true}
-                            width="100%"
-                            height="100%"
-                            config={{
-                                youtube: {
-                                    playerVars: { embedOptions: 1 },
-                                },
-                            }}
-                            onEnded={() => {
-                                setPlayVideo((prev) => ({
-                                    ...prev,
-                                    play: !prev.play,
-                                }));
-                                // removeCredits({
-                                //     amount: 1,
-                                //     email,
-                                //     token,
-                                // });
-                            }}
+                        <Video
+                            videoKey={playVideo.key}
+                            setVideo={setPlayVideo}
                         />
                     ) : (
                         <img
@@ -163,11 +131,6 @@ export default function Movie({ modal, setModal, theme }) {
                             ref={imageRef}
                             style={{ width: "100%" }}
                             src={`https://image.tmdb.org/t/p/original${state.clickedMovie.backdrop_path}`}
-                            // loader={ImageLoader}
-                            // src={state.clickedMovie.backdrop_path}
-                            // layout="fill"
-                            // objectFit="cover"
-                            // onLoad={(e) => (ref = { imageRef })}
                         />
                     )}
                 </div>

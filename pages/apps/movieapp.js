@@ -67,7 +67,7 @@ const App = ({ theme, setTheme }) => {
             padding: "64px 0",
             overflow: "hidden", // stops <MovieResults/> from overflowing from the right side
             backgroundColor: theme.background, // used if image fails to load
-            //border: "1px solid green",
+            // border: "1px solid green",
         },
         sub: {
             overflow: "scroll", // allows scrolling only on <MovieResults/>
@@ -178,12 +178,6 @@ export default function MovieApp() {
             footerOptions(null); // reverting footer background color to main
         };
     }, [theme]);
-
-    // keep in mind that choosing to light theme
-    // we also need to consider
-    // footerOptions()
-    // as its dark on this app
-
     return (
         <MovieDataProvider>
             <MovieActionProvider>

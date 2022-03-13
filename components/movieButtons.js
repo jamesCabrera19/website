@@ -21,7 +21,7 @@ function Buttons({ title, theme }) {
     );
 }
 
-function SquareButton({ title, IconName, options, callback }) {
+function SquareButton({ title, Icon, options, callback, theme }) {
     const styles = {
         options: {
             borderTop: "1px solid red",
@@ -34,11 +34,11 @@ function SquareButton({ title, IconName, options, callback }) {
             alignItems: "center",
             padding: "0 6px",
             cursor: "pointer",
-            backgroundColor: "#FFFFFF",
+            backgroundColor: "#F2F2F7",
             // borderRight: "1px solid red",
             // borderLeft: "1px solid red",
             borderTop: options === "isTop" ? "1px solid transparent" : null,
-            borderBottom: "1px solid rgba(107, 107, 107, 0.6)",
+            borderBottom: `1px solid ${theme.borderColor}`,
             borderTopLeftRadius: options === "isTop" ? 4 : null,
             borderTopRightRadius: options === "isTop" ? 4 : null,
             borderBottomRightRadius: options === "isBottom" ? 4 : null,
@@ -48,11 +48,11 @@ function SquareButton({ title, IconName, options, callback }) {
             color: "rgba(107, 107, 107, 0.6)",
         },
     };
-    if (IconName && callback) {
+    if (Icon && callback) {
         return (
             <div style={styles.button} onClick={() => callback()}>
                 <p>{title}</p>
-                <IconName size={30} color="grey" />
+                <Icon size={30} color="grey" />
             </div>
         );
     } else {

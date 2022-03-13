@@ -4,8 +4,50 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { HiSelector } from "react-icons/hi";
 import { SquareButton } from "./movieButtons";
 import "react-toggle/style.css"; // for ES6 modules
-
 import Toggle from "react-toggle";
+
+// function SquareButton({ title, IconName, options, callback }) {
+//     const styles = {
+//         options: {
+//             borderTop: "1px solid red",
+//         },
+//         button: {
+//             height: 45,
+//             width: "90%",
+//             display: "flex",
+//             justifyContent: "space-between",
+//             alignItems: "center",
+//             padding: "0 6px",
+//             cursor: "pointer",
+//             backgroundColor: "#F2F2F7",
+//             // borderRight: "1px solid red",
+//             // borderLeft: "1px solid red",
+//             borderTop: options === "isTop" ? "1px solid transparent" : null,
+//             borderBottom: "1px solid rgba(240, 220, 240, 0.9)",
+//             borderTopLeftRadius: options === "isTop" ? 4 : null,
+//             borderTopRightRadius: options === "isTop" ? 4 : null,
+//             borderBottomRightRadius: options === "isBottom" ? 4 : null,
+//             borderBottomLeftRadius: options === "isBottom" ? 4 : null,
+//         },
+//         faded: {
+//             color: "rgba(107, 107, 107, 0.6)",
+//         },
+//     };
+//     if (IconName && callback) {
+//         return (
+//             <div style={styles.button} onClick={() => callback()}>
+//                 <p>{title}</p>
+//                 <IconName size={30} color="grey" />
+//             </div>
+//         );
+//     } else {
+//         return (
+//             <div style={styles.button}>
+//                 <p style={styles.faded}>{title}</p>
+//             </div>
+//         );
+//     }
+// }
 
 export default function MovieSettings({ theme, setModal, switchTheme }) {
     const styles = {
@@ -52,34 +94,38 @@ export default function MovieSettings({ theme, setModal, switchTheme }) {
                 </div>
                 <SquareButton
                     title="Name, Email, Password"
-                    IconName={MdKeyboardArrowRight}
+                    Icon={MdKeyboardArrowRight}
                     callback={() => console.log("Open Contact Form")}
                     options="isTop"
+                    theme={theme}
                 />
                 <SquareButton
                     title="Subscriptions"
-                    IconName={MdKeyboardArrowRight}
+                    Icon={MdKeyboardArrowRight}
                     callback={() => console.log("Subscriptions Form")}
                     options="isBottom"
+                    theme={theme}
                 />
                 <MovieSpacer />
                 <SquareButton
                     title="Notifications"
-                    IconName={MdKeyboardArrowRight}
+                    Icon={MdKeyboardArrowRight}
                     callback={() => console.log("Notifications Switch ON/OFF")}
                     options="isTop"
+                    theme={theme}
                 />
                 <SquareButton
                     title="Max number of results per row"
-                    IconName={HiSelector}
+                    Icon={HiSelector}
                     callback={() => console.log("Selector Form")}
                     options="isBottom"
+                    theme={theme}
                 />
                 <MovieSpacer />
 
                 <SquareButton
                     title="Switch Theme"
-                    IconName={() => (
+                    Icon={() => (
                         <label>
                             <Toggle
                                 defaultChecked={
@@ -92,12 +138,14 @@ export default function MovieSettings({ theme, setModal, switchTheme }) {
                     )}
                     options="isTop"
                     callback={() => {}}
+                    theme={theme}
                 />
                 <SquareButton
                     title={theme.type === "light" ? "light" : "dark"}
-                    // IconName={HiSelector}
+                    // Icon={HiSelector}
                     // callback={() => console.log("Selector Form")}
                     options="isBottom"
+                    theme={theme}
                 />
                 {/* <div style={styles.button}>Current Theme</div> */}
 
