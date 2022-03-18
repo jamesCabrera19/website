@@ -1,9 +1,17 @@
 import { useEffect, useContext, useState } from "react";
-import { Context as MovieActionContext } from "../../context/movieActionsContext";
+// context
+import { Context as MovieActionContext } from "../../../context/movieActionsContext";
+// icons
 import { AiOutlinePlus, AiOutlineDelete, AiOutlineCheck } from "react-icons/ai";
-import _styles from "../../styles/movieApp.module.css";
+import { BiDownload } from "react-icons/bi";
+import { MdIosShare } from "react-icons/md";
+// css
+import _styles from "../../../styles/movieApp.module.css";
 
-export default function IconButton({ action, movie }) {
+//
+// ! these btn are imported to [movie.js]
+
+function IconBtn({ movie }) {
     // these are icon buttons => ex. play and download, share
     // callback can either be "addToList" or "removeFromList"
     const { state, addToList, removeFromList } = useContext(MovieActionContext);
@@ -91,3 +99,29 @@ export default function IconButton({ action, movie }) {
     );
 }
 // * exported to Card, MovieResult
+function IconBtnRegular({ callback, type }) {
+    return (
+        <div
+            style={{
+                width: 60,
+                height: 40,
+                borderRadius: 4,
+                border: "1px solid rgb(230, 89, 137)", // same as theme.background
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+            }}
+            onClick={() => callback()}
+            className={_styles.iconButton}
+        >
+            {type === "download" ? (
+                <BiDownload size={30} color="rgb(230, 89, 137)" />
+            ) : (
+                <MdIosShare size={30} color="rgb(230, 89, 137)" />
+            )}
+        </div>
+    );
+}
+
+export { IconBtn, IconBtnRegular };

@@ -8,12 +8,16 @@ import { Context as MovieDataContext } from "../../../context/movieDataContext";
 import useFetch from "../../../hooks/useFetch";
 import useVideo from "../../../hooks/useVideo";
 // components
-import MovieResults from "../../../components/movieResults";
-import MovieShadow from "../../../components/movieShadowHOC";
-import BigButton from "../../../components/movieButtons/bigButton";
-import IconButton from "../../../components/movieButtons/IconButton";
-import RegularBtn from "../../../components/movieButtons/regularButton";
-import Video from "../../../components/movieVideo";
+import MovieResults from "../../../components/movie/movieResults";
+import MovieShadow from "../../../components/movie/movieShadowHOC";
+import BigButton from "../../../components/movie/movieButtons/bigButton";
+
+import {
+    IconBtn,
+    IconBtnRegular,
+} from "../../../components/movie/movieButtons/IconButton";
+
+import Video from "../../../components/movie/movieVideo";
 
 //
 
@@ -51,26 +55,21 @@ const voteAverage = (value) => (Math.round(value) * 100) / 100;
 export default function Movie({ modal, setModal, theme }) {
     // * const router = useRouter(); // not needed unless we use dynamic routing
     // * const { movie } = router.query; // Not in used => used for dynamic routing
-    // due to naming conventions mainly my own fault
-    // there are two variables called clickedMovie.
-    // one if a Function value setter
-    // and the the second is the actual value
-    // clickedMovie(movie), state.clickedMovie === actual movie value
-    const { state, clickedMovie } = useContext(MovieDataContext);
+
+    const { state, saveMovie } = useContext(MovieDataContext);
     const [fetchMovie, movies, errorMessage] = useFetch();
     const [fetchVideo, video, videoErrorMessage] = useVideo();
     const imageRef = useRef(); // ref used for downloading movie
-    const videoRef = useRef(null);
     const [playVideo, setPlayVideo] = useState({ key: null, play: false });
 
     useEffect(() => {
         if (modal) {
-            fetchVideo(state.clickedMovie.id); // fetches video for movie
-            fetchMovie(state.clickedMovie.id); // fetches similar movies
+            fetchVideo(state.savedMovie.id); // fetches video for movie
+            fetchMovie(state.savedMovie.id); // fetches similar movies
             document.body.style.overflow = "hidden"; // removes background scroll
         }
         setPlayVideo({ key: video.key, play: false });
-    }, [state.clickedMovie]);
+    }, [state.savedMovie]);
 
     const styles = {
         container: {
@@ -101,7 +100,7 @@ export default function Movie({ modal, setModal, theme }) {
             borderRadius: 4,
             padding: "2px 5px",
             fontWeight: 600,
-            color: setColor(state.clickedMovie.vote_average),
+            color: setColor(state.savedMovie?.vote_average),
         },
         text: {
             marginBottom: 10,
@@ -130,17 +129,17 @@ export default function Movie({ modal, setModal, theme }) {
                             alt="Movie Poster"
                             ref={imageRef}
                             style={{ width: "100%" }}
-                            src={`https://image.tmdb.org/t/p/original${state.clickedMovie.backdrop_path}`}
+                            src={`https://image.tmdb.org/t/p/original${state.savedMovie?.backdrop_path}`}
                         />
                     )}
                 </div>
 
-                <h2 style={styles.text}>{state.clickedMovie.title}</h2>
+                <h2 style={styles.text}>{state.savedMovie?.title}</h2>
 
                 <p style={styles.text}>
-                    Released {state.clickedMovie.release_date}, Rating{" "}
+                    Released {state.savedMovie?.release_date}, Rating{" "}
                     <span style={styles.voteAverageBox}>
-                        {voteAverage(state.clickedMovie.vote_average)}
+                        {voteAverage(state.savedMovie?.vote_average)}
                     </span>
                 </p>
 
@@ -156,25 +155,25 @@ export default function Movie({ modal, setModal, theme }) {
                 />
 
                 <div style={styles.text}>
-                    <p>{state.clickedMovie.overview}</p>
+                    <p>{state.savedMovie?.overview}</p>
                 </div>
 
                 <div style={styles.iconWrapper}>
-                    <IconButton action="add" movie={state.clickedMovie} />
-                    <RegularBtn
+                    <IconBtn action="add" movie={state.savedMovie} />
+                    <IconBtnRegular
                         type="download"
                         callback={() =>
-                            saveImage(imageRef, state.clickedMovie.title)
+                            saveImage(imageRef, state.savedMovie?.title)
                         }
                     />
-                    <RegularBtn
+                    <IconBtnRegular
                         type="share"
                         callback={() => console.log("download")}
                     />
                 </div>
                 <h3 style={styles.text}>More Like This</h3>
                 <MovieResults
-                    callback={clickedMovie}
+                    callback={saveMovie}
                     state={movies}
                     theme={theme}
                     title=""

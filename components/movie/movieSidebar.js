@@ -7,9 +7,9 @@ import { GiGears } from "react-icons/gi";
 // components
 import MovieSearch from "./movieSearch";
 // CSS styles
-import _styles from "../styles/movieApp.module.css";
+import _styles from "../../styles/movieApp.module.css";
 // hooks
-import useSearch from "../hooks/useSearch";
+import useSearch from "../../hooks/useSearch";
 
 //
 const screenNavigator = (Y) =>
@@ -81,6 +81,8 @@ export default function SideBar({ setSearch, theme, setModal }) {
                 <AiOutlineHome size={30} color={theme.iconColor} />
                 <p style={styles.text}>Movies</p>
             </div>
+
+            {/* My Movies */}
             <div
                 style={styles.iconWrapper}
                 className={_styles.icon}
@@ -90,15 +92,18 @@ export default function SideBar({ setSearch, theme, setModal }) {
                     // display movies in page
                     // navigate user to  navigator(0, 900)}}
                     screenNavigator(1220);
-                    setModal((prev) => ({
-                        ...prev,
-                        myMovies: !prev.myMovies,
-                    }));
+                    // setModal((prev) => ({
+                    //     ...prev,
+                    //     myMovies: !prev.myMovies,
+                    // }));
                 }} // approximate location
             >
                 <FiVideo size={30} color={theme.iconColor} />
                 <p style={styles.text}>My Movies</p>
             </div>
+
+            {/* SETTINGS */}
+
             <div
                 style={styles.iconWrapper}
                 className={_styles.icon}
@@ -112,6 +117,8 @@ export default function SideBar({ setSearch, theme, setModal }) {
                 <FiSettings size={30} color={theme.iconColor} />
                 <p style={styles.text}>Settings</p>
             </div>
+
+            {/* Technical */}
             <div
                 style={styles.iconWrapper}
                 className={_styles.icon}

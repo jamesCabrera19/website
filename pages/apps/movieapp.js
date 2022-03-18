@@ -11,14 +11,14 @@ import { Provider as MovieActionProvider } from "../../context/movieActionsConte
 //
 import Movie from "./movieapp/[movie]"; // better solution found
 // components
-import MovieResults from "../../components/movieResults";
-import LatestMovie from "../../components/movieLatest";
-import SideBar from "../../components/movieSidebar";
-import MovieGenres from "../../components/movieGenres";
-import MovieSettings from "../../components/movieSettings";
+import MovieResults from "../../components/movie/movieResults";
+import LatestMovie from "../../components/movie/movieLatest";
+import SideBar from "../../components/movie/movieSidebar";
+import MovieGenres from "../../components/movie/movieGenres";
+import MovieSettings from "../../components/movie/movieSettings";
 // CSS
 import _styles from "../../styles/movieApp.module.css";
-import { darkTheme, lightTheme } from "../../components/movieThemes";
+import { darkTheme, lightTheme } from "../../components/movie/movieThemes";
 //
 
 const trendingMovie = (state) => {
@@ -34,7 +34,7 @@ const App = ({ theme, setTheme }) => {
     const {
         state: { main, genres, moviesByGenre },
         fetchMovies,
-        clickedMovie,
+        saveMovie,
         fetchGenres,
     } = useContext(MovieContext);
 
@@ -94,13 +94,13 @@ const App = ({ theme, setTheme }) => {
                 <LatestMovie
                     src={trendingMovie(main)}
                     width="original"
-                    callback={clickedMovie}
+                    callback={saveMovie}
                     setModal={setModal}
                 />
 
                 <MovieResults
                     state={main}
-                    callback={clickedMovie}
+                    callback={saveMovie}
                     setModal={setModal}
                     title="Popular Movies"
                     theme={theme}
@@ -112,7 +112,7 @@ const App = ({ theme, setTheme }) => {
                     // populated by default
                     <MovieResults
                         state={searchMovies}
-                        callback={clickedMovie}
+                        callback={saveMovie}
                         setModal={setModal}
                         title="Movie Search"
                         theme={theme}
@@ -121,8 +121,8 @@ const App = ({ theme, setTheme }) => {
 
                 {modal.myMovies && state.length ? (
                     <MovieResults
-                        state={state}
-                        callback={clickedMovie}
+                        state={state} // state != MovieContext. state === MovieActionContext
+                        callback={saveMovie}
                         setModal={setModal}
                         title="My Movies"
                         theme={theme}
@@ -137,7 +137,7 @@ const App = ({ theme, setTheme }) => {
                 {moviesByGenre ? (
                     <MovieResults
                         state={moviesByGenre}
-                        callback={clickedMovie}
+                        callback={saveMovie}
                         setModal={setModal}
                         title=""
                         theme={theme}
@@ -146,6 +146,7 @@ const App = ({ theme, setTheme }) => {
             </div>
             {modal.settingsModal ? (
                 <MovieSettings
+                    modal={modal}
                     setModal={setModal}
                     theme={theme}
                     switchTheme={setTheme}

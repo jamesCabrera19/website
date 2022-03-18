@@ -2,11 +2,11 @@
 import React, { useRef, useContext } from "react";
 import Image from "next/image";
 // context
-import { Context as MovieContext } from "../context/movieDataContext";
+import { Context as MovieContext } from "../../context/movieDataContext";
 // icons
 import { AiOutlineLeftCircle, AiOutlineRightCircle } from "react-icons/ai";
 // css
-import _styles from "../styles/movieApp.module.css";
+import _styles from "../../styles/movieApp.module.css";
 //
 function MovieGenres(props) {
     const { fetchMoviesByGenre } = useContext(MovieContext);
@@ -105,7 +105,7 @@ function MovieGenres(props) {
                             >
                                 <Image
                                     src={
-                                        require(`../imgs/movieApp/${_image}.jpg`)
+                                        require(`../../imgs/movieApp/${_image}.jpg`)
                                             .default.src
                                     }
                                     alt={_image}

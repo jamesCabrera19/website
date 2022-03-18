@@ -20,7 +20,7 @@ export const lightTheme = {
     navBarFontColor: "rgb(230, 89, 137)", // "#54BAB9",
     iconColor: "rgb(230, 89, 137)",
     borderColor: "rgba(209, 209, 210, 0.5)", // only applies to settings box
-    buttonLarge: "#54BAB9",
+    buttonLarge: "rgb(230, 89, 137)",
     fontColor: "#5d5d5d", // font color
     inputColor: "rgb(230, 89, 137)", // box
     fontWeight: "300", // font weight

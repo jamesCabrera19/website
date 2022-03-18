@@ -7,7 +7,7 @@ const movieDataReducer = (state, action) => {
             // passing init state but main is rebuilt
             return { ...state, main: action.payload }; // true state
         case "clicked_movie":
-            return { ...state, clickedMovie: action.payload }; // move to  different reducer
+            return { ...state, savedMovie: action.payload }; // move to  different reducer
         //colors[colors.length - 1] last item in array
         case "genres":
             return { ...state, genres: action.payload };
@@ -58,7 +58,7 @@ const fetchMoviesByGenre = (dispatch) => async (movieID) => {
     }
 };
 
-const clickedMovie = (dispatch) => (movie) => {
+const saveMovie = (dispatch) => (movie) => {
     dispatch({ type: "clicked_movie", payload: movie });
 };
 
@@ -66,11 +66,11 @@ export const { Context, Provider } = createDataContext(
     movieDataReducer,
     {
         fetchMovies,
-        clickedMovie,
+        saveMovie,
         fetchGenres,
         fetchMoviesByGenre,
     }, // action Functions
-    { main: [], genres: [], clickedMovie: {} } // init STATE
+    { main: [], genres: [], savedMovie: {} } // init STATE
 
     // { main: [], clickedMovie: {}, genres: [] } // init STATE
 );

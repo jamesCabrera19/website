@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 // import Link from "next/link";
 import Image from "next/image";
 ////
-import _styles from "../styles/movieApp.module.css";
+import _styles from "../../styles/movieApp.module.css";
 //
 //
 import MovieScroller from "./movieScrollerHOC";

@@ -1,4 +1,4 @@
-import _styles from "../styles/movieApp.module.css";
+import _styles from "../../styles/movieApp.module.css";
 import { AiOutlineLeftCircle, AiOutlineRightCircle } from "react-icons/ai";
 
 export default function MovieScroller({ children, callback, styles_ }) {
