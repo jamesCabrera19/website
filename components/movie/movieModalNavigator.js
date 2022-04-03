@@ -3,7 +3,7 @@ import { AiOutlineLeftCircle } from "react-icons/ai";
 import ContactForm from "../contactForm";
 import Subscriptions from "./movieSubscriptions";
 
-export default function ModalNavigator({ navigator, theme, route }) {
+export default function ModalNavigator({ navigator, route, theme }) {
     const styles = {
         container: {
             display: "flex",
@@ -19,7 +19,7 @@ export default function ModalNavigator({ navigator, theme, route }) {
     };
     const renderItem = (routeName) => {
         switch (routeName) {
-            case "form":
+            case "Form":
                 return <ContactForm theme={theme} />;
             default:
                 return <Subscriptions theme={theme} />;

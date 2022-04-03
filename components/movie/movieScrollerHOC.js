@@ -22,24 +22,27 @@ export default function MovieScroller({ children, callback, styles_ }) {
             // border: "1px solid blue",
         },
     };
-
-    return (
-        <div style={styles_.container}>
-            <div style={styles.btnLeft}>
-                <AiOutlineLeftCircle
-                    onClick={() => callback(-300)}
-                    className={_styles.scroller}
-                    size={50}
-                />
+    if (children.props.children.length > 2) {
+        return (
+            <div style={styles_.container}>
+                <div style={styles.btnLeft}>
+                    <AiOutlineLeftCircle
+                        onClick={() => callback(-300)}
+                        className={_styles.scroller}
+                        size={50}
+                    />
+                </div>
+                {children}
+                <div style={styles.btnRight}>
+                    <AiOutlineRightCircle
+                        onClick={() => callback(300)}
+                        className={_styles.scroller}
+                        size={50}
+                    />
+                </div>
             </div>
-            {children}
-            <div style={styles.btnRight}>
-                <AiOutlineRightCircle
-                    onClick={() => callback(300)}
-                    className={_styles.scroller}
-                    size={50}
-                />
-            </div>
-        </div>
-    );
+        );
+    } else {
+        return <div style={styles_.container}>{children}</div>;
+    }
 }

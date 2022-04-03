@@ -2,7 +2,6 @@ import { useState } from "react";
 import movieApi from "../api/movieApi";
 
 export default () => {
-    // * getSimilar:Boolean
     const [movies, setMovies] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -16,10 +15,5 @@ export default () => {
             setErrorMessage(error);
         }
     };
-
-    // useEffect(() => {
-    //     fetchMovie(926899); // init value
-    // }, []); // not needed because nothing is fetch when app is mounted
-
     return [fetchMovie, movies, errorMessage];
 };

@@ -18,7 +18,7 @@ const MovieSearch = (props) => {
         input: {
             fontSize: 18,
             width: 340,
-            // backgroundColor: "rgba(255, 255, 255, 0.7)",
+            outline: "none",
             border: 0,
         },
         icon: {

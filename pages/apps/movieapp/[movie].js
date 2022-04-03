@@ -1,9 +1,11 @@
 // system imports
 import { useEffect, useContext, useRef, useState } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 // import { useRouter } from "next/router";
 // context
 import { Context as MovieDataContext } from "../../../context/movieDataContext";
+import { Context as MovieAuthContext } from "../../../context/movieAuthContext";
+
 // hooks
 import useFetch from "../../../hooks/useFetch";
 import useVideo from "../../../hooks/useVideo";
@@ -11,16 +13,13 @@ import useVideo from "../../../hooks/useVideo";
 import MovieResults from "../../../components/movie/movieResults";
 import MovieShadow from "../../../components/movie/movieShadowHOC";
 import BigButton from "../../../components/movie/movieButtons/bigButton";
-
 import {
     IconBtn,
     IconBtnRegular,
 } from "../../../components/movie/movieButtons/IconButton";
-
 import Video from "../../../components/movie/movieVideo";
 
 //
-
 const saveImage = async (event, movieTitle) => {
     // saves image to device
     const imageSrc = event.current.currentSrc;
@@ -55,10 +54,15 @@ const voteAverage = (value) => (Math.round(value) * 100) / 100;
 export default function Movie({ modal, setModal, theme }) {
     // * const router = useRouter(); // not needed unless we use dynamic routing
     // * const { movie } = router.query; // Not in used => used for dynamic routing
-
+    const {
+        state: { email, token },
+        removeCredits,
+    } = useContext(MovieAuthContext); //
     const { state, saveMovie } = useContext(MovieDataContext);
+    //
     const [fetchMovie, movies, errorMessage] = useFetch();
     const [fetchVideo, video, videoErrorMessage] = useVideo();
+
     const imageRef = useRef(); // ref used for downloading movie
     const [playVideo, setPlayVideo] = useState({ key: null, play: false });
 
@@ -78,7 +82,7 @@ export default function Movie({ modal, setModal, theme }) {
             justifyContent: "flex-start", // makes img to show from top
             margin: "64px auto",
             paddingBottom: 10,
-            width: "80%",
+            width: 720,
             height: "auto",
             borderRadius: 10,
             overflow: "hidden",
@@ -162,9 +166,10 @@ export default function Movie({ modal, setModal, theme }) {
                     <IconBtn action="add" movie={state.savedMovie} />
                     <IconBtnRegular
                         type="download"
-                        callback={() =>
-                            saveImage(imageRef, state.savedMovie?.title)
-                        }
+                        callback={() => {
+                            saveImage(imageRef, state.savedMovie?.title),
+                                removeCredits({ amount: 1, email, token });
+                        }}
                     />
                     <IconBtnRegular
                         type="share"

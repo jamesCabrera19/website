@@ -70,7 +70,7 @@ export default function SideBar({ setSearch, theme, setModal }) {
                 theme={theme}
                 onTermSubmit={fetchMovies}
                 setModal={setModal}
-                callback={() => screenNavigator(1200)} // approximate location
+                callback={() => screenNavigator(700)} // approximate location
             />
 
             <div
@@ -92,10 +92,13 @@ export default function SideBar({ setSearch, theme, setModal }) {
                     // display movies in page
                     // navigate user to  navigator(0, 900)}}
                     screenNavigator(1220);
-                    // setModal((prev) => ({
-                    //     ...prev,
-                    //     myMovies: !prev.myMovies,
-                    // }));
+                    setModal((prev) => ({
+                        ...prev,
+                        myMovies:
+                            prev.myMovies === false
+                                ? !prev.myMovies
+                                : prev.myMovies,
+                    }));
                 }} // approximate location
             >
                 <FiVideo size={30} color={theme.iconColor} />

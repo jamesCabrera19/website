@@ -1,22 +1,31 @@
 // system imports
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "react-toggle/style.css"; // for ES6 modules
 import Toggle from "react-toggle";
 
 // icons
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { HiSelector } from "react-icons/hi";
+// context
+import { Context as AuthContext } from "../../context/movieAuthContext";
 
 // Components
 import MovieSpacer from "./movieSpacer";
 import ModalNavigator from "./movieModalNavigator";
 import MovieShadow from "./movieShadowHOC";
 import SettingsBtn from "./movieButtons/settingsBtn";
+// hooks
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
+    const {
+        state: { email },
+    } = useContext(AuthContext);
+
     const [navigator, setNavigator] = useState(false); // navigator switch
     const [route, setRoute] = useState(""); // navigator route: Form || Subscription
     const [image, setImage] = useState({ image: null });
+    // const [value, setValue] = useLocalStorage("dark", false);
 
     const onImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -67,7 +76,6 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
             cursor: "pointer",
         },
     };
-
     return (
         <MovieShadow modal={setModal}>
             {navigator ? (
@@ -93,14 +101,14 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
                         />
                     </div>
 
-                    <p>User Email Here</p>
+                    <p>{email}</p>
 
                     <SettingsBtn
                         title="Name, Email, Password"
                         Icon={MdKeyboardArrowRight}
                         callback={() => {
                             setNavigator((prev) => !prev);
-                            setRoute("form");
+                            setRoute("Form");
                         }}
                         options="isTop"
                         theme={theme}
@@ -110,7 +118,7 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
                         Icon={MdKeyboardArrowRight}
                         callback={() => {
                             setNavigator((prev) => !prev);
-                            setRoute("Subs");
+                            setRoute("Subscriptions");
                         }}
                         options="isBottom"
                         theme={theme}
@@ -144,12 +152,12 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
                                         modal.myMovies === true ? true : false
                                     }
                                     icons={false}
-                                    onChange={() =>
+                                    onChange={() => {
                                         setModal((prev) => ({
                                             ...prev,
                                             myMovies: !prev.myMovies,
-                                        }))
-                                    }
+                                        }));
+                                    }}
                                 />
                             </label>
                         )}
@@ -175,7 +183,9 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
                                         theme.type === "light" ? true : false
                                     }
                                     icons={false}
-                                    onChange={() => switchTheme()}
+                                    onChange={() => {
+                                        switchTheme();
+                                    }}
                                 />
                             </label>
                         )}

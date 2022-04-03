@@ -8,6 +8,7 @@ export const darkTheme = {
     buttonLarge: "rgb(230, 87, 137)",
     fontColor: "rgb(255, 255, 255)", // font color
     inputColor: "rgb(63, 66, 77)",
+    authLink: "blue", // for logIn box
     fontWeight: "300", // font weight
     fontFamily:
         "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
@@ -23,6 +24,7 @@ export const lightTheme = {
     buttonLarge: "rgb(230, 89, 137)",
     fontColor: "#5d5d5d", // font color
     inputColor: "rgb(230, 89, 137)", // box
+    authLink: "blue", // for logIn box
     fontWeight: "300", // font weight
     fontFamily:
         "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",

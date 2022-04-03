@@ -5,6 +5,7 @@ export default function MovieShadow({ children, modal }) {
             document.body.style.overflow = "auto"; // adds background scroll
             // * enable for manual modal open
             modal((prev) => ({
+                ...prev,
                 movieModal: false,
                 settingsModal: false,
             }));

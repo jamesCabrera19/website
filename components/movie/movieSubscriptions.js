@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Context as AuthContext } from "../../context/movieAuthContext";
+
 import Spacer from "./movieSpacer";
 
 export default function Subscriptions({ theme }) {
-    const [credits, setCredits] = useState(0);
+    const {
+        state: { email, credits },
+    } = useContext(AuthContext);
+
+    // const [credits, setCredits] = useState(0);
 
     const styles = {
         container: {
@@ -28,9 +34,12 @@ export default function Subscriptions({ theme }) {
     };
     return (
         <div style={styles.container}>
-            <p>user email</p>
+            <p>{email}</p>
             <Spacer />
-            <p>You have "state.credits" credits left</p>
+            <p>
+                You have <span style={{ fontWeight: "700" }}>{credits} </span>
+                credits left
+            </p>
             <Spacer />
             <p>Credit Selector</p>
             <Spacer />

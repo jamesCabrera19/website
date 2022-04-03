@@ -2,10 +2,12 @@
 import React, { useEffect, useContext, useState } from "react";
 // import Link from "next/link"; // used for dynamic links
 // context
+import { Context as AuthContext } from "../../context/movieAuthContext";
 import { Context as ColorContext } from "../../context/colorScheme";
 import { Context as MovieContext } from "../../context/movieDataContext";
 import { Context as MovieActionContext } from "../../context/movieActionsContext";
 //
+import { Provider as AuthProvider } from "../../context/movieAuthContext";
 import { Provider as MovieDataProvider } from "../../context/movieDataContext";
 import { Provider as MovieActionProvider } from "../../context/movieActionsContext";
 //
@@ -16,6 +18,8 @@ import LatestMovie from "../../components/movie/movieLatest";
 import SideBar from "../../components/movie/movieSidebar";
 import MovieGenres from "../../components/movie/movieGenres";
 import MovieSettings from "../../components/movie/movieSettings";
+import MovieLogIn from "../../components/movie/movieLogIn";
+
 // CSS
 import _styles from "../../styles/movieApp.module.css";
 import { darkTheme, lightTheme } from "../../components/movie/movieThemes";
@@ -27,9 +31,13 @@ const trendingMovie = (state) => {
 };
 //
 const App = ({ theme, setTheme }) => {
+    const {
+        state: { token, errorMessage },
+    } = useContext(AuthContext); // * Auth Log In
+
     // * MovieActionContext is the app main API.
-    // moviesByGenre are hidden by default,
-    // however they can be fetched and displayed
+    // moviesByGenre results are hidden by default,
+    // however, each genre can be fetched and displayed
     // when user clicks on the desired genre
     const {
         state: { main, genres, moviesByGenre },
@@ -50,7 +58,6 @@ const App = ({ theme, setTheme }) => {
         settingsModal: false,
         myMovies: false,
     });
-
     // searchMovies is copy of state hook useFetch()
     // This is needed to update  <MovieResults/> component and to avoid stale data
     const [searchMovies, setSearchMovies] = useState([]);
@@ -65,7 +72,7 @@ const App = ({ theme, setTheme }) => {
     const styles = {
         container: {
             padding: "64px 0",
-            overflow: "hidden", // stops <MovieResults/> from overflowing from the right side
+            overflow: "hidden", // stops <MovieResults/> from overflowing
             backgroundColor: theme.background, // used if image fails to load
             // border: "1px solid green",
         },
@@ -77,11 +84,14 @@ const App = ({ theme, setTheme }) => {
 
     return (
         <div style={styles.container} className={_styles.parentContainer}>
+            {token ? null : <MovieLogIn theme={theme} error={errorMessage} />}
+
             <SideBar
                 theme={theme}
                 setModal={setModal}
                 setSearch={setSearchMovies}
             />
+
             {modal.movieModal ? (
                 <Movie
                     modal={modal.movieModal}
@@ -158,13 +168,12 @@ const App = ({ theme, setTheme }) => {
 
 export default function MovieApp() {
     // footerOptions is part of the website
-    // and not related to MovieApp in any way
+    // is not related to MovieApp in any way
     // the purpose of the footer is to change the footer
     // background color on Focus and unfocus
     const { footerOptions } = useContext(ColorContext);
 
-    const [theme, setTheme] = useState("light");
-
+    const [theme, setTheme] = useState("dark"); // theme initial value
     const toggleTheme = () => {
         theme === "light" ? setTheme("dark") : setTheme("light");
     };
@@ -179,15 +188,17 @@ export default function MovieApp() {
             footerOptions(null); // reverting footer background color to main
         };
     }, [theme]);
+
     return (
-        <MovieDataProvider>
-            <MovieActionProvider>
-                {/* <App theme={theme.dark} /> */}
-                <App
-                    theme={theme === "light" ? lightTheme : darkTheme}
-                    setTheme={toggleTheme}
-                />
-            </MovieActionProvider>
-        </MovieDataProvider>
+        <AuthProvider>
+            <MovieDataProvider>
+                <MovieActionProvider>
+                    <App
+                        theme={theme === "light" ? lightTheme : darkTheme}
+                        setTheme={toggleTheme}
+                    />
+                </MovieActionProvider>
+            </MovieDataProvider>
+        </AuthProvider>
     );
 }
