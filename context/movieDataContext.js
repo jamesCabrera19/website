@@ -13,6 +13,8 @@ const movieDataReducer = (state, action) => {
             return { ...state, genres: action.payload };
         case "moviesbygenre":
             return { ...state, moviesByGenre: action.payload };
+        case "renderResult":
+            return { ...state, maxResults: action.payload };
 
         default:
             return state;
@@ -26,7 +28,8 @@ const fetchMovies = (dispatch) => async () => {
         );
         dispatch({
             type: "init_state",
-            payload: res.data.results.slice(0, 10),
+            // payload: res.data.results.slice(0, 10),
+            payload: res.data.results,
         });
     } catch (error) {
         console.log("fetchMovies ERROR");
@@ -60,6 +63,18 @@ const fetchMoviesByGenre = (dispatch) => async (movieID) => {
 
 const saveMovie = (dispatch) => (movie) => {
     dispatch({ type: "clicked_movie", payload: movie });
+    // this function allows users to save the movie to their library section <MyMovies/>
+    // and this function also saves the movie to the DB so they can be played on other devices.
+};
+const renderResult = (dispatch) => (intValue) => {
+    dispatch({ type: "renderResult", payload: intValue });
+
+    // this app is set to improve the performance of the app.
+    // this function allows the user to set the min || max number of results to be displayed.
+    // its default value is {10}.
+    // the range of {renderResult} is min 10 to a max of 19.
+    // this function can be called in the movieSettings components under <select/>
+    // maxResults (int 10-19) is access by the MovieResults component to "slice" the set number of renderResults.
 };
 
 export const { Context, Provider } = createDataContext(
@@ -69,6 +84,7 @@ export const { Context, Provider } = createDataContext(
         saveMovie,
         fetchGenres,
         fetchMoviesByGenre,
+        renderResult,
     }, // action Functions
     { main: [], genres: [], savedMovie: {} } // init STATE
 

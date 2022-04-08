@@ -1,9 +1,11 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context as ColorContext } from "../context/colorScheme";
 import Link from "next/link";
 import Image from "next/image";
 import ButtonContainer from "../components/buttons";
 import _styles from "../styles/buttons.module.css";
+
+import ClipLoader from "react-spinners/ClipLoader";
 
 const cards = [
     {

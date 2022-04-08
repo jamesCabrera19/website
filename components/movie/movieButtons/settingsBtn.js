@@ -27,7 +27,7 @@ export default function SettingsBtn({ title, Icon, options, callback, theme }) {
     };
     if (Icon && callback) {
         return (
-            <div style={styles.button} onClick={() => callback()}>
+            <div style={styles.button} onClick={(e) => callback(e)}>
                 <p>{title}</p>
                 <Icon size={30} color="grey" />
             </div>

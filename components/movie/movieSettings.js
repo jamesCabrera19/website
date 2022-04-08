@@ -8,6 +8,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { HiSelector } from "react-icons/hi";
 // context
 import { Context as AuthContext } from "../../context/movieAuthContext";
+import { Context as MovieDataContext } from "../../context/movieDataContext";
 
 // Components
 import MovieSpacer from "./movieSpacer";
@@ -21,7 +22,11 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
     const {
         state: { email },
     } = useContext(AuthContext);
-
+    const {
+        state: { maxResults },
+        renderResult,
+    } = useContext(MovieDataContext);
+    const [results, setResults] = useState(maxResults);
     const [navigator, setNavigator] = useState(false); // navigator switch
     const [route, setRoute] = useState(""); // navigator route: Form || Subscription
     const [image, setImage] = useState({ image: null });
@@ -75,7 +80,21 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
             right: 0,
             cursor: "pointer",
         },
+        selector: {
+            height: 45,
+            width: "90%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "0 6px",
+            cursor: "pointer",
+            backgroundColor: "#F2F2F7",
+            borderBottom: `1px solid ${theme.borderColor}`,
+            borderBottomRightRadius: 4,
+            borderBottomLeftRadius: 4,
+        },
     };
+
     return (
         <MovieShadow modal={setModal}>
             {navigator ? (
@@ -162,16 +181,34 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
                             </label>
                         )}
                         callback={() => console.log("Selector Form")}
-                        options="isTop"
+                        options="isMiddle"
                         theme={theme}
                     />
-                    <SettingsBtn
-                        title="Max number of results per row"
-                        Icon={HiSelector}
-                        callback={() => console.log("Selector Form")}
-                        options="isBottom"
-                        theme={theme}
-                    />
+
+                    <div style={styles.selector}>
+                        <p>Select max number of results</p>
+                        <select
+                            style={{
+                                border: `1px solid ${theme.borderColor}`,
+                                borderRadius: 4,
+                                background: "transparent",
+                                fontSize: 16,
+                            }}
+                            name="number"
+                            value={results}
+                            onChange={(e) => {
+                                setResults(intValue);
+                                const intValue = parseInt(e.target.value);
+                                renderResult(intValue);
+                            }}
+                        >
+                            <option value="10">10</option>
+                            <option value="13">13</option>
+                            <option value="16">16</option>
+                            <option value="19">max</option>
+                        </select>
+                    </div>
+
                     <MovieSpacer />
 
                     <SettingsBtn

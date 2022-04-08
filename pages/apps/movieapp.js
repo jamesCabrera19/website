@@ -19,6 +19,8 @@ import SideBar from "../../components/movie/movieSidebar";
 import MovieGenres from "../../components/movie/movieGenres";
 import MovieSettings from "../../components/movie/movieSettings";
 import MovieLogIn from "../../components/movie/movieLogIn";
+//
+import ClipLoader from "react-spinners/ClipLoader";
 
 // CSS
 import _styles from "../../styles/movieApp.module.css";
@@ -44,6 +46,7 @@ const App = ({ theme, setTheme }) => {
         fetchMovies,
         saveMovie,
         fetchGenres,
+        renderResult,
     } = useContext(MovieContext);
 
     // * User saved movies plus other actions
@@ -63,9 +66,12 @@ const App = ({ theme, setTheme }) => {
     const [searchMovies, setSearchMovies] = useState([]);
 
     useEffect(() => {
+        // setLoading(true);
         if (main.length === 0) {
+            renderResult(10);
             fetchMovies(); // avoids calling the api multiple times
             fetchGenres();
+            // setLoading(false);
         }
     }, [main]);
 

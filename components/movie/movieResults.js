@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 // import Link from "next/link";
 import Image from "next/image";
 ////
@@ -6,11 +6,17 @@ import _styles from "../../styles/movieApp.module.css";
 //
 //
 import MovieScroller from "./movieScrollerHOC";
+import { Context as MovieDataContext } from "../../context/movieDataContext";
+
 //
 const ImageLoader = ({ src }) => `https://image.tmdb.org/t/p/w500${src}`;
 //
 
 const MovieResults = ({ state, callback, setModal, title, theme }) => {
+    const {
+        state: { maxResults },
+    } = useContext(MovieDataContext);
+    const maxResultInt = parseInt(maxResults);
     // const [position, setPosition] = useState(0);
     const scroller = useRef();
     const slider = (amount) => (scroller.current.scrollLeft += amount);
@@ -59,12 +65,19 @@ const MovieResults = ({ state, callback, setModal, title, theme }) => {
         },
     };
 
+    // React.useEffect(() => {
+    //     renderResult(9);
+    // }, []);
+
+    console.log("maxResultInt: ", parseInt(maxResultInt));
+
+    //
     return (
         <>
             <h3 style={styles.title}>{title}</h3>
             <MovieScroller styles_={styles} callback={slider}>
                 <div style={styles.cardContainer} ref={scroller}>
-                    {state.map((movie) => (
+                    {state.slice(0, maxResultInt).map((movie) => (
                         // disable Link for modal manual open
                         // Link key={Math.random() * 999} href={`/apps/movieapp/${movie.id}`}
                         <div
