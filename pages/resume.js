@@ -1,6 +1,62 @@
 import { useContext, useEffect } from "react";
 import { Context as ColorContext } from "../context/colorScheme";
+import { AiOutlineCheck } from "react-icons/ai";
 
+function Project({ props }) {
+    const { state } = useContext(ColorContext);
+
+    return (
+        <div>
+            <h3
+                style={{
+                    fontWeight: state.fontWeight,
+                    fontFamily: state.fontFamily,
+                }}
+            >
+                {props.title} <span>| Project</span>
+            </h3>
+            <ul>
+                <li>
+                    <p>{props.description_one}</p>
+                </li>
+                <li>
+                    <p>{props.description_two}</p>
+                </li>
+                {props.description_three ? (
+                    <li>
+                        <p>{props.description_three}</p>
+                    </li>
+                ) : null}
+            </ul>
+        </div>
+    );
+}
+
+function HeadingHOC({ children, title }) {
+    const { state } = useContext(ColorContext);
+
+    return (
+        <div style={{ margin: "-50px 50px 50px 50px" }}>
+            <h2
+                style={{
+                    fontWeight: state.fontWeight,
+                    fontFamily: state.fontFamily,
+                }}
+            >
+                {title}
+            </h2>
+            <div
+                style={{
+                    border: "1px solid red",
+                    width: "95%",
+                    margin: "-20px 0 -10px 0",
+                }}
+            ></div>
+
+            {children}
+        </div>
+    );
+}
 export default function Resume() {
     const { state, themeSwitch, navbarSwitch } = useContext(ColorContext);
     // useEffect(() => {
@@ -11,169 +67,132 @@ export default function Resume() {
     //     };
     // }, []);
 
-    const totalWidth = 220 + 550;
+    const resumeProject = {
+        videoApp: {
+            title: "Video streaming application",
+            description_one:
+                "Designed a full-stack video streaming application for iOS and web devices using NextJS, and React Native",
+            description_two:
+                "Implemented a RESTful API server for user authentication using NodeJS, Express, and Mongo DB.",
+            description_three: null,
+        },
+        musicApp: {
+            title: "Music streaming application",
+            description_one:
+                "Developed a music streaming application for iOS and web devices using React Native, NextJS, and React Redux.",
+            description_two:
+                "Incorporated a web scraping bot that allows users stream and download over 100+ songs using Typescript, NodeJS and Express.",
+            description_three: null,
+        },
+    };
 
     const styles = {
         container: {
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
             justifyContent: "center",
             margin: "150px auto",
+            width: 720,
+            border: "1px solid red",
+        },
+        intro: {
+            margin: "50px",
+            // border: "1px solid red",
+            padding: 0,
+        },
+        breakLine: {
+            border: "1px solid red",
+            width: "95%",
+            margin: "-20px 0 -10px 0",
+        },
+        text: {
+            fontWeight: state.fontWeight,
+            fontFamily: state.fontFamily,
+        },
+        list: {
+            listStyle: "none",
+            marginTop: 30,
         },
     };
     return (
-        <>
-            <div style={styles.container}>
-                <div
-                    style={{
-                        height: "65rem",
-                        width: 220,
-                        backgroundColor: "#141418",
-                    }}
-                >
-                    <div
-                        style={{
-                            color: "#FFF",
-                            textAlign: "left",
-                            marginLeft: 20,
-                        }}
-                    >
-                        <h1>Contact</h1>
-                        <hr style={{ marginLeft: -20 }} />
-                        <ul style={{ listStyle: "none", marginLeft: -40 }}>
-                            <li>
-                                <p>jctcabrera@outlook.com</p>
-                            </li>
-                            <li>
-                                <p>(817) 876-0271</p>
-                            </li>
-                            <li>
-                                <h3>Social Media</h3>
-                                <p>LinkedIn: /jamescabrera</p>
-                                <p>Github: /playalimbo</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div
-                        style={{
-                            color: "#FFF",
-                            textAlign: "left",
-                            marginLeft: 20,
-                        }}
-                    >
-                        <h1>Skills</h1>
-                        <hr style={{ marginLeft: -20 }} />
-                        <h3>Programming</h3>
-                        <p>Javascript</p>
-                        <p>Typescript </p>
-                        <h3>Frameworks</h3>
-                        <p>Mongo DB</p>
-                        <p>Express</p>
-                        <p>React/React Native</p>
-                        <p>NodeJS</p>
-                    </div>
-                    <div
-                        style={{
-                            color: "#FFF",
-                            textAlign: "left",
-                            marginLeft: 20,
-                        }}
-                    >
-                        <h1>Education</h1>
-                        <hr style={{ marginLeft: -20 }} />
-                        <h3>B.B.A in Finance</h3>
-                        <p>
-                            University of Houston-Downtown,
-                            <span> 2017 - 2019</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div
-                    style={{
-                        // height: "65rem",
-                        width: 550,
-                        backgroundColor: "#F5F6FA",
-                    }}
-                >
-                    <div
-                        style={{
-                            textAlign: "left",
-                            margin: "0 20px",
-                        }}
-                    >
-                        <h1>Experience</h1>
-                        <hr />
-                        <div>
-                            <h3>
-                                Multi-media application <span>| project</span>
-                            </h3>
-                            <p>
-                                Developed a multi-media web streaming service
-                                using using RESTful API methods along with
-                                NodeJS, Express, and Mongo DB. It allows users
-                                to stream and download music and video content
-                                to their device.
-                            </p>
-                            <ul>
-                                <li>
-                                    <p>
-                                        Integrated user authentication using web
-                                        token for encryption and decryption of
-                                        data.
-                                    </p>
-                                </li>
-                                <li>
-                                    <p>
-                                        Created a web scraping API service that
-                                        allows users to stream over 100+ songs.
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3>
-                                Music streaming application{" "}
-                                <span>| project</span>
-                            </h3>
-                            <ul>
-                                <li>
-                                    <p>
-                                        Developed designed a music streaming
-                                        application for iOS and web devices
-                                        using React, React Native and Redux.
-                                    </p>
-                                </li>
-                                <li>
-                                    Implemented class-oriented programming along
-                                    with CRUD operations and Redux state
-                                    management.
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3>
-                                Video streaming application{" "}
-                                <span>| project</span>
-                            </h3>
-                            <ul>
-                                <li>
-                                    <p>
-                                        Developed a video streaming application
-                                        for iOS and web devices using React and
-                                        React Native.
-                                    </p>
-                                </li>
-                                <li>
-                                    Implemented functional-oriented programming
-                                    along with CRUD operations and React state
-                                    management.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        <div style={styles.container}>
+            <div style={styles.intro}>
+                <h1 style={styles.text}>Jaime Cabrera</h1>
+                <p style={styles.text}>Richardson, TX</p>
+                <h3 style={styles.text}>
+                    Front-End Developer | Web Developer | iOS Developer |
+                    Back-End Developer
+                </h3>
             </div>
-        </>
+            <HeadingHOC>
+                <ul style={styles.list}>
+                    <li>Efficiency Increase: Javascript</li>
+                    <li>Cost Savings: Typescript</li>
+                    <li>Staff Management: React, React Native</li>
+                </ul>
+            </HeadingHOC>
+            {/*  */}
+            <HeadingHOC title="Professional Summary">
+                <ul style={styles.list}>
+                    <li>Efficiency Increase: Javascript</li>
+                    <li>Cost Savings: Typescript</li>
+                    <li>Staff Management: React, React Native</li>
+                </ul>
+            </HeadingHOC>
+            <HeadingHOC title="Key Skills">
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-start",
+                    }}
+                >
+                    <ul style={styles.list}>
+                        <li>
+                            <AiOutlineCheck />
+                            Javascript
+                        </li>
+                        <li>
+                            <AiOutlineCheck />
+                            Typescript
+                        </li>
+                        <li>
+                            <AiOutlineCheck />
+                            React, React Native
+                        </li>
+                    </ul>
+                    <ul style={styles.list}>
+                        <li>
+                            <AiOutlineCheck />
+                            NodeJS
+                        </li>
+                        <li>
+                            <AiOutlineCheck />
+                            ExpressJS
+                        </li>
+                        <li>
+                            <AiOutlineCheck />
+                            MondoDB
+                        </li>
+                    </ul>
+                </div>
+            </HeadingHOC>
+            <HeadingHOC title="Experience">
+                <Project props={resumeProject.videoApp} />
+                <Project props={resumeProject.musicApp} />
+            </HeadingHOC>
+            <HeadingHOC title="Education">
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                    <h3 style={styles.text}>
+                        Bachelor of Finance with concentration in Financial
+                        Investments{" "}
+                    </h3>
+                    <h4 style={styles.text}>
+                        {" "}
+                        University of Houston-Downtown | 2019
+                    </h4>
+                </div>
+            </HeadingHOC>
+        </div>
     );
 }
