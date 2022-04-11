@@ -5,19 +5,18 @@ import { useEffect, useContext, useRef, useState } from "react";
 // context
 import { Context as MovieDataContext } from "../../../context/movieDataContext";
 import { Context as MovieAuthContext } from "../../../context/movieAuthContext";
-
 // hooks
 import useFetch from "../../../hooks/useFetch";
 import useVideo from "../../../hooks/useVideo";
 // components
 import MovieResults from "../../../components/movie/movieResults";
 import MovieShadow from "../../../components/movie/movieShadowHOC";
-import BigButton from "../../../components/movie/movieButtons/bigButton";
-import {
-    IconBtn,
-    IconBtnRegular,
-} from "../../../components/movie/movieButtons/IconButton";
+import ActionButton from "../../../components/movie/movieButtons/actionBtn";
 import Video from "../../../components/movie/movieVideo";
+//
+import ToastNotification from "../../../components/toast/toastNotification";
+import { BiDownload } from "react-icons/bi";
+import { MdIosShare } from "react-icons/md";
 
 //
 const saveImage = async (event, movieTitle) => {
@@ -118,7 +117,30 @@ export default function Movie({ modal, setModal, theme }) {
             display: "flex",
             justifyContent: "space-around",
         },
+        playButton: {
+            margin: "auto",
+            width: "95%",
+            height: 30,
+            borderRadius: 4,
+            border: "1px solid rgb(230, 89, 137)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+            backgroundColor: "rgb(230, 89, 137)",
+        },
+        iconButton: {
+            width: 60,
+            height: 40,
+            borderRadius: 4,
+            border: "1px solid rgb(230, 89, 137)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+        },
     };
+
     return (
         <MovieShadow modal={setModal}>
             <div style={styles.container}>
@@ -147,9 +169,9 @@ export default function Movie({ modal, setModal, theme }) {
                     </span>
                 </p>
 
-                <BigButton
+                <ToastNotification
                     title="Play"
-                    theme={theme}
+                    theme={styles.playButton}
                     callback={() => {
                         setPlayVideo((prev) => ({
                             key: video?.key,
@@ -163,16 +185,24 @@ export default function Movie({ modal, setModal, theme }) {
                 </div>
 
                 <div style={styles.iconWrapper}>
-                    <IconBtn action="add" movie={state.savedMovie} />
-                    <IconBtnRegular
-                        type="download"
+                    <ActionButton
+                        action="add"
+                        movie={state.savedMovie}
+                        theme={styles.iconButton}
+                    />
+                    <ToastNotification
+                        title="Download"
+                        theme={styles.iconButton}
+                        Icon={BiDownload}
                         callback={() => {
                             saveImage(imageRef, state.savedMovie?.title),
                                 removeCredits({ amount: 1, email, token });
                         }}
                     />
-                    <IconBtnRegular
-                        type="share"
+                    <ToastNotification
+                        title="Share"
+                        theme={styles.iconButton}
+                        Icon={MdIosShare}
                         callback={() => console.log("download")}
                     />
                 </div>

@@ -1,23 +1,23 @@
-export default function BigButton({ title, theme, callback }) {
-    // these are big buttons => ex. play and download
+export default function Button({ children, handleClick, theme }) {
     return (
-        <div
+        <button
             style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                flexDirection: "row",
                 height: 30,
+                width: "100%",
                 margin: "0 10px 10px 10px",
+                border: "none",
                 borderRadius: 4,
                 cursor: "pointer",
                 color: theme.fontColor,
                 fontFamily: theme.fontFamily,
                 backgroundColor: theme.buttonLarge,
             }}
-            onClick={() => callback()}
+            onClick={handleClick}
         >
-            <p>{title}</p>
-        </div>
+            {children}
+        </button>
     );
 }
