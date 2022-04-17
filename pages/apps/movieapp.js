@@ -19,9 +19,6 @@ import SideBar from "../../components/movie/movieSidebar";
 import MovieGenres from "../../components/movie/movieGenres";
 import MovieSettings from "../../components/movie/movieSettings";
 import MovieLogIn from "../../components/movie/movieLogIn";
-//
-import ClipLoader from "react-spinners/ClipLoader";
-
 // CSS
 import _styles from "../../styles/movieApp.module.css";
 import { darkTheme, lightTheme } from "../../components/movie/movieThemes";
@@ -34,7 +31,7 @@ const trendingMovie = (state) => {
 //
 const App = ({ theme, setTheme }) => {
     const {
-        state: { token, errorMessage },
+        state: { token, errorMessage, loading },
     } = useContext(AuthContext); // * Auth Log In
 
     // * MovieActionContext is the app main API.
@@ -87,10 +84,13 @@ const App = ({ theme, setTheme }) => {
             //border: "1px solid red",
         },
     };
-
     return (
         <div style={styles.container} className={_styles.parentContainer}>
-            {token ? null : <MovieLogIn theme={theme} error={errorMessage} />}
+            {token ? null : (
+                <>
+                    <MovieLogIn theme={theme} error={errorMessage} />
+                </>
+            )}
 
             <SideBar
                 theme={theme}
@@ -107,6 +107,7 @@ const App = ({ theme, setTheme }) => {
             ) : null}
 
             <div style={styles.sub} className={_styles.Movies}>
+                {/* <ClipLoader size={80} color="grey" /> */}
                 <LatestMovie
                     src={trendingMovie(main)}
                     width="original"

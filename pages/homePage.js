@@ -92,7 +92,7 @@ export default function HomePage({ colorScheme }) {
                     </p>
                     <p style={styles.text}>
                         I have over one year of experience building scalable web
-                        apps using Mongo DB, Express, React-React Native and
+                        apps using Mongo DB, Express, React / React Native and
                         NodeJS.
                     </p>
                     <br />

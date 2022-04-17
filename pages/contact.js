@@ -20,9 +20,7 @@ export default function Contact() {
     };
     return (
         <div style={styles.container}>
-            <div style={{}}>
-                <ContactForm theme={styles.theme} />
-            </div>
+            <ContactForm theme={styles.theme} />
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Context as ColorContext } from "../context/colorScheme";
-import { AiOutlineCheck } from "react-icons/ai";
+import { BiCheck } from "react-icons/bi";
 
 function Project({ props }) {
     const { state } = useContext(ColorContext);
@@ -9,7 +9,7 @@ function Project({ props }) {
         <div>
             <h3
                 style={{
-                    fontWeight: state.fontWeight,
+                    fontWeight: "500",
                     fontFamily: state.fontFamily,
                 }}
             >
@@ -45,13 +45,13 @@ function HeadingHOC({ children, title }) {
             >
                 {title}
             </h2>
-            <div
+            <hr
                 style={{
-                    border: "1px solid red",
-                    width: "95%",
                     margin: "-20px 0 -10px 0",
+                    border: "1px solid black",
+                    width: "95%",
                 }}
-            ></div>
+            />
 
             {children}
         </div>
@@ -69,7 +69,7 @@ export default function Resume() {
 
     const resumeProject = {
         videoApp: {
-            title: "Video streaming application",
+            title: "Video Streaming App",
             description_one:
                 "Designed a full-stack video streaming application for iOS and web devices using NextJS, and React Native",
             description_two:
@@ -77,7 +77,7 @@ export default function Resume() {
             description_three: null,
         },
         musicApp: {
-            title: "Music streaming application",
+            title: "Music Streaming App",
             description_one:
                 "Developed a music streaming application for iOS and web devices using React Native, NextJS, and React Redux.",
             description_two:
@@ -93,7 +93,8 @@ export default function Resume() {
             justifyContent: "center",
             margin: "150px auto",
             width: 720,
-            border: "1px solid red",
+            // border: "1px solid red",
+            boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
         },
         intro: {
             margin: "50px",
@@ -109,6 +110,12 @@ export default function Resume() {
             fontWeight: state.fontWeight,
             fontFamily: state.fontFamily,
         },
+        textBold: {
+            fontWeight: "600", //state.fontWeight,
+            fontFamily: state.fontFamily,
+            fontSize: 16,
+            marginBottom: 0,
+        },
         list: {
             listStyle: "none",
             marginTop: 30,
@@ -118,61 +125,89 @@ export default function Resume() {
         <div style={styles.container}>
             <div style={styles.intro}>
                 <h1 style={styles.text}>Jaime Cabrera</h1>
+                <hr
+                    style={{
+                        margin: "-20px 0 -10px 0",
+                        border: "1px solid black",
+                        width: "95%",
+                    }}
+                />
                 <p style={styles.text}>Richardson, TX</p>
-                <h3 style={styles.text}>
-                    Front-End Developer | Web Developer | iOS Developer |
-                    Back-End Developer
+                <h3 style={styles.textBold}>
+                    Front-End Developer | Back-End Developer | Web Developer |
+                    iOS Developer | Android Developer
                 </h3>
             </div>
-            <HeadingHOC>
-                <ul style={styles.list}>
-                    <li>Efficiency Increase: Javascript</li>
-                    <li>Cost Savings: Typescript</li>
-                    <li>Staff Management: React, React Native</li>
-                </ul>
-            </HeadingHOC>
-            {/*  */}
             <HeadingHOC title="Professional Summary">
-                <ul style={styles.list}>
+                <p
+                    style={{
+                        fontWeight: state.fontWeight,
+                        fontFamily: state.fontFamily,
+                        margin: "30px 0 0 0",
+                    }}
+                >
+                    Junior React developer with over two years of experience
+                    building React applications. Eager to obtain a challenging
+                    position where I can grow my passion towards software
+                    architecture and design combined with sensitivity to serve
+                    the needs of the business.
+                </p>
+                {/* <ul style={styles.list}>
                     <li>Efficiency Increase: Javascript</li>
                     <li>Cost Savings: Typescript</li>
                     <li>Staff Management: React, React Native</li>
-                </ul>
+                </ul> */}
             </HeadingHOC>
+
             <HeadingHOC title="Key Skills">
                 <div
                     style={{
                         display: "flex",
                         flexDirection: "row",
-                        justifyContent: "flex-start",
+                        justifyContent: "space-around",
+                        marginLeft: -60,
                     }}
                 >
                     <ul style={styles.list}>
                         <li>
-                            <AiOutlineCheck />
+                            <BiCheck />
                             Javascript
                         </li>
                         <li>
-                            <AiOutlineCheck />
+                            <BiCheck />
                             Typescript
                         </li>
                         <li>
-                            <AiOutlineCheck />
-                            React, React Native
+                            <BiCheck />
+                            Python
                         </li>
                     </ul>
                     <ul style={styles.list}>
                         <li>
-                            <AiOutlineCheck />
+                            <BiCheck />
                             NodeJS
                         </li>
                         <li>
-                            <AiOutlineCheck />
-                            ExpressJS
+                            <BiCheck />
+                            React | React Native
                         </li>
                         <li>
-                            <AiOutlineCheck />
-                            MondoDB
+                            <BiCheck />
+                            ExpressJS
+                        </li>
+                    </ul>
+                    <ul style={styles.list}>
+                        <li>
+                            <BiCheck />
+                            NextJS
+                        </li>
+                        <li>
+                            <BiCheck />
+                            MongoDB
+                        </li>
+                        <li>
+                            <BiCheck />
+                            SQL
                         </li>
                     </ul>
                 </div>
@@ -183,16 +218,15 @@ export default function Resume() {
             </HeadingHOC>
             <HeadingHOC title="Education">
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                    <h3 style={styles.text}>
-                        Bachelor of Finance with concentration in Financial
-                        Investments{" "}
+                    <h3 style={styles.textBold}>
+                        Bachelor of Business Administration in Finance
                     </h3>
                     <h4 style={styles.text}>
-                        {" "}
                         University of Houston-Downtown | 2019
                     </h4>
                 </div>
             </HeadingHOC>
+            <div style={{ height: 30 }} />
         </div>
     );
 }

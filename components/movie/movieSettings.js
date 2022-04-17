@@ -22,11 +22,12 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
     const {
         state: { email },
     } = useContext(AuthContext);
+
     const {
         state: { maxResults },
         renderResult,
     } = useContext(MovieDataContext);
-    const [results, setResults] = useState(maxResults);
+
     const [navigator, setNavigator] = useState(false); // navigator switch
     const [route, setRoute] = useState(""); // navigator route: Form || Subscription
     const [image, setImage] = useState({ image: null });
@@ -195,9 +196,8 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
                                 fontSize: 16,
                             }}
                             name="number"
-                            value={results}
-                            onChange={(e) => {
-                                setResults(intValue);
+                            value={maxResults}
+                            onSubmit={(e) => {
                                 const intValue = parseInt(e.target.value);
                                 renderResult(intValue);
                             }}

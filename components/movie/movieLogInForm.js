@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 // components
 import Spacer from "./movieSpacer";
 // context
@@ -6,22 +6,25 @@ import { Context as AuthContext } from "../../context/movieAuthContext";
 // icons
 import { AiOutlineLeftCircle, AiOutlineUser } from "react-icons/ai";
 import { BiLockAlt } from "react-icons/bi";
+import DotLoader from "react-spinners/DotLoader";
 
 export default function MovieForm({ props }) {
     const { state, signIn, signUp } = useContext(AuthContext);
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = (e) => {
         e.preventDefault();
         // next.js => e.target.name.value => Getting value from input
         const email = e.target.email.value;
         const password = e.target.password.value;
-
+        setLoading((prev) => !prev);
         if (props.title === "Sign In") {
             signIn({ email, password });
         } else {
             signUp({ email, password });
         }
         e.target.reset();
+        setLoading((prev) => !prev);
     };
 
     const styles = {
@@ -75,6 +78,10 @@ export default function MovieForm({ props }) {
                     />
                 </div>
             )}
+
+            {/* <div style={{ alignSelf: "center", margin: "20px 0" }}>
+                <DotLoader size={60} color="red" />
+            </div> */}
 
             <form style={styles.form} onSubmit={onSubmit}>
                 <h1

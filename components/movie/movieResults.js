@@ -65,13 +65,6 @@ const MovieResults = ({ state, callback, setModal, title, theme }) => {
         },
     };
 
-    // React.useEffect(() => {
-    //     renderResult(9);
-    // }, []);
-
-    console.log("maxResultInt: ", parseInt(maxResultInt));
-
-    //
     return (
         <>
             <h3 style={styles.title}>{title}</h3>

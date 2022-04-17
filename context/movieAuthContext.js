@@ -11,13 +11,18 @@ const authReducer = (state, action) => {
                 email: action.payload.email,
                 credits: action.payload.credits,
             };
+
         case "add_error":
             return {
                 errorMessage: action.payload,
                 token: null,
             };
+
         case "remove_error":
             return { ...state, errorMessage: null };
+        case "loading":
+            return { ...state, loading: action.payload };
+
         default:
             return state;
     }
@@ -26,8 +31,14 @@ const authReducer = (state, action) => {
 const signIn = (dispatch) => {
     return async ({ email, password }) => {
         try {
+            // let loading = true;
+            // dispatch({ type: "loading", payload: loading });
+            // console.log(loading);
             const res = await movieAuth.post("/signin", { email, password });
             dispatch({ type: "login", payload: res.data });
+            // loading = false;
+            // dispatch({ type: "loading", payload: loading });
+            // console.log(loading);
         } catch (error) {
             // console.log(error.res.data);
             dispatch({
@@ -64,6 +75,26 @@ const signOut = (dispatch) => async () => {
     }
 };
 
+const addCredits = (dispatch) => async (user) => {
+    // authenticate password before making api request.
+    try {
+        console.log(user);
+        // const res = await movieAuth.post("add-credits", user, {
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         Authorization: `Bearer ${user.token}`,
+        //     },
+        // });
+        // if (res.data) {
+        //     console.log("addCredits => response: ", res.data);
+        //     dispatch({ type: "login", payload: res.data });
+        // }
+    } catch (error) {
+        console.log("ERRRRRRR: ", error);
+        dispatch({ type: "add_error", payload: error });
+    }
+};
+
 const removeCredits =
     (dispatch) =>
     async ({ amount, email, token }) => {
@@ -87,6 +118,7 @@ export const { Context, Provider } = createDataContext(
         signUp,
         clearError,
         removeCredits,
+        addCredits,
     }, // action Functions
-    { token: null, credits: 0, email: null, errorMessage: "" } // init STATE
+    { token: null, credits: 0, email: null, errorMessage: "", loading: false } // init STATE
 );

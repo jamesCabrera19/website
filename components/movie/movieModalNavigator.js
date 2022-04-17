@@ -28,7 +28,7 @@ export default function ModalNavigator({ navigator, route, theme }) {
     return (
         <div style={styles.container}>
             <div onClick={() => navigator((prev) => !prev)}>
-                <AiOutlineLeftCircle size={40} color="black" />
+                <AiOutlineLeftCircle size={40} color="white" />
             </div>
             <div>{renderItem(route)}</div>
         </div>

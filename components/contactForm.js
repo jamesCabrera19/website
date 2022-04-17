@@ -10,6 +10,7 @@ export default function ContactForm({ theme, callback }) {
             height: 620,
             borderRadius: 5,
             backgroundColor: theme.backgroundColor,
+            boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
             // border: "1px solid red",
         },
         input: {
