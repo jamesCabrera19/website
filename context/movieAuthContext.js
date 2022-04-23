@@ -13,10 +13,7 @@ const authReducer = (state, action) => {
             };
 
         case "add_error":
-            return {
-                errorMessage: action.payload,
-                token: null,
-            };
+            return { errorMessage: action.payload };
 
         case "remove_error":
             return { ...state, errorMessage: null };
@@ -79,19 +76,22 @@ const addCredits = (dispatch) => async (user) => {
     // authenticate password before making api request.
     try {
         console.log(user);
-        // const res = await movieAuth.post("add-credits", user, {
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         Authorization: `Bearer ${user.token}`,
-        //     },
-        // });
-        // if (res.data) {
-        //     console.log("addCredits => response: ", res.data);
-        //     dispatch({ type: "login", payload: res.data });
-        // }
+        const res = await movieAuth.post("add-credits", user, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user.token}`,
+            },
+        });
+        if (res.data) {
+            console.log("addCredits => response: ", res.data);
+            dispatch({ type: "login", payload: res.data });
+        }
     } catch (error) {
         console.log("ERRRRRRR: ", error);
-        dispatch({ type: "add_error", payload: error });
+        dispatch({
+            type: "add_error",
+            payload: "Something went wrong =(",
+        });
     }
 };
 

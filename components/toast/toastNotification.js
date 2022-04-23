@@ -49,6 +49,14 @@ export default function ToastNotification({ title, theme, callback, Icon }) {
                     backgroundColor: "#abd7eb",
                 };
                 break;
+            case "Success":
+                toastProperties = {
+                    id: list.length + 1,
+                    title: "Purchase was successful",
+                    description: "Your purchase is now available",
+                    backgroundColor: "#13cc06",
+                };
+                break;
 
             default:
                 toastProperties = [];

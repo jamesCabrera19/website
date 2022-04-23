@@ -117,6 +117,20 @@ export default function Movie({ modal, setModal, theme }) {
             display: "flex",
             justifyContent: "space-around",
         },
+        stopButton: {
+            margin: "auto",
+            width: "95%",
+            height: 30,
+            borderRadius: 4,
+            border: "1px solid rgb(230, 89, 137)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+            backgroundColor: "rgb(230, 89, 137)",
+            fontSize: 16,
+            color: "#FFFFFF",
+        },
         playButton: {
             margin: "auto",
             width: "95%",
@@ -138,6 +152,16 @@ export default function Movie({ modal, setModal, theme }) {
             justifyContent: "center",
             alignItems: "center",
             cursor: "pointer",
+        },
+        iconBtnDisable: {
+            width: 60,
+            height: 40,
+            borderRadius: 4,
+            border: "1px solid rgb(230, 89, 137)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            // cursor: "none",
         },
     };
 
@@ -169,16 +193,30 @@ export default function Movie({ modal, setModal, theme }) {
                     </span>
                 </p>
 
-                <ToastNotification
-                    title="Play"
-                    theme={styles.playButton}
-                    callback={() => {
-                        setPlayVideo((prev) => ({
-                            key: video?.key,
-                            play: !prev.play,
-                        }));
-                    }}
-                />
+                {playVideo.play ? (
+                    <button
+                        style={styles.stopButton}
+                        onClick={() => {
+                            setPlayVideo((prev) => ({
+                                ...prev,
+                                play: !prev.play,
+                            }));
+                        }}
+                    >
+                        Stop
+                    </button>
+                ) : (
+                    <ToastNotification
+                        title="Play"
+                        theme={styles.playButton}
+                        callback={() => {
+                            setPlayVideo((prev) => ({
+                                key: video?.key,
+                                play: !prev.play,
+                            }));
+                        }}
+                    />
+                )}
 
                 <div style={styles.text}>
                     <p>{state.savedMovie?.overview}</p>
@@ -190,15 +228,27 @@ export default function Movie({ modal, setModal, theme }) {
                         movie={state.savedMovie}
                         theme={styles.iconButton}
                     />
-                    <ToastNotification
-                        title="Download"
-                        theme={styles.iconButton}
-                        Icon={BiDownload}
-                        callback={() => {
-                            saveImage(imageRef, state.savedMovie?.title),
-                                removeCredits({ amount: 1, email, token });
-                        }}
-                    />
+
+                    {playVideo.play ? (
+                        <div style={styles.iconBtnDisable}>
+                            <BiDownload
+                                size={30}
+                                color="rgb(230, 89, 137)"
+                                disabled
+                            />
+                        </div>
+                    ) : (
+                        <ToastNotification
+                            title="Download"
+                            theme={styles.iconButton}
+                            Icon={BiDownload}
+                            callback={() => {
+                                saveImage(imageRef, state.savedMovie?.title),
+                                    removeCredits({ amount: 1, email, token });
+                            }}
+                        />
+                    )}
+
                     <ToastNotification
                         title="Share"
                         theme={styles.iconButton}
