@@ -1,12 +1,13 @@
 import "../styles/globals.css";
 import Layout from "../components/layout";
 import { Provider as ThemeProvider } from "../context/colorScheme";
-// import { Provider as MovieDataProvider } from "../context/movieDataContext";
+import NextNProgress from "nextjs-progressbar";
 
 function MyApp({ Component, pageProps }) {
     return (
         <ThemeProvider>
             <>
+                <NextNProgress />
                 <Layout>
                     <Component {...pageProps} />
                 </Layout>

@@ -31,7 +31,7 @@ const trendingMovie = (state) => {
 //
 const App = ({ theme, setTheme }) => {
     const {
-        state: { token, errorMessage, loading },
+        state: { token, errorMessage },
     } = useContext(AuthContext); // * Auth Log In
 
     // * MovieActionContext is the app main API.
@@ -99,15 +99,10 @@ const App = ({ theme, setTheme }) => {
             />
 
             {modal.movieModal ? (
-                <Movie
-                    modal={modal.movieModal}
-                    setModal={setModal}
-                    theme={theme}
-                />
+                <Movie modal={modal} setModal={setModal} theme={theme} />
             ) : null}
 
             <div style={styles.sub} className={_styles.Movies}>
-                {/* <ClipLoader size={80} color="grey" /> */}
                 <LatestMovie
                     src={trendingMovie(main)}
                     width="original"

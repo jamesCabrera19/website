@@ -26,6 +26,7 @@ const fetchMovies = (dispatch) => async () => {
         const res = await movieApi.get(
             "/discover/movie?sort_by=popularity.desc"
         );
+        // console.log(res.data.results);
         dispatch({
             type: "init_state",
             // payload: res.data.results.slice(0, 10),
@@ -63,8 +64,7 @@ const fetchMoviesByGenre = (dispatch) => async (movieID) => {
 
 const saveMovie = (dispatch) => (movie) => {
     dispatch({ type: "clicked_movie", payload: movie });
-    // this function allows users to save the movie to their library section <MyMovies/>
-    // and this function also saves the movie to the DB so they can be played on other devices.
+    // this function stores the clicked movie in state and is replace when other movie is clicked
 };
 const renderResult = (dispatch) => (intValue) => {
     dispatch({ type: "renderResult", payload: intValue });

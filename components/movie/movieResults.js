@@ -16,6 +16,7 @@ const MovieResults = ({ state, callback, setModal, title, theme }) => {
     const {
         state: { maxResults },
     } = useContext(MovieDataContext);
+
     const maxResultInt = parseInt(maxResults);
     // const [position, setPosition] = useState(0);
     const scroller = useRef();

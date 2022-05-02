@@ -28,14 +28,10 @@ const authReducer = (state, action) => {
 const signIn = (dispatch) => {
     return async ({ email, password }) => {
         try {
-            // let loading = true;
-            // dispatch({ type: "loading", payload: loading });
-            // console.log(loading);
+            dispatch({ type: "loading", payload: "loading" });
             const res = await movieAuth.post("/signin", { email, password });
             dispatch({ type: "login", payload: res.data });
-            // loading = false;
-            // dispatch({ type: "loading", payload: loading });
-            // console.log(loading);
+            dispatch({ type: "loading", payload: "done" });
         } catch (error) {
             // console.log(error.res.data);
             dispatch({
@@ -76,16 +72,20 @@ const addCredits = (dispatch) => async (user) => {
     // authenticate password before making api request.
     try {
         console.log(user);
+        // //
+        dispatch({ type: "loading", payload: "loading" });
+        // //
         const res = await movieAuth.post("add-credits", user, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${user.token}`,
             },
         });
-        if (res.data) {
-            console.log("addCredits => response: ", res.data);
-            dispatch({ type: "login", payload: res.data });
-        }
+        console.log("addCredits => response: ", res.data);
+        dispatch({ type: "login", payload: res.data });
+        // //
+        dispatch({ type: "loading", payload: "done" });
+        // //
     } catch (error) {
         console.log("ERRRRRRR: ", error);
         dispatch({
@@ -120,5 +120,5 @@ export const { Context, Provider } = createDataContext(
         removeCredits,
         addCredits,
     }, // action Functions
-    { token: null, credits: 0, email: null, errorMessage: "", loading: false } // init STATE
+    { token: null, credits: 0, email: null, errorMessage: "", loading: "" } // init STATE
 );

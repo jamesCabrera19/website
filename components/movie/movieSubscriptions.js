@@ -2,6 +2,8 @@ import React, { useState, useContext } from "react";
 import { Context as AuthContext } from "../../context/movieAuthContext";
 //
 import Spacer from "./movieSpacer";
+import BeatLoader from "react-spinners/BeatLoader";
+
 //
 //
 const ModalPopUp = (props) => {
@@ -168,50 +170,70 @@ export default function Subscriptions({ theme }) {
             // backgroundColor: "transparent",
             outline: "none",
         },
+        loader: {
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 250,
+        },
     };
     //
-    return (
-        <div style={styles.container}>
-            <p style={{ color: "#FFFFFF" }}>{state.email}</p>
-            <Spacer />
-            {state.errorMessage ? (
-                <p style={{ color: "#FFFFFF" }}>{state.errorMessage}</p>
-            ) : (
-                <p style={{ color: "#FFFFFF" }}>
-                    You have{" "}
-                    <span style={{ fontWeight: "700" }}>{state.credits} </span>
-                    credits left
-                </p>
-            )}
 
-            <Spacer />
-            <>
-                <div style={styles.selector}>
-                    <p>Add credits to your account</p>
-                    <select
-                        onChange={(e) => setCredits(parseInt(e.target.value))}
-                        disabled={showModal ? true : false}
-                        style={styles.selectInput}
-                        value={credits}
-                        name="number"
-                    >
-                        <option value="1">1</option>
-                        <option value="3">3</option>
-                        <option value="5">5</option>
-                        <option value="7">7</option>
-                        <option value="9">9</option>
-                    </select>
+    return (
+        <>
+            {state.loading === "loading" || state.loading === undefined ? (
+                <div style={styles.loader}>
+                    <BeatLoader size={30} color="red" />
                 </div>
-                <Spacer />
-                <button
-                    disabled={showModal ? true : false}
-                    onClick={() => setShowModal(true)}
-                    style={styles.btn}
-                >
-                    Add Credits
-                </button>
-            </>
-            {showModal && <ModalPopUp credits={credits} modal={setShowModal} />}
-        </div>
+            ) : (
+                <div style={styles.container}>
+                    <p style={{ color: "#FFFFFF" }}>{state.email}</p>
+                    <Spacer />
+                    {state.errorMessage ? (
+                        <p style={{ color: "#FFFFFF" }}>{state.errorMessage}</p>
+                    ) : (
+                        <p style={{ color: "#FFFFFF" }}>
+                            You have{" "}
+                            <span style={{ fontWeight: "700" }}>
+                                {state.credits}{" "}
+                            </span>
+                            credits left
+                        </p>
+                    )}
+
+                    <Spacer />
+                    <>
+                        <div style={styles.selector}>
+                            <p>Add credits to your account</p>
+                            <select
+                                onChange={(e) =>
+                                    setCredits(parseInt(e.target.value))
+                                }
+                                disabled={showModal ? true : false}
+                                style={styles.selectInput}
+                                value={credits}
+                                name="number"
+                            >
+                                <option value="1">1</option>
+                                <option value="3">3</option>
+                                <option value="5">5</option>
+                                <option value="7">7</option>
+                                <option value="9">9</option>
+                            </select>
+                        </div>
+                        <Spacer />
+                        <button
+                            disabled={showModal ? true : false}
+                            onClick={() => setShowModal(true)}
+                            style={styles.btn}
+                        >
+                            Add Credits
+                        </button>
+                    </>
+                    {showModal && (
+                        <ModalPopUp credits={credits} modal={setShowModal} />
+                    )}
+                </div>
+            )}
+        </>
     );
 }

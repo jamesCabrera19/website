@@ -57,16 +57,17 @@ export default function Movie({ modal, setModal, theme }) {
         state: { email, token },
         removeCredits,
     } = useContext(MovieAuthContext); //
+
     const { state, saveMovie } = useContext(MovieDataContext);
     //
     const [fetchMovie, movies, errorMessage] = useFetch();
     const [fetchVideo, video, videoErrorMessage] = useVideo();
-
+    //
     const imageRef = useRef(); // ref used for downloading movie
-    const [playVideo, setPlayVideo] = useState({ key: null, play: false });
+    const [playVideo, setPlayVideo] = useState({ key: undefined, play: false });
 
     useEffect(() => {
-        if (modal) {
+        if (modal.movieModal) {
             fetchVideo(state.savedMovie.id); // fetches video for movie
             fetchMovie(state.savedMovie.id); // fetches similar movies
             document.body.style.overflow = "hidden"; // removes background scroll
@@ -118,7 +119,7 @@ export default function Movie({ modal, setModal, theme }) {
             justifyContent: "space-around",
         },
         stopButton: {
-            margin: "auto",
+            margin: "-30px auto auto auto",
             width: "95%",
             height: 30,
             borderRadius: 4,
@@ -130,6 +131,7 @@ export default function Movie({ modal, setModal, theme }) {
             backgroundColor: "rgb(230, 89, 137)",
             fontSize: 16,
             color: "#FFFFFF",
+            zIndex: 19,
         },
         playButton: {
             margin: "auto",
@@ -141,6 +143,7 @@ export default function Movie({ modal, setModal, theme }) {
             justifyContent: "center",
             alignItems: "center",
             cursor: "pointer",
+            color: "#FFFFFF",
             backgroundColor: "rgb(230, 89, 137)",
         },
         iconButton: {
@@ -164,7 +167,6 @@ export default function Movie({ modal, setModal, theme }) {
             // cursor: "none",
         },
     };
-
     return (
         <MovieShadow modal={setModal}>
             <div style={styles.container}>
@@ -193,30 +195,30 @@ export default function Movie({ modal, setModal, theme }) {
                     </span>
                 </p>
 
+                <ToastNotification
+                    title="Play"
+                    theme={styles.playButton}
+                    callback={() =>
+                        setPlayVideo((prev) => ({
+                            key: video?.key,
+                            play: !prev.play,
+                        }))
+                    }
+                />
+                {/* temp fix ()=> overShadows <ToastNotification/> */}
                 {playVideo.play ? (
                     <button
+                        onClick={() =>
+                            setPlayVideo({
+                                key: undefined,
+                                play: false,
+                            })
+                        }
                         style={styles.stopButton}
-                        onClick={() => {
-                            setPlayVideo((prev) => ({
-                                ...prev,
-                                play: !prev.play,
-                            }));
-                        }}
                     >
                         Stop
                     </button>
-                ) : (
-                    <ToastNotification
-                        title="Play"
-                        theme={styles.playButton}
-                        callback={() => {
-                            setPlayVideo((prev) => ({
-                                key: video?.key,
-                                play: !prev.play,
-                            }));
-                        }}
-                    />
-                )}
+                ) : null}
 
                 <div style={styles.text}>
                     <p>{state.savedMovie?.overview}</p>
@@ -224,11 +226,12 @@ export default function Movie({ modal, setModal, theme }) {
 
                 <div style={styles.iconWrapper}>
                     <ActionButton
-                        action="add"
-                        movie={state.savedMovie}
                         theme={styles.iconButton}
+                        movie={state.savedMovie}
+                        email={email}
+                        action="add"
                     />
-
+                    {/* temporarily disables image download button */}
                     {playVideo.play ? (
                         <div style={styles.iconBtnDisable}>
                             <BiDownload
@@ -248,7 +251,6 @@ export default function Movie({ modal, setModal, theme }) {
                             }}
                         />
                     )}
-
                     <ToastNotification
                         title="Share"
                         theme={styles.iconButton}

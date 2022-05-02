@@ -1,11 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import { Context as ColorContext } from "../context/colorScheme";
+import { useContext, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+//
+import { Context as ColorContext } from "../context/colorScheme";
+//
 import ButtonContainer from "../components/buttons";
+//
 import _styles from "../styles/buttons.module.css";
-
-import ClipLoader from "react-spinners/ClipLoader";
 
 const cards = [
     {
@@ -40,7 +41,6 @@ export default function Portfolio() {
         footerOptions(state.backgroundColor);
         return () => {
             footerOptions(null); // screen is unfocused
-            // console.log("themeSwitch ran");
         };
     }, []);
 
@@ -146,71 +146,80 @@ export default function Portfolio() {
     };
 
     return (
-        <div style={styles.container}>
-            <div style={styles.sectionOne}>
-                <h1 style={styles.header}>Applications</h1>
-                <hr style={{ width: 100, border: "1px solid #8E8E8E" }} />
-            </div>
-            {/*  */}
-            <div className={_styles.cardContainer} style={styles.cardContainer}>
-                {cards.map((item) => {
-                    return (
-                        <Link href={item.link} key={Math.random() * 99}>
-                            <div className={_styles.card} style={styles.card}>
-                                <div style={styles.imgWrapper}>
-                                    <Image
-                                        src={item.img.default.src}
-                                        layout="fill"
-                                        alt="Movie App"
-                                    />
+        <>
+            <div style={styles.container}>
+                <div style={styles.sectionOne}>
+                    <h1 style={styles.header}>Applications</h1>
+                    <hr style={{ width: 100, border: "1px solid #8E8E8E" }} />
+                </div>
+                {/*  */}
+                <div
+                    className={_styles.cardContainer}
+                    style={styles.cardContainer}
+                >
+                    {cards.map((item) => {
+                        return (
+                            <Link href={item.link} key={Math.random() * 99}>
+                                <div
+                                    className={_styles.card}
+                                    style={styles.card}
+                                >
+                                    <div style={styles.imgWrapper}>
+                                        <Image
+                                            src={item.img.default.src}
+                                            layout="fill"
+                                            alt="Movie App"
+                                        />
+                                    </div>
+                                    <h2 style={styles.title}>{item.title}</h2>
+                                    <div style={styles.blankLine}>
+                                        {/* This is a ---- line */}
+                                    </div>
+                                    <h3 style={styles.features}>Features</h3>
+                                    <p
+                                        style={Object.assign(styles.text, {
+                                            textAlign: "center",
+                                        })}
+                                    >
+                                        {item.frameworks[0]}
+                                    </p>
+                                    <p
+                                        style={Object.assign(styles.text, {
+                                            textAlign: "center",
+                                        })}
+                                    >
+                                        {item.frameworks[1]}
+                                    </p>
+                                    <p
+                                        style={Object.assign(styles.text, {
+                                            textAlign: "center",
+                                        })}
+                                    >
+                                        {item.frameworks[2]}
+                                    </p>
                                 </div>
-                                <h2 style={styles.title}>{item.title}</h2>
-                                <div style={styles.blankLine}>
-                                    {/* This is a ---- line */}
-                                </div>
-                                <h3 style={styles.features}>Features</h3>
-                                <p
-                                    style={Object.assign(styles.text, {
-                                        textAlign: "center",
-                                    })}
-                                >
-                                    {item.frameworks[0]}
-                                </p>
-                                <p
-                                    style={Object.assign(styles.text, {
-                                        textAlign: "center",
-                                    })}
-                                >
-                                    {item.frameworks[1]}
-                                </p>
-                                <p
-                                    style={Object.assign(styles.text, {
-                                        textAlign: "center",
-                                    })}
-                                >
-                                    {item.frameworks[2]}
-                                </p>
-                            </div>
-                        </Link>
-                    );
-                })}
-            </div>
+                            </Link>
+                        );
+                    })}
+                </div>
 
-            <div style={styles.disclaimer.container}>
-                <div style={styles.disclaimer.textWrap}>
-                    <p style={styles.disclaimer.text}>
-                        All the applications listed above were developed solely
-                        by me (James Cabrera) in approximately a 1.5 year
-                        period. App designed was inspired by similar apps such
-                        as Netflix, Apple Music and CodePen ("codepen.io"). You
-                        can see the code for any of my applications by visiting
-                        my github - https://github.com/PlayaLimbo.
-                    </p>
+                <div style={styles.disclaimer.container}>
+                    <div style={styles.disclaimer.textWrap}>
+                        <p style={styles.disclaimer.text}>
+                            All the applications listed above were developed
+                            solely by me (James Cabrera) in approximately a 1.5
+                            year period. App designed was inspired by similar
+                            apps such as Netflix, Apple Music and CodePen
+                            ("codepen.io"). You can see the code for any of my
+                            applications by visiting my github -
+                            https://github.com/PlayaLimbo.
+                        </p>
+                    </div>
+                </div>
+                <div style={styles.btnContainer}>
+                    <ButtonContainer borderColor={state.buttonColor} />
                 </div>
             </div>
-            <div style={styles.btnContainer}>
-                <ButtonContainer borderColor={state.buttonColor} />
-            </div>
-        </div>
+        </>
     );
 }

@@ -9,11 +9,9 @@ import _styles from "../../../styles/movieApp.module.css";
 // ! this btn are imported to [movie.js]
 import Toast from "../../toast/toast";
 
-export default function ActionButton({ movie, theme }) {
-    // these are icon buttons => ex. play and download, share
+export default function ActionButton({ movie, theme, email }) {
     // callback can either be "addToList" or "removeFromList"
     const { state, addToList, removeFromList } = useContext(MovieActionContext);
-    // const [track, setTrack] = useState(null); // takes in a movie.id Number
     const [track, setTrack] = useState(null);
     const [btn, setBtn] = useState({ add: true, remove: false });
     //
@@ -90,19 +88,20 @@ export default function ActionButton({ movie, theme }) {
                                 add: !prev.add,
                                 remove: !prev.remove,
                             })); // switching state of buttons
-                            addToList(movie);
                             showToast("Add");
                         }}
                     >
+                        {/* checking if the movie is in <MyMovies/> */}
                         {track !== null ? (
                             <AiOutlineCheck
-                                size={30}
                                 color="rgb(109, 252, 0)"
+                                size={30}
                             />
                         ) : (
                             <AiOutlinePlus
-                                size={30}
+                                onClick={() => addToList(movie, email)}
                                 color="rgb(230, 89, 137)"
+                                size={30}
                             />
                         )}
                     </div>
@@ -122,7 +121,7 @@ export default function ActionButton({ movie, theme }) {
                                 add: !prev.add,
                                 remove: !prev.remove,
                             })); // switching state of buttons
-                            removeFromList(movie.id);
+                            removeFromList(movie.id, movie, email);
                             showToast("Remove");
                         }}
                     >

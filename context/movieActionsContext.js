@@ -1,4 +1,6 @@
 import createDataContext from "./index";
+import movieAuth from "../api/movieAuth"; //?
+
 //
 
 const initProps = {
@@ -35,17 +37,30 @@ const dataReducer = (state, action) => {
             return state;
     }
 };
-const addToList = (dispatch) => (movie) => {
+const addToList = (dispatch) => async (movie, email) => {
+    // to save to db we need an email and a movie object!
+    // to save to db request must be a POST to "/save-movie",
+    // dispatch should not modify state.
+
     try {
-        // todo save movies to DB
+        // ?
+        const res = await movieAuth.post("/save-movie", { email, movie });
+        // console.log("Save movie Response: ", res);
         dispatch({ type: "add_to_list", payload: movie });
     } catch (error) {
-        console.log(error);
-        return null;
+        console.log("Erorrrrr: ", error);
+        return;
     }
 };
-const removeFromList = (dispatch) => (movieID) => {
-    dispatch({ type: "remove_from_list", payload: movieID });
+const removeFromList = (dispatch) => async (movieID, movie, email) => {
+    try {
+        const res = await movieAuth.post("/remove-movie", { email, movie });
+        // console.log("Delete Response: ", res);
+        dispatch({ type: "remove_from_list", payload: movieID });
+    } catch (error) {
+        console.log("Erorrrrr: ", error);
+        return;
+    }
 };
 const checkMovie = (dispatch) => (movie) => {
     // console.log("Movie id: ", movie);

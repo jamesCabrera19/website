@@ -20,7 +20,7 @@ export default function ModalNavigator({ navigator, route, theme }) {
     const renderItem = (routeName) => {
         switch (routeName) {
             case "Form":
-                return <ContactForm theme={theme} />;
+                return <ContactForm theme={theme} callback={navigator} />;
             default:
                 return <Subscriptions theme={theme} />;
         }

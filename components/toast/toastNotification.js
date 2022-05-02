@@ -2,7 +2,7 @@ import { useState } from "react";
 import Toast from "./toast";
 import _styles from "../../styles/movieApp.module.css";
 
-export default function ToastNotification({ title, theme, callback, Icon }) {
+export default function ToastNotification(props) {
     const [list, setList] = useState([]);
     let toastProperties = null;
 
@@ -68,16 +68,18 @@ export default function ToastNotification({ title, theme, callback, Icon }) {
         <>
             <div
                 className={_styles.iconButton}
-                style={theme}
+                style={props.theme}
                 onClick={() => {
-                    showToast(title);
-                    callback();
+                    showToast(props.title);
+                    if (props.callback) props.callback();
                 }}
             >
-                {Icon ? (
-                    <Icon size={30} color="rgb(230, 89, 137)" />
+                {props.Icon ? (
+                    <props.Icon size={30} color="rgb(230, 89, 137)" />
                 ) : (
-                    <p style={{ fontSize: 16, color: "#FFFFFF" }}>Play</p>
+                    <p style={{ fontSize: 16, color: "#FFFFFF" }}>
+                        {props.title}
+                    </p>
                 )}
             </div>
             <Toast toastList={list} position="buttom-right" setList={setList} />

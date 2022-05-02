@@ -50,7 +50,7 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
             alignItems: "center",
             margin: "64px auto",
             width: 400,
-            height: 620,
+            height: 600,
             borderRadius: 10,
             overflow: "hidden",
             backgroundColor: theme.background, // dark
@@ -88,7 +88,7 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
             justifyContent: "space-between",
             alignItems: "center",
             padding: "0 6px",
-            cursor: "pointer",
+            // cursor: "pointer",
             backgroundColor: "#F2F2F7",
             borderBottom: `1px solid ${theme.borderColor}`,
             borderBottomRightRadius: 4,
@@ -121,7 +121,7 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
                         />
                     </div>
 
-                    <p>{email}</p>
+                    <p style={{ color: theme.fontColor }}>{email}</p>
 
                     <SettingsBtn
                         title="Name, Email, Password"
@@ -144,27 +144,9 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
                         theme={theme}
                     />
                     <MovieSpacer />
-                    <SettingsBtn
-                        title="Notifications"
-                        Icon={() => (
-                            <label>
-                                <Toggle
-                                    defaultChecked={
-                                        theme.type === "light" ? true : false
-                                    }
-                                    icons={false}
-                                />
-                            </label>
-                        )}
-                        callback={() =>
-                            console.log("Notifications Switch ON/OFF")
-                        }
-                        options="isTop"
-                        theme={theme}
-                    />
 
                     <SettingsBtn
-                        title="Keep 'My Movies' on App"
+                        title="Show 'My Movies' tab"
                         Icon={() => (
                             <label>
                                 <Toggle
@@ -182,7 +164,7 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
                             </label>
                         )}
                         callback={() => console.log("Selector Form")}
-                        options="isMiddle"
+                        options="isTop"
                         theme={theme}
                     />
 
@@ -196,15 +178,15 @@ export default function MovieSettings({ theme, setModal, switchTheme, modal }) {
                                 fontSize: 16,
                             }}
                             name="number"
-                            value={maxResults}
-                            onSubmit={(e) => {
+                            defaultValue={maxResults}
+                            onChange={(e) => {
                                 const intValue = parseInt(e.target.value);
                                 renderResult(intValue);
                             }}
                         >
-                            <option value="10">10</option>
+                            <option value="11">11</option>
                             <option value="13">13</option>
-                            <option value="16">16</option>
+                            <option value="17">17</option>
                             <option value="19">max</option>
                         </select>
                     </div>

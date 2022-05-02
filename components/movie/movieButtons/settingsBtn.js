@@ -10,7 +10,7 @@ export default function SettingsBtn({ title, Icon, options, callback, theme }) {
             justifyContent: "space-between",
             alignItems: "center",
             padding: "0 6px",
-            cursor: "pointer",
+            // cursor: "pointer",
             backgroundColor: "#F2F2F7",
             // borderRight: "1px solid red",
             // borderLeft: "1px solid red",
