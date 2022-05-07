@@ -31,8 +31,8 @@ const trendingMovie = (state) => {
 //
 const App = ({ theme, setTheme }) => {
     const {
-        state: { token, errorMessage },
-    } = useContext(AuthContext); // * Auth Log In
+        state: { token, errorMessage, userMovies },
+    } = useContext(AuthContext); // * USER DATA => Auth Log In
 
     // * MovieActionContext is the app main API.
     // moviesByGenre results are hidden by default,
@@ -47,7 +47,7 @@ const App = ({ theme, setTheme }) => {
     } = useContext(MovieContext);
 
     // * User saved movies plus other actions
-    const { state } = useContext(MovieActionContext);
+    const { state, addMovies } = useContext(MovieActionContext);
 
     // * modal settings
     // opens different windows and
@@ -63,12 +63,10 @@ const App = ({ theme, setTheme }) => {
     const [searchMovies, setSearchMovies] = useState([]);
 
     useEffect(() => {
-        // setLoading(true);
         if (main.length === 0) {
             renderResult(10);
             fetchMovies(); // avoids calling the api multiple times
             fetchGenres();
-            // setLoading(false);
         }
     }, [main]);
 
@@ -84,6 +82,12 @@ const App = ({ theme, setTheme }) => {
             //border: "1px solid red",
         },
     };
+
+    useEffect(() => {
+        addMovies(userMovies); // appeding movies to local state
+    }, [userMovies]);
+    // const appended = [...userMovies, ...state];
+
     return (
         <div style={styles.container} className={_styles.parentContainer}>
             {token ? null : (
@@ -133,6 +137,7 @@ const App = ({ theme, setTheme }) => {
 
                 {modal.myMovies && state.length ? (
                     <MovieResults
+                        // state={state} // state != MovieContext. state === MovieActionContext
                         state={state} // state != MovieContext. state === MovieActionContext
                         callback={saveMovie}
                         setModal={setModal}

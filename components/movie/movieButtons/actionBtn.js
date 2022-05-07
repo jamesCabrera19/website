@@ -4,25 +4,20 @@ import { useEffect, useContext, useState } from "react";
 import { AiOutlinePlus, AiOutlineDelete, AiOutlineCheck } from "react-icons/ai";
 
 import { Context as MovieActionContext } from "../../../context/movieActionsContext";
+
 // css
 import _styles from "../../../styles/movieApp.module.css";
 // ! this btn are imported to [movie.js]
 import Toast from "../../toast/toast";
 
 export default function ActionButton({ movie, theme, email }) {
-    // callback can either be "addToList" or "removeFromList"
     const { state, addToList, removeFromList } = useContext(MovieActionContext);
-    const [track, setTrack] = useState(null);
     const [btn, setBtn] = useState({ add: true, remove: false });
-    //
-    //
-    //
-    const [list, setList] = useState([]);
+    const [track, setTrack] = useState(null); // => movie in db tracker
+    const [list, setList] = useState([]); // => notification array
     let toastProperties = null;
-    //
-    //
-    //
-    const showToast = (type) => {
+
+    const handleToast = (type) => {
         switch (type) {
             case "Add":
                 toastProperties = {
@@ -46,6 +41,15 @@ export default function ActionButton({ movie, theme, email }) {
         }
         setList([...list, toastProperties]);
     };
+    // console.log("Appended Movies: ", state);
+
+    // movie deleted and saved response is workking, however, whats not working is
+    // the actionbutton fails to register movies coming from DB
+    // why? because they havent been appended to the MovieActionContext
+    // movies cominng from DB need to be appended to state => because of 2 things:
+    // one: we need to re-render screen when state is changed
+    // second: useEffect is only Running on MovieActionContext and no other state.
+    // FIRST. APPEND DB MOVIES TO MovieActionContext, then rerender screen
 
     useEffect(() => {
         // Do something when the screen is focused
@@ -84,11 +88,12 @@ export default function ActionButton({ movie, theme, email }) {
                         className={_styles.iconButton}
                         style={theme}
                         onClick={() => {
+                            handleToast("Add");
+                            addToList(movie, email);
                             setBtn((prev) => ({
                                 add: !prev.add,
                                 remove: !prev.remove,
                             })); // switching state of buttons
-                            showToast("Add");
                         }}
                     >
                         {/* checking if the movie is in <MyMovies/> */}
@@ -99,7 +104,7 @@ export default function ActionButton({ movie, theme, email }) {
                             />
                         ) : (
                             <AiOutlinePlus
-                                onClick={() => addToList(movie, email)}
+                                // onClick={() => addToList(movie, email)}
                                 color="rgb(230, 89, 137)"
                                 size={30}
                             />
@@ -117,15 +122,23 @@ export default function ActionButton({ movie, theme, email }) {
                         className={_styles.iconButton}
                         style={theme}
                         onClick={() => {
+                            removeFromList(movie.id, movie, email);
                             setBtn((prev) => ({
                                 add: !prev.add,
                                 remove: !prev.remove,
                             })); // switching state of buttons
-                            removeFromList(movie.id, movie, email);
-                            showToast("Remove");
+
+                            handleToast("Remove");
                         }}
                     >
-                        <AiOutlineDelete size={30} color="rgb(230, 89, 137)" />
+                        <AiOutlineDelete
+                            size={30}
+                            color="rgb(230, 89, 137)"
+                            // onClick={() => {
+                            //     // removeFromList(movie.id, movie, email);
+                            //     console.log("deleted");
+                            // }}
+                        />
                     </div>
                     <Toast
                         toastList={list}

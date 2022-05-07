@@ -25,6 +25,8 @@ const initProps = {
 
 const dataReducer = (state, action) => {
     switch (action.type) {
+        case "addMovies":
+            return action.payload; /// this overwrites the init state
         case "remove_from_list":
             return state.filter((movie) => movie.id !== action.payload);
         case "add_to_list":
@@ -45,7 +47,7 @@ const addToList = (dispatch) => async (movie, email) => {
     try {
         // ?
         const res = await movieAuth.post("/save-movie", { email, movie });
-        // console.log("Save movie Response: ", res);
+        console.log("Movie Saved");
         dispatch({ type: "add_to_list", payload: movie });
     } catch (error) {
         console.log("Erorrrrr: ", error);
@@ -55,10 +57,10 @@ const addToList = (dispatch) => async (movie, email) => {
 const removeFromList = (dispatch) => async (movieID, movie, email) => {
     try {
         const res = await movieAuth.post("/remove-movie", { email, movie });
-        // console.log("Delete Response: ", res);
+        console.log("Movie Deleted");
         dispatch({ type: "remove_from_list", payload: movieID });
     } catch (error) {
-        console.log("Erorrrrr: ", error);
+        console.log("Errorrrr: ", error);
         return;
     }
 };
@@ -68,12 +70,18 @@ const checkMovie = (dispatch) => (movie) => {
     dispatch({ type: "check_add", payload: movie });
 };
 
+const addMovies = (dispatch) => (movieArray) => {
+    console.log("movieArray", movieArray);
+    dispatch({ type: "addMovies", payload: movieArray });
+};
+
 export const { Context, Provider } = createDataContext(
     dataReducer,
     {
         removeFromList,
         addToList,
         checkMovie,
+        addMovies,
     }, // action Functions
     [initProps.movie] // init STATE array[{movie}]
 );

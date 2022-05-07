@@ -10,6 +10,7 @@ const authReducer = (state, action) => {
                 token: action.payload.token,
                 email: action.payload.email,
                 credits: action.payload.credits,
+                userMovies: action.payload.movies,
             };
 
         case "add_error":
@@ -19,12 +20,32 @@ const authReducer = (state, action) => {
             return { ...state, errorMessage: null };
         case "loading":
             return { ...state, loading: action.payload };
+        // case "add_to_list":
+        //     return {
+        //         ...state,
+        //         userMovies: [state.userMovies, action.payload],
+        //     };
 
         default:
             return state;
     }
 };
 
+const addToList = (dispatch) => async (movie, email) => {
+    // to save to db we need an email and a movie object!
+    // to save to db request must be a POST to "/save-movie",
+    // dispatch should not modify state.
+
+    try {
+        // ?
+        const res = await movieAuth.post("/save-movie", { email, movie });
+        console.log("Save movie Response: ", res);
+        dispatch({ type: "add_to_list", payload: res.data.movie });
+    } catch (error) {
+        console.log("Erorrrrr: ", error);
+        return;
+    }
+};
 const signIn = (dispatch) => {
     return async ({ email, password }) => {
         try {
@@ -119,6 +140,14 @@ export const { Context, Provider } = createDataContext(
         clearError,
         removeCredits,
         addCredits,
+        addToList,
     }, // action Functions
-    { token: null, credits: 0, email: null, errorMessage: "", loading: "" } // init STATE
+    {
+        token: null,
+        credits: 0,
+        email: null,
+        errorMessage: "",
+        loading: "",
+        userMovies: [],
+    } // init STATE
 );
