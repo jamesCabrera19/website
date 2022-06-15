@@ -27,7 +27,7 @@ export default function MusicApp() {
     return (
         <div style={styles.container}>
             {/* <h1>music app</h1> */}
-            {/* <Link href={"/apps/musicapp/music"}>music nested link</Link> */}
+            <Link href={"/apps/musicapp/music"}>music nested link</Link>
             <div style={styles.sideBar}>
                 <h5 style={styles.header}>Music</h5>
                 <h5 style={styles.header}>Library</h5>

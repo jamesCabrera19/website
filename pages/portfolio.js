@@ -13,16 +13,20 @@ const cards = [
         title: "Movies",
         frameworks: [
             // features
-            "User Auth",
-            "useContext API",
-            "React Relay",
+            "User Authentication",
+            "React useContext API",
+            "Cloud Save",
         ],
         img: require("../imgs/netflix.jpg"),
         link: "/apps/movieapp",
     },
     {
         title: "Music",
-        frameworks: ["Custom Express API", "useContext API", "Cloud Sync"],
+        frameworks: [
+            "Custom Express API",
+            "React useContext API",
+            // "Cloud Sync",
+        ],
         img: require("../imgs/ticktock.jpg"),
         link: "/apps/musicapp",
     },

@@ -77,7 +77,7 @@ export default function ContactForm({ theme, callback }) {
             );
             // sending user to main page
             if (callback) callback((prev) => !prev);
-            // console.log(email);
+            console.log(e.target);
         } catch (error) {
             console.log("Error: ", error);
         }

@@ -71,17 +71,26 @@ export default function Resume() {
         videoApp: {
             title: "Video Streaming App",
             description_one:
-                "Designed a full-stack video streaming application for iOS and web devices using NextJS, and React Native",
+                "Developed a full stack video streaming application with React, React Native, NodeJS, ExpressJS, and MongoDB",
             description_two:
-                "Implemented a RESTful API server for user authentication using NodeJS, Express, and Mongo DB.",
-            description_three: null,
+                "Implemented a RESTful API service for user authentication using NodeJS, ExpressJS, and Mongo DB.",
+            description_three:
+                "Designed the client-side interface for web and mobile using React, NextJS and React Native.",
         },
         musicApp: {
             title: "Music Streaming App",
             description_one:
-                "Developed a music streaming application for iOS and web devices using React Native, NextJS, and React Redux.",
+                "Developed a music streaming application using React, React Native, NodeJS, ExpressJS and Redux.",
             description_two:
-                "Incorporated a web scraping bot that allows users stream and download over 100+ songs using Typescript, NodeJS and Express.",
+                "Incorporated a web scraping bot that allows users stream over 100+ songs using Typescript, NodeJS and Express.",
+            description_three: null,
+        },
+        NodeJs: {
+            title: "NodeJS Server",
+            description_one:
+                "Developed a user authentication service using NodeJS, ExpressJS and MongoDB.",
+            description_two:
+                "Implemented web token encryption for user authentication allowing users to securely store their credentials",
             description_three: null,
         },
     };
@@ -121,6 +130,7 @@ export default function Resume() {
             marginTop: 30,
         },
     };
+
     return (
         <div style={styles.container}>
             <div style={styles.intro}>
@@ -134,8 +144,7 @@ export default function Resume() {
                 />
                 <p style={styles.text}>Richardson, TX</p>
                 <h3 style={styles.textBold}>
-                    Front-End Developer | Back-End Developer | Web Developer |
-                    iOS Developer | Android Developer
+                    Web Developer | iOS Developer | Android Developer
                 </h3>
             </div>
             <HeadingHOC title="Professional Summary">
@@ -147,10 +156,10 @@ export default function Resume() {
                     }}
                 >
                     Junior React developer with over two years of experience
-                    building React applications. Eager to obtain a challenging
-                    position where I can grow my passion towards software
-                    architecture and design combined with sensitivity to serve
-                    the needs of the business.
+                    building full scalable web applications. Eager to obtain a
+                    position where I can grow my passion towards software design
+                    and architecture combined with sensitivity to serve the
+                    needs of the business.
                 </p>
                 {/* <ul style={styles.list}>
                     <li>Efficiency Increase: Javascript</li>
@@ -179,7 +188,7 @@ export default function Resume() {
                         </li>
                         <li>
                             <BiCheck />
-                            Python
+                            React | Native
                         </li>
                     </ul>
                     <ul style={styles.list}>
@@ -187,27 +196,20 @@ export default function Resume() {
                             <BiCheck />
                             NodeJS
                         </li>
-                        <li>
-                            <BiCheck />
-                            React | React Native
-                        </li>
+
                         <li>
                             <BiCheck />
                             ExpressJS
+                        </li>
+                        <li>
+                            <BiCheck />
+                            NextJS
                         </li>
                     </ul>
                     <ul style={styles.list}>
                         <li>
                             <BiCheck />
-                            NextJS
-                        </li>
-                        <li>
-                            <BiCheck />
                             MongoDB
-                        </li>
-                        <li>
-                            <BiCheck />
-                            SQL
                         </li>
                     </ul>
                 </div>
@@ -215,10 +217,11 @@ export default function Resume() {
             <HeadingHOC title="Experience">
                 <Project props={resumeProject.videoApp} />
                 <Project props={resumeProject.musicApp} />
+                <Project props={resumeProject.NodeJs} />
             </HeadingHOC>
             <HeadingHOC title="Education">
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                    <h3 style={styles.textBold}>
+                    <h3 style={styles.text}>
                         Bachelor of Business Administration in Finance
                     </h3>
                     <h4 style={styles.text}>

@@ -30,9 +30,10 @@ const trendingMovie = (state) => {
 };
 //
 const App = ({ theme, setTheme }) => {
+    // * USER DATA => Auth Log In
     const {
         state: { token, errorMessage, userMovies },
-    } = useContext(AuthContext); // * USER DATA => Auth Log In
+    } = useContext(AuthContext);
 
     // * MovieActionContext is the app main API.
     // moviesByGenre results are hidden by default,
@@ -50,10 +51,10 @@ const App = ({ theme, setTheme }) => {
     const { state, addMovies } = useContext(MovieActionContext);
 
     // * modal settings
-    // opens different windows and
-    // navigates user to certain
-    // locations in the page
     const [modal, setModal] = useState({
+        // opens different windows and
+        // navigates user to certain
+        // locations in the page
         movieModal: false,
         settingsModal: false,
         myMovies: false,
@@ -70,6 +71,10 @@ const App = ({ theme, setTheme }) => {
         }
     }, [main]);
 
+    useEffect(() => {
+        addMovies(userMovies); // appeding movies to local state
+    }, [userMovies]);
+
     const styles = {
         container: {
             padding: "64px 0",
@@ -82,11 +87,6 @@ const App = ({ theme, setTheme }) => {
             //border: "1px solid red",
         },
     };
-
-    useEffect(() => {
-        addMovies(userMovies); // appeding movies to local state
-    }, [userMovies]);
-    // const appended = [...userMovies, ...state];
 
     return (
         <div style={styles.container} className={_styles.parentContainer}>

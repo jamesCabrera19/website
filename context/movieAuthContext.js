@@ -12,10 +12,10 @@ const authReducer = (state, action) => {
                 credits: action.payload.credits,
                 userMovies: action.payload.movies,
             };
-
+        case "logout": //! ONLY ON iOS
+            return { token: null, credits: 0, email: null, errorMessage: "" };
         case "add_error":
             return { errorMessage: action.payload };
-
         case "remove_error":
             return { ...state, errorMessage: null };
         case "loading":
@@ -66,8 +66,10 @@ const signIn = (dispatch) => {
 const signUp = (dispatch) => {
     return async ({ email, password }) => {
         try {
+            dispatch({ type: "loading", payload: "loading" });
             const res = await movieAuth.post("/signup", { email, password });
             dispatch({ type: "login", payload: res.data });
+            dispatch({ type: "loading", payload: "done" });
         } catch (error) {
             // console.log(error.res.data);
             dispatch({
