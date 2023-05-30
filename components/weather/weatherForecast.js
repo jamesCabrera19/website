@@ -13,7 +13,7 @@ const formatTime = (date) => {
     const timeString = time.toLocaleString("en-US", timeOptions);
     const day = time.toDateString();
     return [timeString, day];
-};
+}; // returns current hour, current time
 
 const filterData = (dataArray) => {
     const icon = [];
@@ -21,10 +21,11 @@ const filterData = (dataArray) => {
     const days = [];
     const condition = [];
     const daysObject = {};
+
     dataArray.forEach((element) => {
         // formatTime(element.dt_txt) // 12:00 PM
-        const newHours = formatTime(element.dt_txt)[0]; // hours === 5 day forecast
-        const newDays = formatTime(element.dt_txt)[1].slice(0, 3); // days
+        const newHours = formatTime(element.dt_txt)[0]; //timestamp in hours === 5 day forecast
+        const newDays = formatTime(element.dt_txt)[1].slice(0, 3); // days date
         if (newHours === "12:00 PM") {
             temp.push(element.main.temp); // temperature
             days.push(newDays); // week days
@@ -37,17 +38,15 @@ const filterData = (dataArray) => {
     return daysObject;
 }; // {day:days[],condition:[], temp:[]}
 
-export default function WeatherForecast({ forecast, coords }) {
-    // additional weather data that is not provided by main api
-    // const [fetchData, data, status, errorMessage] = useWeatherCurrent();
-    const [temperature, setTemperature] = useState(0.0);
+export default function WeatherForecast({ forecast, unit }) {
     const forecastDays = filterData(forecast);
-    const tempConverter = (unit) => ((unit - 32) * 5) / 9;
+    const temperatureConverter = (unit) => ((unit - 32) * 5) / 9;
     const RoundValue = (value, precision) => {
         const multiplier = Math.pow(10, precision || 0);
         return Math.round(value * multiplier) / multiplier;
     };
 
+    //
     const styles = {
         container: {
             color: "#FFFFFF",
@@ -101,13 +100,20 @@ export default function WeatherForecast({ forecast, coords }) {
                 {forecastDays.temp.map((temp, i) => {
                     return (
                         <div
+                            key={Math.random() * 999}
                             style={{
                                 display: "flex",
                                 flexDirection: "row",
                                 justifyContent: "center",
                             }}
                         >
-                            <p key={Math.random() * 999}>{temp}º</p>
+                            {unit.F ? (
+                                <p>{temp}º</p>
+                            ) : (
+                                <p>
+                                    {RoundValue(temperatureConverter(temp), 1)}º
+                                </p>
+                            )}
                         </div>
                     );
                 })}

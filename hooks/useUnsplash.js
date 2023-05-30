@@ -19,7 +19,9 @@ export default () => {
             );
             // console.log(typeof res.data.results[0]);
             setLink(res.data.results[0]);
+
             setStatus("done");
+            console.log("Term: ", term);
         } catch (error) {
             setErrorMessage(error);
         }

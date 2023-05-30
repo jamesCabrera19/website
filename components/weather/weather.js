@@ -1,37 +1,24 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Parallax, ParallaxLayer } from "@react-spring/parallax";
 import useUnsplash from "../../hooks/useUnsplash";
-import { FaBeer } from "react-icons/fa";
-import { AiOutlineSearch } from "react-icons/ai";
-
-const RoundValue = (value, precision) => {
-    const multiplier = Math.pow(10, precision || 0);
-    return Math.round(value * multiplier) / multiplier;
-};
 
 import WeatherCurrent from "./weatherCurrent";
-// import WeatherForecast from "./weatherForecasts";
+import WeatherStats from "./weatherStats";
 import WeatherForecast from "./weatherForecast";
 
-const formatTime = (date) => {
-    const time = new Date(date);
-    const timeOptions = {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-    };
-    var timeString = time.toLocaleString("en-US", timeOptions);
-    return timeString;
-};
-
-export default function Weather({ data }) {
+export default function Weather({ data, fetchData }) {
     const temp =
         "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb";
     // data
     const [fetchImg, link, status, errorMessage] = useUnsplash();
     const { city, list } = data;
     // hooks
-    const [temperature, setTemperature] = useState({ f: true, c: false });
+    const [currentTemp, setCurrentTemp] = useState(0.0);
+    const [temperature, setTemperature] = useState({
+        F: true,
+        C: false,
+    });
+
     const [localLocation, setLocalLocation] = useState({});
     // ref
     const ref = useRef();
@@ -57,11 +44,25 @@ export default function Weather({ data }) {
             alignItems: "center",
             color: "#FFFFFF",
             fontSize: 50,
-
             height: 150,
         },
-        layerThree: {},
-
+        form: {
+            backgroundColor: "#FFFFFF", // default "rgb(63, 66, 77)",
+            height: 30,
+            borderRadius: 5,
+            margin: "70px 5px 0 5px",
+            display: "flex",
+            flexDirection: "row",
+            overflow: "hidden", // needed for web
+            // border: "0px solid red",
+        },
+        input: {
+            backgroundColor: "transparent",
+            fontSize: 30,
+            width: 340,
+            outline: "none",
+            border: 0,
+        },
         disclosure: {
             display: "flex",
             flexDirection: "column",
@@ -76,11 +77,8 @@ export default function Weather({ data }) {
     };
 
     useEffect(() => {
-        if (data) {
-            fetchImg(data.list[0].weather[0].main);
-        } else {
-            fetchImg("sunny");
-        }
+        const description = data.list[0].weather[0].description;
+        data ? fetchImg(description) : fetchImg("sunny");
     }, [data]);
 
     useEffect(() => {
@@ -97,8 +95,12 @@ export default function Weather({ data }) {
     const scroll = (number) => {
         if (ref.current) {
             ref.current.scrollTo(number);
-            console.log(ref.current);
         }
+    };
+    const onEnd = (e) => {
+        e.preventDefault();
+        const value = e.target.name.value;
+        fetchData(value);
     };
 
     return (
@@ -106,44 +108,69 @@ export default function Weather({ data }) {
             <Parallax pages={2} ref={ref} style={styles.container}>
                 <ParallaxLayer
                     offset={0}
-                    speed={0.5}
+                    speed={5}
                     factor={1}
                     style={styles.layerOne}
                 />
                 <ParallaxLayer
-                    offset={0.2}
-                    speed={15}
+                    offset={0.35}
+                    speed={25}
                     factor={1}
+                    style={{ height: 200 }}
                     onClick={() =>
-                        setTemperature((prev) => ({ f: !prev.f, c: !prev.c }))
+                        setTemperature((prev) => ({
+                            F: !prev.F,
+                            C: !prev.C,
+                        }))
                     }
-                    style={{ height: 261 }}
                 >
-                    <WeatherCurrent data={list[0]} unit={temperature} />
+                    <WeatherCurrent
+                        data={list[0]}
+                        unit={temperature}
+                        temp={currentTemp}
+                    />
                 </ParallaxLayer>
 
                 <ParallaxLayer offset={0.6} speed={30} style={{ height: 200 }}>
-                    <WeatherForecast forecast={list} coords={city.coord} />
+                    <WeatherStats
+                        city={city}
+                        data={list[0]}
+                        unit={temperature}
+                        setTemp={setCurrentTemp}
+                    />
                 </ParallaxLayer>
 
-                <ParallaxLayer offset={0.9} speed={40} style={{ height: 200 }}>
-                    <WeatherForecast forecast={list} coords={city.coord} />
+                <ParallaxLayer offset={0.82} speed={35} style={{ height: 200 }}>
+                    <WeatherForecast forecast={list} unit={temperature} />
                 </ParallaxLayer>
 
                 <ParallaxLayer
-                    offset={0.9}
-                    sticky={{ start: -1, end: 0.5 }}
-                    speed={3}
+                    offset={0.1}
+                    sticky={{ start: 0.2, end: 0.5 }}
+                    speed={10}
                     style={{ height: 150 }}
                 >
                     <div style={styles.layerTwo}>
                         <h1>{city.name}</h1>
                     </div>
                 </ParallaxLayer>
+
+                <ParallaxLayer offset={0} speed={50} style={{ height: 150 }}>
+                    <div style={styles.layerTwo}>
+                        <form style={styles.form} onSubmit={onEnd}>
+                            <input
+                                style={styles.input}
+                                id="name"
+                                name="name"
+                                type="text"
+                            />
+                        </form>
+                    </div>
+                </ParallaxLayer>
                 <ParallaxLayer
                     onClick={() => scroll(0)}
                     offset={1}
-                    speed={1}
+                    speed={10}
                     sticky={{ start: 1, end: 2 }}
                     style={{ height: 150 }}
                 >

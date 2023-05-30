@@ -138,27 +138,15 @@ const formatTime = (date) => {
 
 export default function WeatherApp() {
     const [fetchData, data, status, errorMessage] = useWeather();
-
-    const [term, setTerm] = useState("");
-
     useEffect(() => {
-        fetchData("Richardson");
+        fetchData("houston");
     }, []);
-
-    const props = {
-        city: { name: "Richardson" },
-        list: [
-            {
-                weather: [{ main: "Cloudy" }],
-                main: 87,
-            },
-        ],
-    };
 
     return (
         <>
             {status === "done" ? (
                 <Weather
+                    fetchData={fetchData}
                     data={data}
                     status={status}
                     errorMessage={errorMessage}
